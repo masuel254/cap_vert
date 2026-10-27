@@ -1,4 +1,4 @@
-const CACHE = 'carnet-capvert-20261027-232335';
+const CACHE = 'carnet-capvert-20261027-232737';
 const PREFIX = 'carnet-capvert-';
 
 const CORE = [
@@ -8,6 +8,7 @@ const CORE = [
 
 // Photos des fiches : ajouter ici './nom-du-fichier.jpg' une fois deposees sur GitHub.
 const IMAGES = [
+  './oeil-bleu.jpg',
 ];
 
 self.addEventListener('message', e => {
