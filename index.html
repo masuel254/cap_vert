@@ -1,0 +1,2725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cap-Vert 2026">
+<title>Cap-Vert - Ile de Sal 2026</title>
+<style>
+/* ============================================================
+   CARNET DE VOYAGE — Design "Washi & Sumi"
+   Refonte visuelle premium. Tous les sélecteurs requis par
+   le JS sont conservés à l'identique (.scr, .dc, .ch, .tl,
+   .chk-*, .resa-*, .nb, .vc, .hr2, etc.).
+   ============================================================ */
+
+:root{
+  --ink:#1A1714;          /* noir sumi chaud */
+  --ink-soft:#3A332C;
+  --paper:#F6F1E7;        /* washi crème */
+  --paper-2:#FBF8F0;
+  --paper-card:#FFFEFA;
+  --gold:#B8923D;         /* or laqué */
+  --gold-deep:#9A7A2E;
+  --gold-soft:#EFE4C6;
+  --gold-tint:#F7EFD9;
+  --line:#E6DCC6;
+  --muted:#8C8275;
+  --muted-2:#A89E8E;
+  /* accents villes (conservés depuis les données) */
+  --c-sg:#2A6B7C; --c-osaka:#C8573F; --c-kyoto:#5B3A7E; --c-tokyo:#1A1714;
+  --shadow-sm:0 1px 2px rgba(26,23,20,.04),0 2px 8px rgba(26,23,20,.06);
+  --shadow-md:0 4px 14px rgba(26,23,20,.10),0 1px 3px rgba(26,23,20,.06);
+  --shadow-lg:0 12px 40px rgba(26,23,20,.18);
+  --r:16px; --r-lg:20px; --r-sm:12px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-spring:cubic-bezier(.34,1.4,.64,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{
+  font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,'Times New Roman',serif;
+  background:var(--ink);height:100%;overflow:hidden;color:var(--ink);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+/* police sans pour les chiffres / UI dense */
+.ui-sans{font-family:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif}
+
+/* grain de papier réutilisable */
+@keyframes grainShift{0%,100%{transform:translate(0,0)}50%{transform:translate(-2%,1%)}}
+
+/* ============================== COVER ============================== */
+#cover{
+  position:fixed;inset:0;z-index:999;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #2A2520 0%, var(--ink) 55%),
+    var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:max(env(safe-area-inset-top),30px) 26px max(env(safe-area-inset-bottom),30px);
+  gap:0;overflow:hidden;
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+#cover::before{ /* halo doré */
+  content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);
+  width:140%;height:70%;
+  background:radial-gradient(closest-side,rgba(184,146,61,.16),transparent 70%);
+  pointer-events:none;
+}
+#cover::after{ /* grain */
+  content:"";position:absolute;inset:-50px;opacity:.05;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 8s steps(2) infinite;
+}
+#cover.gone{opacity:0;transform:scale(1.04);pointer-events:none}
+#cover>*{position:relative;z-index:1;opacity:0;animation:coverIn .8s var(--ease) forwards}
+@keyframes coverIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+#mtoLogo{animation-delay:.05s}#cv-line-top{animation-delay:.12s}
+.cv-tag{animation-delay:.18s}
+.cv-big:nth-of-type(1){animation-delay:.24s}
+.cv-amp{animation-delay:.30s}
+.cv-big:nth-of-type(2){animation-delay:.36s}
+.cv-line{animation-delay:.42s}.cv-date{animation-delay:.46s}
+.cv-stats{animation-delay:.54s}.cv-route{animation-delay:.62s}
+#countdown{animation-delay:.70s}#startBtn{animation-delay:.78s}
+#mtoLogo{margin:0 auto 18px;display:block;max-width:88%}
+
+.cv-tag{font-family:-apple-system,sans-serif;font-size:10px;font-weight:600;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;padding-left:6px}
+.cv-big{font-size:clamp(46px,15vw,72px);font-weight:400;color:#fff;line-height:.92;text-align:center;letter-spacing:2px}
+.cv-amp{font-size:24px;color:var(--gold);margin:6px 0;font-style:italic}
+.cv-line{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:18px auto;position:relative}
+.cv-line::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(45deg);width:6px;height:6px;background:var(--gold)}
+.cv-date{font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;color:var(--gold-soft);letter-spacing:4px}
+.cv-stats{display:flex;gap:9px;margin-top:26px}
+.cv-stat{background:rgba(255,255,255,.04);border:1px solid rgba(184,146,61,.25);border-radius:14px;padding:13px 16px;text-align:center;backdrop-filter:blur(6px)}
+.cv-sn{font-family:-apple-system,sans-serif;font-size:26px;font-weight:700;color:var(--gold);line-height:1}
+.cv-sl{font-family:-apple-system,sans-serif;font-size:8px;font-weight:600;color:var(--muted-2);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px}
+.cv-route{display:flex;align-items:center;gap:6px;margin-top:22px;flex-wrap:wrap;justify-content:center}
+.cv-route span{font-family:-apple-system,sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--muted-2);text-transform:uppercase}
+.cv-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0;opacity:.6}
+.cv-hl{color:var(--gold-soft) !important}
+#startBtn{
+  margin-top:34px;background:linear-gradient(180deg,var(--gold),var(--gold-deep));
+  color:var(--ink);border:none;border-radius:50px;padding:17px 46px;
+  font-family:-apple-system,sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;
+  cursor:pointer;-webkit-appearance:none;appearance:none;display:block;
+  box-shadow:0 10px 30px rgba(184,146,61,.35);transition:transform .2s var(--ease-spring),box-shadow .2s;
+}
+#startBtn:active{transform:scale(.96);box-shadow:0 4px 14px rgba(184,146,61,.3)}
+#countdown div[style*="JOURS"],#countdown div[style*="HEURES"],#countdown div[style*="MINUTES"]{font-family:-apple-system,sans-serif}
+
+/* ============================== APP SHELL ============================== */
+#app{display:none;height:100dvh;flex-direction:column;overflow:hidden;background:var(--paper)}
+
+/* TOP BAR */
+#topbar{
+  background:linear-gradient(180deg,#211D19,var(--ink));
+  padding:calc(env(safe-area-inset-top,12px) + 13px) 16px 13px;
+  display:flex;align-items:center;gap:9px;flex-shrink:0;position:relative;
+  box-shadow:0 1px 0 rgba(184,146,61,.25),0 6px 20px rgba(0,0,0,.25);
+}
+#topbar button{font-family:-apple-system,sans-serif;transition:transform .18s var(--ease-spring),background .18s;flex-shrink:0}
+@media (max-width:430px){
+  #topbar{gap:6px;padding-left:12px;padding-right:12px}
+  #backBtn,#prevBtn,#nextBtn{padding:8px 10px;font-size:12px}
+  #homeBtn{padding:8px 9px!important}
+  #topTitle{font-size:16px}
+  #topLogo{width:68px;height:30px}
+}
+#topbar button:active{transform:scale(.92)}
+#homeBtn{background:rgba(184,146,61,.14)!important;border:1px solid rgba(184,146,61,.25)!important;border-radius:11px!important;color:var(--gold)!important}
+#backBtn{background:rgba(184,146,61,.14);border:1px solid rgba(184,146,61,.25);border-radius:11px;padding:9px 13px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;display:none}
+#backBtn.show{display:block}
+#prevBtn{border-radius:11px!important;background:rgba(184,146,61,.14)!important;border:1px solid rgba(184,146,61,.25)!important;color:var(--gold)!important}
+#nextBtn{background:linear-gradient(180deg,var(--gold),var(--gold-deep));border:none;border-radius:11px;padding:9px 13px;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;display:none;white-space:nowrap}
+#nextBtn.show{display:block}
+#topTitle{flex:1;font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:18px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.3px}
+#topSub{font-family:-apple-system,sans-serif;font-size:9px;color:var(--gold);letter-spacing:2px;font-weight:600;text-transform:uppercase}
+
+.prog{background:rgba(26,23,20,.08);height:2px;flex-shrink:0}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold));width:0%;transition:width .5s var(--ease)}
+
+/* BOTTOM NAV */
+#bnav{
+  background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  border-top:1px solid var(--line);
+  display:flex;padding-bottom:env(safe-area-inset-bottom,0px);flex-shrink:0;
+  box-shadow:0 -4px 20px rgba(26,23,20,.05);
+}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:11px 4px 9px;gap:4px;cursor:pointer;border:none;background:none;position:relative;transition:transform .18s var(--ease-spring)}
+.nb:active{transform:scale(.9)}
+.nb-i{font-size:19px;color:var(--muted-2);transition:color .25s,transform .25s var(--ease-spring);filter:grayscale(.4) opacity(.7)}
+.nb-l{font-family:-apple-system,sans-serif;font-size:9px;font-weight:600;letter-spacing:.3px;color:var(--muted-2);text-transform:uppercase;transition:color .25s}
+.nb.on .nb-i{color:var(--gold);transform:translateY(-2px);filter:none}
+.nb.on .nb-l{color:var(--gold-deep)}
+.nb.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;border-radius:2px;background:var(--gold)}
+
+/* MAIN + screen transitions */
+#main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--paper);position:relative}
+#main::before{ /* texture papier subtile */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(184,146,61,.04) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.scr{display:none;min-height:100%;position:relative;z-index:1}
+.scr.on{display:block;animation:scrIn .42s var(--ease)}
+@keyframes scrIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ============================== DAYS LIST ============================== */
+.dw{padding:16px 14px 28px;display:flex;flex-direction:column;gap:10px}
+.ch{
+  background:linear-gradient(135deg,#221E1A,var(--ink));
+  border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:13px;
+  margin-top:8px;position:relative;overflow:hidden;box-shadow:var(--shadow-md);
+}
+.ch:first-child{margin-top:0}
+.ch::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(closest-side,rgba(184,146,61,.18),transparent)}
+.ch-n{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.ch-nn{font-family:-apple-system,sans-serif;font-size:19px;font-weight:800;color:#fff}
+.ch-city{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:21px;font-weight:600;color:#fff;letter-spacing:1px}
+.ch-d{font-family:-apple-system,sans-serif;font-size:10px;font-weight:600;margin-top:3px;letter-spacing:1px;text-transform:uppercase;opacity:.9}
+
+/* chapitre cliquable -> page ville */
+.ch.ch-tap{cursor:pointer;transition:transform .2s var(--ease-spring),box-shadow .2s}
+.ch.ch-tap:active{transform:scale(.985);box-shadow:var(--shadow-lg)}
+.ch-mid{flex:1;min-width:0}
+.ch-go{font-family:-apple-system,sans-serif;flex-shrink:0;text-align:center;font-size:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--gold);line-height:1.2;position:relative;z-index:1}
+.ch-go span{font-size:17px;display:block;margin-top:1px;line-height:1}
+
+/* ============================== CITY SCREEN ============================== */
+.cy-head{padding:18px 18px 20px;display:flex;align-items:center;gap:13px;position:relative;overflow:hidden}
+.cy-head::after{content:"";position:absolute;right:-24px;top:-24px;width:110px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.14),transparent)}
+.cy-badge{width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cy-badge-n{font-family:-apple-system,sans-serif;font-size:20px;font-weight:800;color:#fff}
+.cy-head-city{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:23px;font-weight:600;color:#fff;letter-spacing:1px}
+.cy-head-d{font-family:-apple-system,sans-serif;font-size:10px;font-weight:600;margin-top:3px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.cy-body{padding:16px 15px 30px}
+.cy-sec{font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-deep);margin-bottom:4px}
+.cy-day{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:12px;padding:11px 13px;margin-top:9px;cursor:pointer;transition:transform .2s var(--ease-spring),box-shadow .2s}
+.cy-day:active{transform:scale(.985);box-shadow:var(--shadow-md)}
+.cy-day-b{width:40px;height:40px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 8px rgba(26,23,20,.18)}
+.cy-day-j{font-family:-apple-system,sans-serif;font-size:6px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.5px}
+.cy-day-n{font-family:-apple-system,sans-serif;font-size:16px;font-weight:800;color:#fff;line-height:1}
+.cy-day-d{font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;color:var(--ink)}
+.cy-day-l{font-size:12.5px;color:var(--ink-soft);margin-top:2px;font-style:italic;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cy-day-go{font-size:22px;font-weight:700;flex-shrink:0}
+
+.dc{
+  background:var(--paper-card);border-radius:var(--r);overflow:hidden;cursor:pointer;
+  box-shadow:var(--shadow-sm);border:1px solid var(--line);
+  transition:transform .2s var(--ease-spring),box-shadow .2s;
+}
+.dc:active{transform:scale(.985);box-shadow:var(--shadow-md)}
+.dc-top{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line)}
+.db{width:42px;height:42px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 8px rgba(26,23,20,.18)}
+.db-j{font-family:-apple-system,sans-serif;font-size:6px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.5px}
+.db-n{font-family:-apple-system,sans-serif;font-size:17px;font-weight:800;color:#fff;line-height:1}
+.di{flex:1;min-width:0}
+.di-d{font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.3px;display:flex;align-items:center;flex-wrap:wrap}
+.di-l{font-size:13px;color:var(--ink-soft);font-weight:400;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:italic;opacity:.85}
+.dh{font-family:-apple-system,sans-serif;font-size:9px;padding:5px 9px;border-radius:20px;font-weight:600;white-space:nowrap;flex-shrink:0;color:#fff;text-align:center;max-width:104px;line-height:1.3;box-shadow:0 2px 6px rgba(26,23,20,.12)}
+.dp{padding:9px 15px 13px;display:flex;gap:5px;flex-wrap:wrap}
+.pl{font-family:-apple-system,sans-serif;font-size:10px;padding:4px 11px;border-radius:20px;font-weight:600;letter-spacing:.2px}
+.t-tp{background:#E7F0F2;color:var(--c-sg)}
+.t-ac{background:var(--gold-tint);color:var(--gold-deep)}
+.t-me{background:#FBEAE5;color:var(--c-osaka)}
+.t-sh{background:#F0EAF6;color:var(--c-kyoto)}
+.t-ht{background:#E8F1EB;color:#2E6B3E}
+.pm{font-family:-apple-system,sans-serif;font-size:10px;color:var(--muted-2);padding:4px 6px;font-weight:600}
+.tb{font-family:-apple-system,sans-serif;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);font-size:8px;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:7px;letter-spacing:.5px;box-shadow:0 2px 6px rgba(184,146,61,.4)}
+
+/* ============================== DAY DETAIL HEADER ============================== */
+.dh2{padding:11px 16px 11px;position:sticky;top:0;z-index:20;box-shadow:0 4px 16px rgba(26,23,20,.18)}
+.dhr{display:flex;align-items:center;gap:11px}
+.dbg{width:40px;height:40px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.35);flex-shrink:0;backdrop-filter:blur(4px)}
+.dbg-j{font-family:-apple-system,sans-serif;font-size:6px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:1.5px}
+.dbg-n{font-family:-apple-system,sans-serif;font-size:17px;font-weight:800;color:#fff;line-height:1}
+.dd{flex:1;min-width:0}
+.dd-d{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:16px;font-weight:600;color:#fff;letter-spacing:.5px;line-height:1.1}
+.dd-s{font-size:12px;color:rgba(255,255,255,.8);margin-top:1px;font-style:italic;line-height:1.2}
+.dd-l{font-family:-apple-system,sans-serif;font-size:9px;font-weight:600;letter-spacing:1.2px;margin-top:3px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dhp{font-family:-apple-system,sans-serif;font-size:9px;font-weight:600;padding:5px 9px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;text-align:center;flex-shrink:0;max-width:104px;line-height:1.25;border:1px solid rgba(255,255,255,.2)}
+
+/* ============================== TIMELINE ============================== */
+.tl{padding:16px 14px 28px;display:flex;flex-direction:column}
+.tr{display:flex;gap:12px;animation:tlIn .5s var(--ease) both}
+.tr:nth-child(1){animation-delay:.03s}.tr:nth-child(2){animation-delay:.08s}
+.tr:nth-child(3){animation-delay:.13s}.tr:nth-child(4){animation-delay:.18s}
+.tr:nth-child(5){animation-delay:.23s}.tr:nth-child(6){animation-delay:.28s}
+.tr:nth-child(7){animation-delay:.33s}.tr:nth-child(8){animation-delay:.38s}
+@keyframes tlIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.tll{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
+.tld{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:16px;box-shadow:0 0 0 4px var(--paper),0 0 0 5px currentColor}
+.tlln{width:2px;flex:1;min-height:10px}
+.tc{flex:1;border-radius:var(--r);padding:13px 13px 11px;margin-bottom:11px;position:relative;box-shadow:var(--shadow-sm);border:1px solid rgba(26,23,20,.04)}
+.tt{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.tti{font-size:15px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:6px;padding-right:80px}
+.tb2{font-size:13px;color:var(--ink-soft);line-height:1.55}
+.tc2{font-family:-apple-system,sans-serif;position:absolute;top:11px;right:11px;font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;white-space:nowrap;max-width:88px;overflow:hidden;text-overflow:ellipsis;text-align:center}
+
+/* boutons d'action (Maps, Uber, etc.) — police sans + ressort */
+.maps-btn,.info-btn,.share-btn,.walk-btn,.uber-btn,.grab-btn,.copy-btn,.boat-btn,.train-btn,.plane-btn,.cal-btn,.car-btn,.nav-btn{
+  font-family:-apple-system,sans-serif;display:inline-flex;align-items:center;gap:5px;margin-top:9px;
+  border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;
+  text-decoration:none;-webkit-appearance:none;transition:transform .15s var(--ease-spring),filter .15s;
+}
+.maps-btn:active,.info-btn:active,.share-btn:active,.uber-btn:active,.grab-btn:active,.copy-btn:active,.plane-btn:active,.cal-btn:active{transform:scale(.94)}
+.maps-btn{background:#E7F0F2;color:var(--c-sg)}
+.info-btn{background:linear-gradient(180deg,#6B4894,var(--c-kyoto));color:#fff}
+.share-btn{background:#E7F0F2;color:var(--c-sg)}
+.walk-btn{background:var(--gold-tint);color:var(--gold-deep);cursor:default}
+.uber-btn{background:var(--ink);color:#fff}
+.grab-btn{background:#00B14F;color:#fff}
+.copy-btn{background:#D6F0E0;color:#00713A}
+.copy-btn.copied{background:#00B14F;color:#fff}
+.car-btn{background:var(--ink);color:#fff;cursor:default}
+.nav-btn{background:#3A7BD5;color:#fff;cursor:default}
+.boat-btn{background:#E7F0F2;color:var(--c-sg);cursor:default}
+.train-btn{background:#E7F0F2;color:var(--c-sg);cursor:default}
+button.train-btn[data-goto-train]{cursor:pointer;border:none}
+.plane-btn{background:#F0EAF6;color:var(--c-kyoto)}
+.cal-btn{background:#E8F1EB;color:#2E6B3E}
+
+/* info sheet (popup détail) */
+.info-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,23,20,.5);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
+.info-overlay.open{display:flex}
+.info-sheet{background:var(--paper-card);border-radius:24px 24px 0 0;padding:22px 22px 38px;max-height:75vh;overflow-y:auto;width:100%;max-width:480px;box-shadow:var(--shadow-lg);animation:sheetUp .4s var(--ease)}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.info-sheet-title{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:14px;padding-right:32px;line-height:1.4}
+.info-sheet-body{font-size:14px;color:var(--ink-soft);line-height:1.75;white-space:pre-wrap}
+.info-sheet-close{position:absolute;top:16px;right:16px;background:var(--gold-tint);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gold-deep)}
+.info-sheet-header{position:relative}
+
+/* couleurs par type d'événement (timeline) */
+.tp .tc{background:#EEF5F7}.tp .tld{background:var(--c-sg);color:#fff}.tp .tlln{background:rgba(42,107,124,.25)}.tp .tt{color:var(--c-sg)}.tp .tc2{background:var(--c-sg);color:#fff}
+.ta .tc{background:var(--gold-tint)}.ta .tld{background:var(--gold);color:#fff}.ta .tlln{background:rgba(184,146,61,.3)}.ta .tt{color:var(--gold-deep)}.ta .tc2{background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink)}
+.tm .tc{background:#FBEDE9}.tm .tld{background:var(--c-osaka);color:#fff}.tm .tlln{background:rgba(200,87,63,.25)}.tm .tt{color:var(--c-osaka)}.tm .tc2{background:var(--c-osaka);color:#fff}
+.th .tc{background:#EAF3ED}.th .tld{background:#2E6B3E;color:#fff}.th .tlln{background:rgba(46,107,62,.25)}.th .tt{color:#2E6B3E}.th .tc2{background:#2E6B3E;color:#fff}
+.ts .tc{background:#F2ECF8}.ts .tld{background:var(--c-kyoto);color:#fff}.ts .tlln{background:rgba(91,58,126,.25)}.ts .tt{color:var(--c-kyoto)}.ts .tc2{background:var(--c-kyoto);color:#fff}
+
+.tipb{background:linear-gradient(135deg,var(--gold-tint),var(--paper-2));border-left:3px solid var(--gold);border-radius:var(--r-sm);padding:13px 15px;margin:6px 0 12px;box-shadow:var(--shadow-sm)}
+.tipl{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--gold-deep);letter-spacing:1.5px;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.tipl::before{content:"✦"}
+.tipt{font-size:13px;color:var(--ink-soft);line-height:1.55}
+.noteb{background:linear-gradient(135deg,#221E1A,var(--ink));border-radius:var(--r-sm);padding:14px 16px;margin-bottom:22px;box-shadow:var(--shadow-md)}
+.notel{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px}
+.notet{font-size:13px;color:#D9D0C2;line-height:1.5;font-style:italic}
+
+/* ============================== INFO SCREEN ============================== */
+.iw{padding:16px 14px 28px}
+.st{font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-deep);padding:18px 0 10px;display:flex;align-items:center;gap:10px}
+.st::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(184,146,61,.4),transparent)}
+.vc{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:11px;border:1px solid var(--line);border-left:3px solid var(--gold);box-shadow:var(--shadow-sm)}
+.vi{padding:14px 15px}
+.vt{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--gold-deep);letter-spacing:1.5px;margin-bottom:5px}
+.vr{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.vd{font-size:12px;color:var(--ink-soft);line-height:1.5}
+.vo{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:#2E6B3E;margin-top:5px;display:inline-flex;align-items:center;gap:4px}
+.vo::before{content:"●";font-size:8px}
+.hl{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:13px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.hr2{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;gap:11px;align-items:flex-start}
+.hr2:last-child{border-bottom:none}
+.hn{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:14px;font-weight:600;color:var(--ink)}
+.hs{font-family:-apple-system,sans-serif;font-size:10px;color:var(--gold-deep);font-weight:600;margin-top:2px;letter-spacing:.5px}
+.ha{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.href{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--c-kyoto);white-space:nowrap}
+.rc{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:11px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.rh{padding:13px 15px 9px;display:flex;gap:11px;align-items:flex-start}
+.rd{font-family:-apple-system,sans-serif;padding:4px 11px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;color:#fff}
+.rn{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:15px;font-weight:600;color:var(--ink);line-height:1.3}
+.rdt{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+.rf{font-family:-apple-system,sans-serif;padding:9px 15px 11px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.trl{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:22px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.trr{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:11px}
+.trr:last-child{border-bottom:none}
+.trl2{font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;color:var(--ink)}
+.trv{font-size:12px;color:var(--ink-soft);text-align:right;max-width:55%;line-height:1.45}
+
+/* ============================== TIPS / TOOLS ============================== */
+.tw{padding:16px 14px 28px}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:4px}
+.mc{background:var(--paper-card);border-radius:var(--r);padding:13px 8px;text-align:center;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.mcir{width:52px;height:52px;border-radius:50%;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(26,23,20,.15)}
+.mct{font-family:-apple-system,sans-serif;font-size:14px;font-weight:800;color:#fff}
+.mcc{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.mch{font-size:9px;color:var(--ink-soft);line-height:1.4}
+.phl{display:flex;flex-direction:column;gap:7px;margin-bottom:4px}
+.phr{background:var(--paper-card);border-radius:var(--r-sm);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:9px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.phj{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:14px;font-weight:600;color:var(--ink)}
+.phf{font-size:12px;color:var(--ink-soft);font-style:italic;text-align:right}
+.el{display:flex;flex-direction:column;gap:7px;margin-bottom:22px}
+.er{background:var(--paper-card);border-radius:var(--r-sm);padding:13px 15px;display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.edd{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;box-shadow:0 0 0 3px var(--gold-tint)}
+.ela{font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.elv{font-size:12px;color:var(--ink-soft);line-height:1.45}
+
+.search-wrap{padding:14px 14px 4px;position:sticky;top:0;background:var(--paper);z-index:10}
+.search-input{font-family:-apple-system,sans-serif;width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:11px 14px 11px 38px;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;background:var(--paper-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23B8923D' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 13px center;background-size:16px;transition:border-color .2s}
+.search-input:focus{border-color:var(--gold)}
+.no-result{text-align:center;padding:40px 20px;color:var(--muted-2);font-size:13px;font-style:italic}
+::-webkit-scrollbar{width:0}
+
+/* ============================== RESA MODALS ============================== */
+.resa-modal{display:none;position:fixed;inset:0;z-index:99999;background:rgba(26,23,20,.5);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
+.resa-modal.open{display:flex}
+.resa-sheet{background:var(--paper-card);border-radius:24px 24px 0 0;padding:22px 22px 40px;width:100%;max-width:480px;position:relative;box-shadow:var(--shadow-lg);animation:sheetUp .4s var(--ease)}
+.resa-sheet-title{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:16px;padding-right:36px}
+.resa-field{margin-bottom:13px}
+.resa-field label{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--muted-2);letter-spacing:1.2px;display:block;margin-bottom:6px}
+.resa-field input{font-family:-apple-system,sans-serif;width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;box-sizing:border-box;transition:border-color .2s;background:var(--paper-2)}
+.resa-field input:focus{border-color:var(--gold);background:#fff}
+.resa-save-btn{font-family:-apple-system,sans-serif;width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;border-radius:var(--r-sm);padding:15px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;box-shadow:0 8px 22px rgba(184,146,61,.3);transition:transform .18s var(--ease-spring)}
+.resa-save-btn:active{transform:scale(.97)}
+.chk-refnum{font-family:-apple-system,sans-serif;font-size:10px;font-weight:600;color:var(--c-sg);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chk-infobadge{font-family:-apple-system,sans-serif;display:inline-flex;align-items:center;gap:4px;background:#E7F0F2;color:var(--c-sg);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:600;margin-top:5px;cursor:pointer}
+.chk-viewbtn{font-family:-apple-system,sans-serif;display:none;align-items:center;gap:5px;background:#F0EAF6;color:var(--c-kyoto);border:none;border-radius:20px;padding:5px 11px;font-size:10px;font-weight:700;cursor:pointer;margin-top:5px;margin-left:5px}
+.resa-details-popup{display:none;position:fixed;inset:0;z-index:99999;background:rgba(26,23,20,.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+.resa-details-popup.open{display:flex}
+.resa-details-card{background:var(--paper-card);border-radius:var(--r-lg);padding:22px;width:100%;max-width:380px;position:relative;box-shadow:var(--shadow-lg);animation:popIn .35s var(--ease-spring)}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.resa-details-name{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:16px;padding-right:32px}
+.resa-detail-row{display:flex;flex-direction:column;gap:3px;padding:11px 0;border-bottom:1px solid var(--line)}
+.resa-detail-row:last-child{border-bottom:none}
+.resa-detail-label{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--muted-2);letter-spacing:1.2px}
+.resa-detail-value{font-size:14px;font-weight:600;color:var(--ink)}
+.resa-edit-btn{font-family:-apple-system,sans-serif;width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;border-radius:var(--r-sm);padding:13px;font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;transition:transform .18s var(--ease-spring)}
+.resa-edit-btn:active{transform:scale(.97)}
+.chk-card{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:11px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.chk-head{background:linear-gradient(135deg,#221E1A,var(--ink));padding:13px 16px;display:flex;align-items:center;justify-content:space-between}
+.chk-title{font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase}
+.chk-progress{font-family:-apple-system,sans-serif;font-size:11px;color:var(--gold);font-weight:700}
+.chk-item{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}
+.chk-item:last-child{border-bottom:none}
+.chk-item:active{background:var(--paper-2)}
+.chk-box{width:24px;height:24px;border-radius:8px;border:2px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s var(--ease-spring)}
+.chk-box.done{background:#2E6B3E;border-color:#2E6B3E;transform:scale(1.05)}
+.chk-item.locked{cursor:default}
+.chk-item.locked:active{background:transparent}
+.chk-box.locked.done{background:#1f5330;border-color:#1f5330}
+.chk-lock{font-size:11px;opacity:.65;margin-left:3px}
+@keyframes chkShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.chk-item.chk-shake{animation:chkShake .5s var(--ease)}
+.chk-check{color:#fff;font-size:13px;font-weight:700;display:none}
+.chk-box.done .chk-check{display:block}
+.chk-info{flex:1;min-width:0}
+.chk-name{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:14px;font-weight:600;color:var(--ink);transition:color .2s}
+.chk-name.done{color:var(--muted-2);text-decoration:line-through}
+.chk-date{font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted-2);margin-top:2px}
+.chk-deadline{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;margin-top:2px}
+
+/* boutons devises / onglets tailles (stylés par JS inline, on raffine au survol) */
+.cur-btn{transition:transform .15s var(--ease-spring)}
+.cur-btn:active{transform:scale(.92)}
+.size-tab{transition:background .2s,color .2s}
+
+/* SCROLL TO TOP — fonctionne désormais (bouton ajouté au DOM) */
+.scroll-top{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));right:16px;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;font-size:18px;cursor:pointer;box-shadow:0 6px 20px rgba(184,146,61,.45);display:none;align-items:center;justify-content:center;z-index:200;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s var(--ease-spring)}
+.scroll-top.show{display:flex;opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc[open] .acc-chevron{transform:rotate(180deg)}
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <svg id="mtoLogo" width="340" viewBox="0 0 520 130" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Morieux Tour Operator">
+    <g font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-weight="700">
+      <text x="58" y="86" text-anchor="middle" font-size="74" fill="#F6F1E7" letter-spacing="-2">M</text>
+      <text x="124" y="86" text-anchor="middle" font-size="74" fill="#B8923D" letter-spacing="-2">T</text>
+    </g>
+    <circle cx="190" cy="62" r="37" fill="none" stroke="#F6F1E7" stroke-width="5"/>
+    <circle cx="190" cy="62" r="25" fill="none" stroke="#B8923D" stroke-width="1.2"/>
+    <g font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="9" font-weight="700" fill="#EFE4C6">
+      <text x="190" y="46" text-anchor="middle">N</text>
+      <text x="190" y="86" text-anchor="middle">S</text>
+      <text x="212" y="65" text-anchor="middle">E</text>
+      <text x="168" y="65" text-anchor="middle">O</text>
+    </g>
+    <g transform="rotate(38 190 62)">
+      <polygon points="190,40 195,62 190,84 185,62" fill="#B8923D"/>
+      <polygon points="190,40 190,62 185,62" fill="#EFE4C6"/>
+      <circle cx="190" cy="62" r="2.8" fill="#1A1714" stroke="#F6F1E7" stroke-width="1"/>
+    </g>
+    <line x1="248" y1="30" x2="248" y2="94" stroke="#B8923D" stroke-width="1" opacity="0.5"/>
+    <text x="270" y="58" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="22" font-weight="700" letter-spacing="4" fill="#EFE4C6">MORIEUX</text>
+    <text x="272" y="82" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="11" letter-spacing="7" fill="#A89E8E">TOUR OPERATOR</text>
+  </svg>
+  <div class="cv-line" id="cv-line-top"></div>
+  <div class="cv-tag">Carnet de Voyage</div>
+  <div class="cv-big">CAP-VERT</div>
+  <div class="cv-amp">ile de</div>
+  <div class="cv-big">SAL</div>
+  <div class="cv-line"></div>
+  <div class="cv-date">14 - 21 NOVEMBRE 2026</div>
+  <div class="cv-stats">
+    <div class="cv-stat"><div class="cv-sn">8</div><div class="cv-sl">Jours</div></div>
+    <div class="cv-stat"><div class="cv-sn">4</div><div class="cv-sl">Voyageurs</div></div>
+    <div class="cv-stat"><div class="cv-sn">1</div><div class="cv-sl">Ile</div></div>
+    <div class="cv-stat"><div class="cv-sn">7</div><div class="cv-sl">Nuits</div></div>
+  </div>
+  <div class="cv-route">
+    <span class="cv-hl">Paris Orly</span><div class="cv-dot"></div>
+    <span>Sal</span><div class="cv-dot"></div>
+    <span class="cv-hl">Santa Maria</span>
+  </div>
+
+  <div id="countdown" style="margin-top:14px;text-align:center">
+  <div id="cd-label" style="font-size:11px;font-weight:700;letter-spacing:3px;color:#AAA;margin-bottom:6px">AVANT LE DÉPART</div>
+  <div style="display:flex;gap:10px;justify-content:center">
+    <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
+      <div id="cd-days" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">JOURS</div>
+    </div>
+    <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
+      <div id="cd-hours" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">HEURES</div>
+    </div>
+    <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
+      <div id="cd-mins" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">MINUTES</div>
+    </div>
+  </div>
+</div>
+<button id="startBtn" onclick="goStart()">Commencer le voyage</button>
+</div>
+
+<div id="app">
+  <div id="topbar">
+    <button id="homeBtn" onclick="goHome()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#C9A84C;font-size:16px;cursor:pointer;flex-shrink:0" title="Accueil">&#127968;</button>
+    <button id="backBtn" onclick="goBack()">&#8592; Retour</button>
+    <button id="prevBtn" onclick="prevDay()" style="display:none;background:#2a2a2a;border:none;border-radius:8px;padding:8px 12px;color:#C9A84C;font-size:13px;font-weight:700;cursor:pointer">&#8592; Jour</button>
+    <button id="nextBtn" onclick="nextDay()">Suivant &#8594;</button>
+    <div style="flex:1;min-width:0">
+      <div id="topTitle">Itineraire</div>
+      <div id="topSub" style="font-size:10px;color:#C9A84C;letter-spacing:1px;font-weight:500">CAP-VERT - ILE DE SAL 2026</div>
+    </div>
+    <button id="searchBtn" onclick="openSearch()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#C9A84C;font-size:16px;cursor:pointer;flex-shrink:0" title="Rechercher">&#128269;</button>
+    <svg id="topLogo" width="78" height="34" viewBox="0 0 230 100" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="MTO Morieux Tour Operator" style="flex-shrink:0">
+      <text x="36" y="70" text-anchor="middle" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="62" font-weight="700" fill="#F6F1E7" letter-spacing="-2">M</text>
+      <text x="97" y="70" text-anchor="middle" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="62" font-weight="700" fill="#B8923D" letter-spacing="-2">T</text>
+      <circle cx="158" cy="50" r="38" fill="none" stroke="#F6F1E7" stroke-width="5"/>
+      <circle cx="158" cy="50" r="26" fill="none" stroke="#B8923D" stroke-width="1.4"/>
+      <g font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="12" font-weight="700" fill="#EFE4C6">
+        <text x="158" y="25" text-anchor="middle">N</text>
+        <text x="158" y="82" text-anchor="middle">S</text>
+        <text x="181" y="55" text-anchor="middle">E</text>
+        <text x="135" y="55" text-anchor="middle">O</text>
+      </g>
+      <g transform="rotate(38 158 50)">
+        <polygon points="158,27 164,50 158,73 152,50" fill="#B8923D"/>
+        <polygon points="158,27 158,50 152,50" fill="#EFE4C6"/>
+        <circle cx="158" cy="50" r="3.4" fill="#1A1714" stroke="#F6F1E7" stroke-width="1.2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="prog"><div class="prog-fill" id="pf"></div></div>
+  <div id="main">
+    <div class="scr on" id="s-it"><div class="dw" id="dl"></div></div>
+    <div class="scr" id="s-dy"><div id="dd2"></div></div>
+    <div class="scr" id="s-cy"><div id="cy2"></div></div>
+    <div class="scr" id="s-in"><div class="iw" id="ic"></div></div>
+    <div class="scr" id="s-ti"><div class="tw" id="tc2"></div></div>
+    <div class="scr" id="s-pl">
+      <div style="padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;padding:4px 0 12px;display:flex;align-items:center;gap:8px">Ile de Sal - distances en voiture<span style="flex:1;height:1px;background:rgba(201,168,76,.2)"></span></div>
+        <div style="margin-top:10px;background:#EEF5F7;border-left:3px solid #2A6B7C;border-radius:10px;padding:12px 14px">
+          <div style="font-size:10px;font-weight:700;color:#2A6B7C;letter-spacing:1px;margin-bottom:6px">DEPUIS SANTA MARIA (TEMPS INDICATIFS)</div>
+          <div style="font-size:12px;color:#444;line-height:1.9">
+            Aeroport Amilcar Cabral (SID) : ~18 km, 20 a 25 min<br>
+            Bikini Beach Club (Algodoeiro) : ~10 min<br>
+            Lac sale de Pedra de Lume : ~30 min<br>
+            Espargos (centre de l ile) : ~25 min<br>
+            Palmeira (port de la cote ouest) : ~35 min<br>
+            Buracona / Oeil Bleu (nord-ouest) : ~45 min, fin en piste<br>
+            Shark Bay (cote est) : ~25 min, fin en piste
+          </div>
+        </div>
+        <div style="margin-top:10px;background:#FBEDE9;border-left:3px solid #C8573F;border-radius:10px;padding:12px 14px">
+          <div style="font-size:10px;font-weight:700;color:#C8573F;letter-spacing:1px;margin-bottom:6px">A SAVOIR SUR LA ROUTE</div>
+          <div style="font-size:12px;color:#444;line-height:1.9">
+            Une route principale goudronnee relie Santa Maria, l aeroport et Espargos<br>
+            Buracona, Kite Beach, Shark Bay : pistes de sable ou de cailloux, 4x4 conseille<br>
+            Verifier ce que couvre l assurance de la location hors route<br>
+            Nuit noire vers 18h30 en novembre : eviter les pistes apres le coucher du soleil<br>
+            Faire le plein a Santa Maria ou Espargos avant une sortie dans le nord
+          </div>
+        </div>
+        <div style="margin-top:10px;background:#EEF5F0;border-left:3px solid #2E6B3E;border-radius:10px;padding:12px 14px">
+          <div style="font-size:10px;font-weight:700;color:#2E6B3E;letter-spacing:1px;margin-bottom:6px">REPERES</div>
+          <div style="font-size:12px;color:#444;line-height:1.9">
+            Sal mesure environ 30 km du nord au sud<br>
+            Santa Maria est tout au sud, l aeroport au centre<br>
+            Coucher du soleil vers 17h58 a la mi-novembre
+          </div>
+        </div>
+        <div style="height:20px"></div>
+      </div>
+    </div>
+  </div>
+  <div id="bnav">
+    <button class="nb on" id="n-it" onclick="showS('it')"><span class="nb-i">&#128197;</span><span class="nb-l">Jours</span></button>
+    <button class="nb" id="n-in" onclick="showS('in')"><span class="nb-i">&#9992;&#65039;</span><span class="nb-l">Infos</span></button>
+    <button class="nb" id="n-ti" onclick="showS('ti')"><span class="nb-i">&#128295;</span><span class="nb-l">Outils</span></button>
+    <button class="nb" id="n-pl" onclick="showS('pl')"><span class="nb-i">&#128506;</span><span class="nb-l">Plan</span></button>
+  </div>
+</div>
+
+<script>
+var INFO_DATA={
+ "Depart de la maison vers Orly": {
+  "title": "Depart de nuit vers Orly",
+  "intro": "Le vol part a 06h30 et Transavia demande 2h30 d avance pour un vol hors Schengen. Il faut donc etre au Terminal 3 a 04h00 au plus tard, ce qui impose un depart de la maison vers 00h30.",
+  "conseil": "Option plus reposante : une nuit dans un hotel pres d Orly le vendredi 13/11, depart a 03h30 a pied ou en navette. A arbitrer selon le prix et le parking.",
+  "logistique": [
+   {
+    "titre": "Trajet",
+    "lignes": [
+     "Environ 280 km jusqu a Orly",
+     "2h45 a 3h de nuit, pauses comprises",
+     "Peages sur le trajet"
+    ]
+   },
+   {
+    "titre": "A ne pas oublier",
+    "lignes": [
+     "Passeports des 4 voyageurs",
+     "Recus EASE (QR codes)",
+     "Permis de conduire pour la location a Sal",
+     "Cartes d embarquement telechargees"
+    ]
+   },
+   {
+    "titre": "A confirmer",
+    "lignes": [
+     "Point de rendez-vous avec Cedric et Virginie",
+     "Voiture utilisee et conducteur",
+     "Parking Orly reserve ou non"
+    ]
+   }
+  ]
+ },
+ "Parking Orly - depot voiture": {
+  "title": "Parking a Orly",
+  "intro": "Parking non reserve a ce jour. Duree : du samedi 14/11 vers 03h30 au samedi 21/11 vers 20h00, soit 8 jours.",
+  "conseil": "Reserver en ligne a l avance, c est nettement moins cher qu au guichet. Un parking proche du Terminal 3 evite la navette au milieu de la nuit.",
+  "logistique": [
+   {
+    "titre": "Statut",
+    "lignes": [
+     "A RESERVER",
+     "Ajouter ici la reference une fois reserve (onglet Infos, checklist)"
+    ]
+   }
+  ]
+ },
+ "Orly Terminal 3 - Depot bagages Transavia": {
+  "title": "Orly Terminal 3 - Depart Transavia",
+  "intro": "Transavia France part du Terminal 3 d Orly. Le vol pour Sal est hors Schengen : enregistrement des bagages, securite, puis police aux frontieres.",
+  "conseil": "La regle a retenir : depot des bagages ferme a 05h15. Sans bagage en soute et avec la carte d embarquement sur le telephone, on peut aller directement au controle.",
+  "logistique": [
+   {
+    "titre": "Deroule conseille",
+    "lignes": [
+     "04h00 : arrivee au Terminal 3, comptoirs Transavia",
+     "05h15 : fermeture du depot des bagages",
+     "04h45 a 05h30 : securite puis controle des passeports",
+     "06h00 environ : embarquement (heure exacte sur la carte)",
+     "06h30 : decollage TO3232"
+    ]
+   }
+  ]
+ },
+ "Vol Transavia TO3232 Orly vers Sal": {
+  "title": "Vol aller Paris Orly vers Sal",
+  "intro": "Vol direct Transavia France TO3232, 6h15 de vol. Depart 06h30 heure de Paris, arrivee 10h45 heure du Cap-Vert (2h de decalage).",
+  "conseil": "Prevoir de quoi manger a bord ou avant l embarquement : les services a bord sont payants chez Transavia.",
+  "logistique": [
+   {
+    "titre": "Vols (reserve et paye)",
+    "lignes": [
+     "ALLER - sam. 14/11 : Paris Orly T3 06h30 vers Sal (SID) 10h45 heure locale - Transavia France TO3232 - direct 6h15",
+     "RETOUR - sam. 21/11 : Sal (SID) 11h40 vers Paris Orly 19h30 heure de Paris - Transavia France TO3233 - direct 5h50",
+     "Classe economique - 4 passagers : Samuel, Francoise, Cedric, Virginie"
+    ]
+   },
+   {
+    "titre": "References",
+    "lignes": [
+     "Ref de reservation compagnie (PNR) : K6UNPB",
+     "Reference client : 40-1068303696",
+     "Montant PAYE : 2 426,00 EUR pour les 4 passagers, aller et retour",
+     "Gestion en ligne : transavia.com, rubrique Ma reservation (PNR + nom)"
+    ]
+   },
+   {
+    "titre": "Horaires a ne pas rater",
+    "lignes": [
+     "Enregistrement en ligne : ouvre 30h avant (aller le 13/11 a 00h30, retour le 20/11 a 05h40 heure de Sal)",
+     "Arrivee a l aeroport : 2h30 avant le vol (Orly 04h00, Sal 09h10)",
+     "Depot des bagages : ferme 75 min avant (Orly 05h15, Sal 10h25)"
+    ]
+   },
+   {
+    "titre": "Bagages",
+    "lignes": [
+     "Franchise selon le tarif achete [A verifier sur la reservation]",
+     "Transavia est stricte sur les dimensions cabine : mesurer les sacs avant"
+    ]
+   }
+  ]
+ },
+ "Atterrissage a Sal - Aeroport Amilcar Cabral": {
+  "title": "Arrivee a l aeroport Amilcar Cabral (SID)",
+  "intro": "Le principal aeroport international du Cap-Vert, au centre de l ile de Sal, pres d Espargos. Santa Maria est a environ 18 km au sud.",
+  "conseil": "Sans preenregistrement EASE fait a l avance, il faut regulariser sur place avec une attente plus longue et des frais. Le faire avant le 9/11.",
+  "logistique": [
+   {
+    "titre": "Formalites a l arrivee",
+    "lignes": [
+     "Pas de visa pour un sejour de moins de 30 jours (ressortissants francais)",
+     "Preenregistrement EASE obligatoire, taxe 3 400 CVE (~31 EUR) par personne, sur ease.gov.cv uniquement",
+     "Presenter passeport + recu EASE au controle"
+    ]
+   },
+   {
+    "titre": "En sortant",
+    "lignes": [
+     "Distributeurs pour retirer des escudos",
+     "Comptoirs des loueurs de voitures dans le hall",
+     "Taxis devant l aerogare : fixer le prix avant de monter"
+    ]
+   }
+  ]
+ },
+ "Prise de la voiture de location - Aeroport SID": {
+  "title": "Voiture de location a Sal",
+  "intro": "Location a prendre a l aeroport le 14/11 et a rendre au meme endroit le 21/11 avant le vol. Non reservee a ce jour.",
+  "conseil": "Les grands axes sont goudronnes et en bon etat. Les acces a Buracona, Kite Beach ou certaines plages sont des pistes de sable ou de cailloux : un 4x4 est conseille si vous voulez y aller, et l assurance exclut souvent le hors-route. Lire le contrat sur ce point.",
+  "logistique": [
+   {
+    "titre": "Reservation",
+    "lignes": [
+     "A RESERVER - prise SID samedi 14/11 vers 11h45 (vol a 10h45)",
+     "Retour SID samedi 21/11 a 09h00",
+     "4 adultes + bagages : prendre un SUV ou un break",
+     "Donner le numero de vol TO3232 au loueur en cas de retard"
+    ]
+   },
+   {
+    "titre": "Documents",
+    "lignes": [
+     "Permis de conduire francais valide",
+     "Permis international conseille par certains loueurs",
+     "Age minimum 21 ou 23 ans selon le loueur",
+     "Carte bancaire au nom du conducteur principal (caution)"
+    ]
+   },
+   {
+    "titre": "Sur la route",
+    "lignes": [
+     "Conduite a droite comme en France",
+     "Attention aux chiens, chevres et pietons sur les bords de route",
+     "Eviter de rouler sur les pistes de nuit"
+    ]
+   }
+  ]
+ },
+ "Airbnb Sal Sol & Mar": {
+  "title": "Airbnb Sal Sol & Mar",
+  "intro": "Appartement entier loue sur Airbnb a Santa Maria, au coeur de la ville et a quelques minutes de la plage. Hote : Sal Sol & Mar. Base des 7 nuits du sejour.",
+  "conseil": "Toutes les consignes (codes, cles, regles de la maison) sont dans l appli Airbnb, rubrique Procedure d arrivee et Reglement interieur. Les telecharger avant le depart en cas de reseau faible.",
+  "logistique": [
+   {
+    "titre": "Reservation",
+    "lignes": [
+     "RESERVE sur Airbnb - code de confirmation HMYTYQTCD3",
+     "Paiement : voir le recapitulatif dans l appli Airbnb [A confirmer]",
+     "Annulation gratuite avant le 31/10 a 15h00",
+     "Remboursement partiel en cas d annulation avant le 7/11 a 15h00"
+    ]
+   },
+   {
+    "titre": "Adresse",
+    "lignes": [
+     "Rua 15 Agosto 108, Santa Maria, Sal 4111, Cap-Vert",
+     "A environ 20-25 min de l aeroport en voiture"
+    ]
+   },
+   {
+    "titre": "Sejour",
+    "lignes": [
+     "Arrivee samedi 14/11 a partir de 15h00",
+     "Depart samedi 21/11 avant 11h00 (vous partez a 08h30)",
+     "7 nuits - 4 voyageurs"
+    ]
+   }
+  ]
+ },
+ "Premiere balade - plage et ponton de Santa Maria": {
+  "title": "Plage et ponton de Santa Maria",
+  "intro": "Santa Maria est la station balneaire du sud de Sal : une longue plage de sable blanc, une eau turquoise et un ponton en bois ou les pecheurs debarquent leurs prises en fin de journee.",
+  "voir": [
+   "Le retour de peche au ponton et la decoupe du thon sur place",
+   "La promenade du front de mer",
+   "Le coucher de soleil vers 17h58"
+  ],
+  "conseil": "Le vent est souvent soutenu en novembre : la partie de plage abritee pres du ponton est plus agreable pour la baignade."
+ },
+ "Route vers le Bikini Beach Club": {
+  "title": "Acces au Bikini Beach Club",
+  "intro": "Le club se trouve sur la plage d Algodoeiro, dans la zone touristique ZDTI, a cote des hotels du groupe Lagoon dont le Melia Llana. Environ 10 min de voiture depuis Santa Maria.",
+  "conseil": "Une source decrit un court transfert en bateau pour rejoindre le club : demander a l accueil des hotels voisins si besoin. Arriver vers 12h50 pour etre a table a 13h00."
+ },
+ "Brunch au Bikini Beach Club": {
+  "title": "Brunch au Bikini Beach Club",
+  "intro": "Beach club en bord de mer, ambiance musicale et detendue la journee. Le dimanche, formule brunch de 12h00 a 20h00.",
+  "horaires": [
+   "Dimanche 15/11 : reservation 13h00 - 14h30",
+   "Club ouvert le dimanche de 12h00 a 20h00",
+   "Ferme le lundi"
+  ],
+  "tarifs": [
+   "Non prepaye : reglement sur place",
+   "Carte bancaire ou Apple Pay uniquement, pas d especes"
+  ],
+  "conseil": "La table est tenue 1h30. Acces piscine demande dans le message de reservation, sans reponse ecrite : faire confirmer avant ou a l arrivee.",
+  "logistique": [
+   {
+    "titre": "Reservation",
+    "lignes": [
+     "RESERVE - confirme sur Resos (bikini-beach-club.resos.com)",
+     "Au nom de Morieux - 4 personnes - zone Restaurant",
+     "Dimanche 15 novembre 2026, 13h00 a 14h30",
+     "Message envoye le 11/10 : brunch + acces piscine"
+    ]
+   },
+   {
+    "titre": "Contact",
+    "lignes": [
+     "Bikini Beach, ZDTI, plage d Algodoeiro, Ilha do Sal",
+     "mathias@bikinibeachclub.com - info@bikinibeachclub.com",
+     "bikinibeachclub.com - Instagram @bikinibeachcv"
+    ]
+   }
+  ]
+ },
+ "RDV Cabo Verde Diving - Porto Antigo 1": {
+  "title": "Plongee avec Cabo Verde Diving",
+  "intro": "Centre de plongee installe a Santa Maria, avec un centre principal (Aquarium) sur le front de mer et des antennes dans plusieurs hotels. Journee en deux temps : preparation le matin, plongee en mer l apres-midi.",
+  "horaires": [
+   "RDV 08h30 au Porto Antigo 1",
+   "09h00 - 11h30 : briefing et entrainement",
+   "14h00 - 16h30 : plongee en mer"
+  ],
+  "tarifs": [
+   "PAYE : 226,72 EUR pour 2 personnes (Samuel et Cedric)"
+  ],
+  "conseil": "Apporter maillot, serviette, creme solaire, une bouteille d eau. Signaler au centre tout probleme de sante. Respecter 12h minimum entre la derniere plongee et un vol : aucun souci ici, retour le 21/11.",
+  "logistique": [
+   {
+    "titre": "Contact",
+    "lignes": [
+     "Cabo Verde Diving - Santa Maria, Sal",
+     "Tel et WhatsApp : +238 595 37 96",
+     "caboverdediving.net"
+    ]
+   },
+   {
+    "titre": "Statut",
+    "lignes": [
+     "RESERVE ET PAYE",
+     "Participants : Samuel et Cedric"
+    ]
+   }
+  ]
+ },
+ "Enregistrement en ligne vol retour": {
+  "title": "Enregistrement en ligne du retour",
+  "intro": "L enregistrement en ligne Transavia ouvre 30h avant le vol TO3233, soit le vendredi 20/11 a 05h40 heure du Cap-Vert.",
+  "conseil": "Enregistrer les 4 passagers et garder les cartes d embarquement hors ligne sur les telephones.",
+  "logistique": [
+   {
+    "titre": "Reference",
+    "lignes": [
+     "PNR K6UNPB",
+     "transavia.com, rubrique Ma reservation"
+    ]
+   }
+  ]
+ },
+ "Check-out et route vers l aeroport": {
+  "title": "Depart de Santa Maria",
+  "intro": "Depart a 08h30 pour rendre la voiture a 09h00 et etre au comptoir Transavia a 09h10, soit 2h30 avant le vol de 11h40.",
+  "conseil": "Faire le tour du logement la veille au soir pour ne rien oublier : chargeurs dans les prises, affaires dans le coffre-fort, le frigo."
+ },
+ "Restitution de la voiture - Aeroport SID": {
+  "title": "Rendre la voiture",
+  "intro": "Restitution au parking des loueurs de l aeroport de Sal, a 09h00.",
+  "conseil": "Photographier la voiture a la restitution (carrosserie, compteur, jauge) et garder le document signe par l agent."
+ },
+ "Enregistrement Transavia - Aeroport de Sal": {
+  "title": "Aeroport de Sal - depart",
+  "intro": "Petite aerogare, mais un seul vol peut generer une file au comptoir. Depot des bagages ferme 75 min avant le depart, soit a 10h25.",
+  "logistique": [
+   {
+    "titre": "Deroule conseille",
+    "lignes": [
+     "09h10 : comptoir Transavia, depot des bagages",
+     "10h25 : fermeture du depot des bagages",
+     "Controle des passeports et securite",
+     "11h40 : decollage TO3233"
+    ]
+   }
+  ]
+ },
+ "Vol Transavia TO3233 Sal vers Orly": {
+  "title": "Vol retour Sal vers Paris Orly",
+  "intro": "Vol direct Transavia France TO3233, 5h50 de vol. Depart 11h40 heure du Cap-Vert, arrivee 19h30 heure de Paris.",
+  "conseil": "Les escudos ne se changent pas facilement en France : les depenser avant de partir ou les garder pour un prochain voyage.",
+  "logistique": [
+   {
+    "titre": "Vols (reserve et paye)",
+    "lignes": [
+     "ALLER - sam. 14/11 : Paris Orly T3 06h30 vers Sal (SID) 10h45 heure locale - Transavia France TO3232 - direct 6h15",
+     "RETOUR - sam. 21/11 : Sal (SID) 11h40 vers Paris Orly 19h30 heure de Paris - Transavia France TO3233 - direct 5h50",
+     "Classe economique - 4 passagers : Samuel, Francoise, Cedric, Virginie"
+    ]
+   },
+   {
+    "titre": "References",
+    "lignes": [
+     "Ref de reservation compagnie (PNR) : K6UNPB",
+     "Reference client : 40-1068303696",
+     "Montant PAYE : 2 426,00 EUR pour les 4 passagers, aller et retour",
+     "Gestion en ligne : transavia.com, rubrique Ma reservation (PNR + nom)"
+    ]
+   },
+   {
+    "titre": "Horaires a ne pas rater",
+    "lignes": [
+     "Enregistrement en ligne : ouvre 30h avant (aller le 13/11 a 00h30, retour le 20/11 a 05h40 heure de Sal)",
+     "Arrivee a l aeroport : 2h30 avant le vol (Orly 04h00, Sal 09h10)",
+     "Depot des bagages : ferme 75 min avant (Orly 05h15, Sal 10h25)"
+    ]
+   },
+   {
+    "titre": "Bagages",
+    "lignes": [
+     "Franchise selon le tarif achete [A verifier sur la reservation]",
+     "Transavia est stricte sur les dimensions cabine : mesurer les sacs avant"
+    ]
+   }
+  ]
+ },
+ "Check-in Airbnb Sal Sol & Mar": {
+  "title": "Airbnb Sal Sol & Mar",
+  "intro": "Appartement entier loue sur Airbnb a Santa Maria, au coeur de la ville et a quelques minutes de la plage. Hote : Sal Sol & Mar. Base des 7 nuits du sejour.",
+  "conseil": "Toutes les consignes (codes, cles, regles de la maison) sont dans l appli Airbnb, rubrique Procedure d arrivee et Reglement interieur. Les telecharger avant le depart en cas de reseau faible.",
+  "logistique": [
+   {
+    "titre": "Reservation",
+    "lignes": [
+     "RESERVE sur Airbnb - code de confirmation HMYTYQTCD3",
+     "Paiement : voir le recapitulatif dans l appli Airbnb [A confirmer]",
+     "Annulation gratuite avant le 31/10 a 15h00",
+     "Remboursement partiel en cas d annulation avant le 7/11 a 15h00"
+    ]
+   },
+   {
+    "titre": "Adresse",
+    "lignes": [
+     "Rua 15 Agosto 108, Santa Maria, Sal 4111, Cap-Vert",
+     "A environ 20-25 min de l aeroport en voiture"
+    ]
+   },
+   {
+    "titre": "Sejour",
+    "lignes": [
+     "Arrivee samedi 14/11 a partir de 15h00",
+     "Depart samedi 21/11 avant 11h00 (vous partez a 08h30)",
+     "7 nuits - 4 voyageurs"
+    ]
+   }
+  ]
+ }
+};
+var DATA={"CHAPTERS": [{"id": "fr", "num": 0, "city": "DEPART", "subtitle": "France - Paris Orly", "dates": "Nuit du 13 au 14 novembre 2026", "color": "#8A6D3B"}, {"id": "sal", "num": 1, "city": "ILE DE SAL", "subtitle": "Santa Maria, sable blanc et alizes", "dates": "14 - 21 novembre 2026", "color": "#2A6B7C"}], "DAYS": [{"id": 0, "chap": "fr", "dayNum": 0, "date": "14 NOV", "label": "14 NOV - DEPART DE NUIT VERS ORLY", "location": "Domicile - Paris Orly Terminal 3", "hotel": "Vol TO3232", "events": [{"time": "00h30", "title": "Depart de la maison vers Orly", "body": "Environ 280 km, compter 2h45 a 3h de route de nuit. Objectif : etre au Terminal 3 d Orly a 04h00 au plus tard. Point de rendez-vous avec Cedric et Virginie [A confirmer]. Dans le sac a main : passeports, permis de conduire, recus EASE, carte bancaire du conducteur.", "type": "transport", "cost": "---"}, {"time": "03h30", "title": "Parking Orly - depot voiture", "body": "[A reserver] Parking a choisir : parking officiel de l aeroport ou parking prive avec navette. Avec une navette, ajouter 15 a 20 min et avancer d autant le depart de la maison.", "type": "transport", "cost": "A reserver"}, {"time": "04h00", "title": "Orly Terminal 3 - Depot bagages Transavia", "body": "Transavia demande d arriver au minimum 2h30 avant un vol hors Schengen. Le depot des bagages en soute ferme 75 min avant le depart, soit a 05h15 precises : au-dela, les bagages sont refuses.", "type": "transport", "cost": "---"}, {"time": "04h45", "title": "Securite et controle des passeports", "body": "Le Cap-Vert est hors Schengen : passage par la police aux frontieres en plus de la securite. Passeports et cartes d embarquement en main.", "type": "transport", "cost": "---"}, {"time": "06h00", "title": "Embarquement", "body": "Heure et porte exactes sur la carte d embarquement [A verifier]. Etre devant la porte des l ouverture de l embarquement.", "type": "transport", "cost": "---"}, {"time": "06h30", "title": "Vol Transavia TO3232 Orly vers Sal", "body": "Vol direct de 6h15, classe economique. Arrivee a 10h45 heure du Cap-Vert (12h45 a Paris). Ref compagnie K6UNPB. Ref client 40-1068303696. PAYE : 2 426,00 EUR pour les 4 passagers (aller et retour).", "type": "transport", "cost": "Paye"}], "tip": "Decalage horaire : le Cap-Vert a 2h de moins que Paris en novembre (UTC-1 contre UTC+1). Les telephones se reglent seuls a l atterrissage. Enregistrement en ligne Transavia ouvert 30h avant le vol, soit le vendredi 13/11 a 00h30.", "note": "Atterrissage a Sal a 10h45, prise de la voiture, installation a Santa Maria a 15h00."}, {"id": 1, "chap": "sal", "dayNum": 1, "date": "14 NOV", "label": "14 NOV - ARRIVEE A SAL", "location": "Aeroport Amilcar Cabral - Santa Maria", "hotel": "Airbnb Sal Sol & Mar", "events": [{"time": "10h45", "title": "Atterrissage a Sal - Aeroport Amilcar Cabral", "body": "Aeroport international Amilcar Cabral (SID), pres d Espargos, au centre de l ile. Controle des passeports avec le recu EASE (QR code) de chacun, puis bagages. Compter 45 min a 1h avant la sortie.", "type": "transport", "cost": "---"}, {"time": "11h45", "title": "Prise de la voiture de location - Aeroport SID", "body": "[A reserver] Loueur, numero de reservation et categorie a renseigner. Permis de conduire et carte bancaire au nom du conducteur. Photographier le vehicule sous toutes les faces avant de partir, verifier pneus, roue de secours et niveau de carburant.", "type": "transport", "cost": "A reserver"}, {"time": "12h15", "title": "Route vers Santa Maria", "body": "Environ 18 km plein sud par la route principale goudronnee, 20 a 25 min. Logement : Rua 15 Agosto 108, Santa Maria.", "type": "transport", "cost": "---"}, {"time": "12h45", "title": "Dejeuner a Santa Maria", "body": "Libre. Le logement n est disponible qu a 15h00 : prendre le temps de dejeuner en ville. Demander a l hote via l appli Airbnb si un depot de bagages plus tot est possible.", "type": "meal", "cost": "---"}, {"time": "14h00", "title": "Courses pour le logement", "body": "Eau en bouteille (l eau du robinet ne se boit pas), petit-dejeuner pour la semaine, apero. Supermarche a choisir en ville [A completer].", "type": "activity", "cost": "---"}, {"time": "15h00", "title": "Check-in Airbnb Sal Sol & Mar", "body": "RESERVE sur Airbnb - code de confirmation HMYTYQTCD3. Arrivee a partir de 15h00. Rua 15 Agosto 108, Santa Maria, Sal 4111, Cap-Vert. Procedure d arrivee detaillee dans l appli Airbnb.", "type": "hotel", "cost": "Reserve"}, {"time": "16h30", "title": "Premiere balade - plage et ponton de Santa Maria", "body": "Le ponton des pecheurs est le coeur de la ville : retour de peche et decoupe du poisson en fin de journee. La grande plage de Santa Maria s etend de part et d autre.", "type": "activity", "cost": "GRATUIT"}, {"time": "17h45", "title": "Coucher de soleil", "body": "Le soleil se couche vers 17h58 a la mi-novembre. Nuit noire vers 18h30 : prevoir le diner tot ou en ville.", "type": "activity", "cost": "GRATUIT"}], "tip": "Monnaie : escudo du Cap-Vert (CVE), parite fixe 1 EUR = 110,265 CVE. Retirer quelques escudos au distributeur pour les petites depenses (douche de Pedra de Lume, pourboires, marches). L euro passe dans beaucoup de commerces touristiques, mais avec un taux moins bon.", "note": "Dimanche : brunch reserve au Bikini Beach Club a 13h00."}, {"id": 2, "chap": "sal", "dayNum": 2, "date": "15 NOV", "label": "15 NOV - DIMANCHE AU BIKINI BEACH CLUB", "location": "Santa Maria - Plage d Algodoeiro", "hotel": "Airbnb Sal Sol & Mar", "events": [{"time": "12h35", "title": "Route vers le Bikini Beach Club", "body": "Environ 10 min depuis Santa Maria. Le club est sur la plage d Algodoeiro (zone touristique ZDTI), a cote des hotels du groupe Lagoon dont le Melia Llana. Une source evoque un court transfert en bateau pour la derniere partie : a verifier sur place.", "type": "transport", "cost": "---"}, {"time": "13h00", "title": "Brunch au Bikini Beach Club", "body": "RESERVE (Resos) au nom de Morieux - dimanche 15/11, 13h00 a 14h30, 4 personnes, zone Restaurant. Table garantie 1h30. Non prepaye : reglement sur place par carte bancaire ou Apple Pay uniquement, pas d especes.", "type": "meal", "cost": "Reserve"}, {"time": "14h30", "title": "Apres-midi piscine et plage", "body": "L acces a la piscine a ete demande dans le message de reservation, mais le club n a pas repondu par ecrit : a confirmer a l arrivee (transats, eventuel minimum de consommation). Fermeture a 20h00 le dimanche.", "type": "activity", "cost": "A confirmer"}, {"time": "17h45", "title": "Coucher de soleil sur Algodoeiro", "body": "Coucher du soleil vers 17h58. Retour a Santa Maria en 10 min.", "type": "activity", "cost": "GRATUIT"}], "tip": "Avant dimanche, envoyer un message au club depuis la page Resos pour faire confirmer l acces piscine apres le brunch. Le club est ferme le lundi.", "note": "Lundi : plongee pour Samuel et Cedric, rendez-vous 08h30 au Porto Antigo 1."}, {"id": 3, "chap": "sal", "dayNum": 3, "date": "16 NOV", "label": "16 NOV - JOURNEE PLONGEE", "location": "Santa Maria - Cabo Verde Diving", "hotel": "Airbnb Sal Sol & Mar", "events": [{"time": "07h30", "title": "Petit-dejeuner", "body": "Leger mais consistant. Bien s hydrater.", "type": "meal", "cost": "---"}, {"time": "08h30", "title": "RDV Cabo Verde Diving - Porto Antigo 1", "body": "Samuel et Cedric. RESERVE ET PAYE : 226,72 EUR pour les 2. Rendez-vous au Porto Antigo 1, Santa Maria. Centre Cabo Verde Diving Aquarium, sur le front de mer de Santa Maria. Tel et WhatsApp +238 595 37 96.", "type": "activity", "cost": "Paye"}, {"time": "09h00", "title": "Briefing et entrainement plongee", "body": "De 09h00 a 11h30 : briefing securite, materiel, exercices.", "type": "activity", "cost": "---"}, {"time": "09h00", "title": "Journee libre pour Francoise et Virginie", "body": "Voiture disponible. Idees : plage de Santa Maria, Ponta Preta a l ouest de la ville, boutiques et cafes du centre. Autres idees dans la page ILE DE SAL.", "type": "activity", "cost": "---"}, {"time": "11h30", "title": "Pause dejeuner", "body": "Repas leger, sans alcool. Reprise a 14h00.", "type": "meal", "cost": "---"}, {"time": "14h00", "title": "Plongee en mer", "body": "De 14h00 a 16h30. Maillot, serviette et creme solaire.", "type": "activity", "cost": "---"}, {"time": "19h30", "title": "Diner", "body": "Libre.", "type": "meal", "cost": "---"}], "tip": "Plongee : bien dormir, pas d alcool la veille, boire beaucoup d eau. Un questionnaire medical est en general demande : signaler avant tout souci d oreilles, de coeur ou d asthme. Le centre impose au moins 12h entre la derniere plongee et un vol : largement respecte (vol le 21/11).", "note": "Jours 4 a 7 : journees libres a programmer."}, {"id": 4, "chap": "sal", "dayNum": 4, "date": "17 NOV", "label": "17 NOV - JOURNEE LIBRE", "location": "Ile de Sal - a programmer", "hotel": "Airbnb Sal Sol & Mar", "events": [], "tip": "Journee encore libre. Les idees de sorties (lac sale de Pedra de Lume, Shark Bay, Buracona, Palmeira, Kite Beach) sont dans la page ILE DE SAL : bouton Decouvrir en haut de la liste des jours.", "note": ""}, {"id": 5, "chap": "sal", "dayNum": 5, "date": "18 NOV", "label": "18 NOV - JOURNEE LIBRE", "location": "Ile de Sal - a programmer", "hotel": "Airbnb Sal Sol & Mar", "events": [], "tip": "Journee encore libre. Les idees de sorties (lac sale de Pedra de Lume, Shark Bay, Buracona, Palmeira, Kite Beach) sont dans la page ILE DE SAL : bouton Decouvrir en haut de la liste des jours.", "note": ""}, {"id": 6, "chap": "sal", "dayNum": 6, "date": "19 NOV", "label": "19 NOV - JOURNEE LIBRE", "location": "Ile de Sal - a programmer", "hotel": "Airbnb Sal Sol & Mar", "events": [], "tip": "Journee encore libre. Les idees de sorties (lac sale de Pedra de Lume, Shark Bay, Buracona, Palmeira, Kite Beach) sont dans la page ILE DE SAL : bouton Decouvrir en haut de la liste des jours.", "note": ""}, {"id": 7, "chap": "sal", "dayNum": 7, "date": "20 NOV", "label": "20 NOV - DERNIERE JOURNEE", "location": "Ile de Sal - a programmer", "hotel": "Airbnb Sal Sol & Mar", "events": [{"time": "09h00", "title": "Enregistrement en ligne vol retour", "body": "Ouvert depuis 05h40 (30h avant le vol). Telecharger les 4 cartes d embarquement sur les telephones.", "type": "transport", "cost": "---"}, {"time": "18h00", "title": "Plein de carburant et bagages", "body": "Faire le plein si le contrat de location l exige. Boucler les valises ce soir : depart du logement demain a 08h30.", "type": "transport", "cost": "---"}], "tip": "Reste de la journee libre. Garder une derniere fin d apres-midi a la plage de Santa Maria pour le coucher de soleil.", "note": "Demain : depart 08h30, voiture rendue a 09h00, vol a 11h40."}, {"id": 8, "chap": "sal", "dayNum": 8, "date": "21 NOV", "label": "21 NOV - RETOUR EN FRANCE", "location": "Santa Maria - Aeroport SID - Paris Orly", "hotel": "Vol TO3233", "events": [{"time": "07h30", "title": "Reveil et derniers rangements", "body": "Verifier chambres et salle de bains, vider le frigo, sortir les poubelles selon les consignes de l hote.", "type": "hotel", "cost": "---"}, {"time": "08h30", "title": "Check-out et route vers l aeroport", "body": "Depart du logement a 08h30 au plus tard (check-out limite 11h00, mais le vol impose de partir tot). Cles selon les consignes de l hote. 18 km, 20 a 25 min.", "type": "transport", "cost": "---"}, {"time": "09h00", "title": "Restitution de la voiture - Aeroport SID", "body": "Etat des lieux avec l agent, garder le document de restitution signe. Niveau de carburant selon le contrat.", "type": "transport", "cost": "---"}, {"time": "09h10", "title": "Enregistrement Transavia - Aeroport de Sal", "body": "Arrivee 2h30 avant le vol. Depot des bagages ferme 75 min avant le depart, soit 10h25. Petite aerogare, mais controle des passeports a la sortie du territoire.", "type": "transport", "cost": "---"}, {"time": "11h40", "title": "Vol Transavia TO3233 Sal vers Orly", "body": "Vol direct de 5h50. Arrivee a Orly a 19h30 heure de Paris. Ref compagnie K6UNPB. Billets PAYES.", "type": "transport", "cost": "Paye"}, {"time": "19h30", "title": "Arrivee a Orly (heure de Paris)", "body": "Terminal d arrivee a verifier sur les ecrans (Transavia arrive au T2 ou au T3). Bagages, puis navette ou marche jusqu au parking.", "type": "transport", "cost": "---"}, {"time": "20h15", "title": "Route retour vers la maison", "body": "Environ 280 km, 3h. Arrivee vers 23h15.", "type": "transport", "cost": "---"}], "tip": "Les horaires de la journee sont en heure du Cap-Vert jusqu au vol, puis en heure de Paris a partir de l arrivee a Orly.", "note": ""}], "TRAINS": [], "VOLS": [{"type": "ALLER", "route": "Paris Orly (ORY) T3 vers Sal Amilcar Cabral (SID)", "airline": "Transavia France TO3232 - direct 6h15 - economique", "schedule": "Sam. 14/11 - 06h30 (Paris) vers 10h45 (Sal)"}, {"type": "RETOUR", "route": "Sal Amilcar Cabral (SID) vers Paris Orly (ORY)", "airline": "Transavia France TO3233 - direct 5h50 - economique", "schedule": "Sam. 21/11 - 11h40 (Sal) vers 19h30 (Paris)"}], "RESAS": [{"date": "14 NOV", "name": "Vols Transavia TO3232 / TO3233", "detail": "PAYE - Ref K6UNPB - ref client 40-1068303696 - 2 426,00 EUR pour 4", "deadline": "PAYE", "color": "#2E6B3E"}, {"date": "14 NOV", "name": "Airbnb Sal Sol & Mar", "detail": "RESERVE - HMYTYQTCD3 - 14/11 15h00 au 21/11 11h00", "deadline": "RESERVE", "color": "#2E6B3E"}, {"date": "15 NOV", "name": "Brunch Bikini Beach Club", "detail": "RESERVE (Resos) - 13h00-14h30 - 4 pers - paiement sur place", "deadline": "RESERVE", "color": "#2E6B3E"}, {"date": "16 NOV", "name": "Plongee Cabo Verde Diving", "detail": "PAYE - 226,72 EUR - Samuel et Cedric", "deadline": "PAYE", "color": "#2E6B3E"}, {"date": "14 NOV", "name": "Voiture de location aeroport SID", "detail": "Prise 14/11 vers 11h45, retour 21/11 a 09h00", "deadline": "A reserver", "color": "#C8573F"}, {"date": "14 NOV", "name": "Parking Orly", "detail": "Du 14/11 vers 03h30 au 21/11 vers 20h00", "deadline": "A reserver", "color": "#C8573F"}, {"date": "9 NOV", "name": "Preenregistrement EASE x4", "detail": "ease.gov.cv - 3 400 CVE (~31 EUR) par personne", "deadline": "Au plus tard 5 jours avant", "color": "#C8573F"}], "PHRASES": [{"jp": "Bom dia / Boa tarde", "fr": "Bonjour / Bon apres-midi"}, {"jp": "Boa noite", "fr": "Bonsoir, bonne nuit"}, {"jp": "Obrigado / Obrigada", "fr": "Merci (homme / femme)"}, {"jp": "Por favor", "fr": "S il vous plait"}, {"jp": "Desculpe", "fr": "Pardon, excusez-moi"}, {"jp": "Quanto custa ?", "fr": "Combien ca coute ?"}, {"jp": "A conta, por favor", "fr": "L addition, s il vous plait"}, {"jp": "Agua sem gas / com gas", "fr": "Eau plate / gazeuse"}, {"jp": "Sim / Nao", "fr": "Oui / Non"}, {"jp": "Onde fica ... ?", "fr": "Ou se trouve ... ?"}, {"jp": "No stress", "fr": "La devise de Sal : on prend son temps"}], "ESSENTIALS": [{"label": "Passeport", "val": "Un par voyageur, en cours de validite. Verifier les 4 des maintenant."}, {"label": "Recu EASE", "val": "Preenregistrement + taxe aeroport sur ease.gov.cv, au plus tard 5 jours avant (9/11). Capture d ecran du QR code de chacun."}, {"label": "Permis de conduire", "val": "Permis francais du ou des conducteurs. Permis international conseille par certains loueurs."}, {"label": "Carte bancaire + especes", "val": "Bikini Beach : carte uniquement. Pedra de Lume : especes uniquement. Prendre un peu d euros et retirer des escudos sur place."}, {"label": "Creme solaire haute protection", "val": "Indice UV jusqu a 9 en novembre. Chapeau et lunettes."}, {"label": "Chaussures d eau", "val": "Indispensables a Pedra de Lume (cristaux de sel coupants) et a Shark Bay (rochers)."}, {"label": "Vieux maillot", "val": "Pour le lac sale : le sel et le soufre abiment les tissus."}, {"label": "Coupe-vent leger", "val": "Les alizes soufflent fort en novembre, surtout en fin de journee."}, {"label": "Anti-moustiques", "val": "Utile le soir."}, {"label": "Trousse pharmacie", "val": "Medicaments habituels avec ordonnance, antidiarrheique, pansements. Offre de soins limitee sur l ile."}, {"label": "Assurance voyage", "val": "Frais medicaux et rapatriement : verifier la couverture de la carte bancaire utilisee pour payer."}, {"label": "Prises electriques", "val": "Types C et F en 220 V, comme en France. Pas d adaptateur."}]};
+var CHS=DATA.CHAPTERS,DYS=DATA.DAYS,VLS=DATA.VOLS,TRN=DATA.TRAINS||[],RES=DATA.RESAS,PHS=DATA.PHRASES,ESS=DATA.ESSENTIALS;
+
+/* ============================================================
+   CITY_INFO : page de presentation par ville (photo + descriptif
+   + synthese du sejour). Cle = id du chapitre (CHAPTERS).
+   Image : fichier reel a cote de index.html (sur GitHub).
+   ============================================================ */
+var CITY_INFO = {
+ "sal": {
+  "intro": "Sal est l ile la plus touristique du Cap-Vert : une ile plate et desertique de l Atlantique, a 600 km des cotes du Senegal, bordee de plages de sable blanc. Santa Maria, au sud, concentre la vie, les restaurants et la plage. En novembre, il fait autour de 28 C la journee et 22 C la nuit, la mer est a 26 C et il ne pleut presque jamais. Le vent des alizes souffle fort, ce qui fait le bonheur des kitesurfeurs.",
+  "highlights": [
+   "Deja cale : brunch au Bikini Beach Club le dimanche 15/11 et plongee le lundi 16/11 pour Samuel et Cedric.",
+   "Idee - Lac sale de Pedra de Lume : baignade en flottant dans un ancien cratere, a environ 30 min de Santa Maria. Entree 6 EUR en especes, ouvert de 9h00 a 17h45. Arriver avant 9h30 ou en fin d apres-midi pour eviter les groupes. Chaussures d eau indispensables, douche 1 EUR en pieces.",
+   "Idee - Shark Bay (baie de Parda) : observer les requins citrons dans quelques centimetres d eau, sur la cote est. Inoffensifs, mais chaussures d eau pour les rochers.",
+   "Idee - Buracona et l Oeil Bleu : piscines naturelles dans la roche volcanique au nord-ouest, acces par une piste. L Oeil Bleu s illumine quand le soleil est au plus haut, vers midi.",
+   "Idee - Palmeira : petit port de peche authentique sur la cote ouest, a combiner avec Buracona.",
+   "Idee - Espargos : la ville administrative au centre de l ile, marche et vie locale, loin des resorts.",
+   "Idee - Kite Beach et Ponta Preta : spots de kitesurf spectaculaires a regarder depuis la plage."
+  ],
+  "conseil": "No stress, c est la devise de l ile. Les services prennent leur temps, mieux vaut s y faire des le premier jour. Soleil tres fort (indice UV 9) meme quand le vent rafraichit : creme et chapeau en permanence."
+ }
+};
+var curDay=null;
+
+function updateCountdown(){
+  var depart = new Date(2026, 10, 14, 0, 30, 0); // 14 novembre 2026 00h30 (depart de la maison vers Orly, heure France)
+  // Retour : decollage SID le 21/11 a 11h40 heure du Cap-Vert (UTC-1) => 12h40 UTC.
+  // Cible fixee en instant absolu : le compte a rebours est correct quel que soit
+  // le fuseau ou se trouve le voyageur (France ou Cap-Vert).
+  var retour = new Date(Date.UTC(2026, 10, 21, 12, 40, 0));
+  var now = new Date();
+
+  var label = document.getElementById("cd-label");
+  var el = document.getElementById("countdown");
+
+  // Phase 1 : avant le depart
+  var diff = depart - now;
+  if(diff > 0){
+    if(label) label.textContent = "AVANT LE DÉPART";
+    renderCountdown(diff);
+    return;
+  }
+
+  // Phase 2 : voyage commence -> compte a rebours avant le retour
+  var diffR = retour - now;
+  if(diffR > 0){
+    if(label) label.textContent = "AVANT LE RETOUR";
+    renderCountdown(diffR);
+    return;
+  }
+
+  // Phase 3 : retour passe
+  if(el) el.innerHTML = '<div style="font-size:13px;font-weight:700;color:#C9A84C;letter-spacing:2px">BON RETOUR ! ✈</div>';
+}
+
+function renderCountdown(diff){
+  var days  = Math.floor(diff / 86400000);
+  var hours = Math.floor((diff % 86400000) / 3600000);
+  var mins  = Math.floor((diff % 3600000) / 60000);
+  var d = document.getElementById("cd-days");
+  var h = document.getElementById("cd-hours");
+  var m = document.getElementById("cd-mins");
+  if(d) d.textContent = days;
+  if(h) h.textContent = String(hours).padStart(2,"0");
+  if(m) m.textContent = String(mins).padStart(2,"0");
+}
+updateCountdown();
+setInterval(updateCountdown, 30000);
+
+function goStart(){
+  document.getElementById("cover").style.display="none";
+  var a=document.getElementById("app");
+  a.style.display="flex";
+  buildDays();
+  buildInfo();
+  buildTips();
+  updProg();
+  setTimeout(fetchRates, 500);
+  setTimeout(fetchWeather, 600);
+  // Mode aujourd'hui : si le voyage est en cours, ouvrir directement sur le jour courant.
+  // Sinon (avant le depart ou apres), proposer un bandeau pour reprendre le dernier jour visite.
+  try{
+    var todayId = getTid();
+    if(todayId){
+      var todayDay = DYS.find(function(d){ return d.id===todayId; });
+      if(todayDay){
+        openDay(todayId);
+      }
+    } else {
+      var lastId = localStorage.getItem("capvert26_lastDayId");
+      if(lastId){
+        var lastDay = DYS.find(function(d){ return d.id===parseInt(lastId); });
+        if(lastDay){
+          var banner = document.createElement("div");
+          banner.id = "resumeBanner";
+          banner.style.cssText = "position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:50px;font-size:12px;font-weight:600;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap;border:1px solid #C9A84C";
+          banner.innerHTML = "&#9654; Reprendre le " + lastDay.date;
+          banner.onclick = function(){
+            openDay(parseInt(lastId));
+            banner.remove();
+          };
+          document.body.appendChild(banner);
+          setTimeout(function(){ if(banner.parentNode) banner.remove(); }, 5000);
+        }
+      }
+    }
+  }catch(e){}
+  // Currency button delegation
+  document.getElementById("main").addEventListener("click", function(e){
+    var btn = e.target.closest(".cur-btn");
+    if(btn) setCalcCurrency(btn.getAttribute("data-cur"));
+    var chk = e.target.closest(".chk-item");
+    if(chk && !e.target.closest(".chk-viewbtn") && !e.target.closest(".chk-infobadge")) toggleChk(chk.getAttribute("data-chkid"));
+    var viewb = e.target.closest(".chk-viewbtn");
+    if(viewb) viewResaDetails(e, viewb.getAttribute("data-resaid"));
+    var infob = e.target.closest(".chk-infobadge");
+    if(infob) openResaBadge(e, infob.getAttribute("data-resaid"));
+    var cal = e.target.closest(".cal-btn");
+    if(cal) addToCalendar(cal.getAttribute("data-calid"));
+    var plane = e.target.closest(".plane-btn");
+    if(plane){
+      var gt=plane.getAttribute("data-goto");
+      if(gt){
+        showS(gt);
+        buildInfo();
+        setTimeout(function(){
+          var anchor=document.getElementById("section-vols");
+          if(anchor) anchor.scrollIntoView({behavior:"smooth"});
+        }, 200);
+      }
+    }
+    var trainb = e.target.closest(".train-btn[data-goto-train]");
+    if(trainb){
+      var idx=trainb.getAttribute("data-goto-train");
+      showS("in");
+      buildInfo();
+      setTimeout(function(){
+        var anchor=document.getElementById("train-"+idx);
+        if(!anchor) anchor=document.getElementById("section-trains");
+        if(anchor){
+          anchor.scrollIntoView({behavior:"smooth", block:"center"});
+          anchor.style.transition="box-shadow .3s";
+          anchor.style.boxShadow="0 0 0 2px #2A6B7C";
+          setTimeout(function(){ anchor.style.boxShadow=""; }, 1600);
+        }
+      }, 200);
+    }
+    var tab = e.target.closest(".size-tab");
+    if(tab){
+      var tabName = tab.getAttribute("data-tab");
+      document.querySelectorAll(".size-tab").forEach(function(t){
+        var isActive = t.getAttribute("data-tab") === tabName;
+        t.style.background = isActive ? "#1a1a1a" : "#f8f8f8";
+        t.style.color = isActive ? "#C9A84C" : "#666";
+      });
+      document.querySelectorAll("[id^='tab-']").forEach(function(p){
+        p.style.display = (p.id === "tab-"+tabName) ? "block" : "none";
+      });
+    }
+  });
+}
+
+function e(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function getTid(){var n=new Date(),s=new Date(2026,10,14),d=Math.floor((n-s)/86400000);return(d>=0&&d<8)?d+1:null}
+
+// === NOTES LIBRES PAR JOUR (persistantes) ===
+function loadDayNote(id){
+  try{ var v=localStorage.getItem("capvert26_dayNotes"); if(v){ var o=JSON.parse(v); return o[id]||""; } }catch(e){}
+  return "";
+}
+function saveDayNote(id, text){
+  var o={};
+  try{ var v=localStorage.getItem("capvert26_dayNotes"); if(v) o=JSON.parse(v); }catch(e){}
+  if(text && text.trim()!==""){ o[id]=text; } else { delete o[id]; }
+  try{ localStorage.setItem("capvert26_dayNotes", JSON.stringify(o)); return true; }catch(e){ return false; }
+}
+function bindDayNote(){
+  var ta=document.getElementById("dayNote");
+  if(!ta) return;
+  var status=document.getElementById("dayNoteStatus");
+  var timer=null;
+  ta.addEventListener("input", function(){
+    if(status) status.textContent="";
+    if(timer) clearTimeout(timer);
+    var id=parseInt(ta.getAttribute("data-dayid"));
+    var val=ta.value;
+    timer=setTimeout(function(){
+      var ok=saveDayNote(id, val);
+      if(status) status.textContent = ok ? "Enregistre" : "";
+      if(status && ok){ setTimeout(function(){ if(status) status.textContent=""; }, 1500); }
+    }, 500);
+  });
+  ta.addEventListener("blur", function(){
+    var id=parseInt(ta.getAttribute("data-dayid"));
+    saveDayNote(id, ta.value);
+  });
+}
+
+function updProg(){var t=getTid();document.getElementById("pf").style.width=(t?(t-1)/8*100:0)+"%"}
+
+function showS(k){
+  ["it","dy","cy","in","ti","pl"].forEach(function(x){
+    document.getElementById("s-"+x).classList.remove("on");
+    var nb=document.getElementById("n-"+x);
+    if(nb)nb.classList.remove("on");
+  });
+  document.getElementById("s-"+k).classList.add("on");
+  var nb2=document.getElementById("n-"+k);
+  if(nb2)nb2.classList.add("on");
+  var bb=document.getElementById("backBtn");
+  bb.style.display=(k==="dy"||k==="cy")?"block":"none";
+  var nb2=document.getElementById("nextBtn");
+  if(k==="dy"){
+    var idx=curDay?DYS.findIndex(function(d){return d.id===curDay.id}):-1;
+    nb2.style.display=(idx>=0 && idx<DYS.length-1)?"block":"none";
+    var pb=document.getElementById("prevBtn");
+    if(pb) pb.style.display=(idx>0)?"block":"none";
+  } else {
+    nb2.style.display="none";
+    var pb=document.getElementById("prevBtn");
+    if(pb) pb.style.display="none";
+  }
+  var tt=document.getElementById("topTitle");
+  var ts=document.getElementById("topSub");
+  if(k==="dy"||k==="cy"){tt.textContent="";ts.textContent=""}
+  else{var nm={it:"Itineraire",in:"Vols et Reservations",ti:"Outils",pl:"Plan de l ile"};tt.textContent=nm[k]||"";ts.textContent="CAP-VERT - ILE DE SAL 2026"}
+  document.getElementById("main").scrollTop=0;
+  if(k==="ti"){ setTimeout(fetchRates,100); setTimeout(fetchWeather,200); updateClocks(); }
+  if(k==="in"){ buildInfo(); }
+}
+
+function goBack(){showS("it")}
+
+function goHome(){
+  // Revenir a la page de couverture
+  var cover = document.getElementById("cover");
+  var app   = document.getElementById("app");
+  app.style.display = "none";
+  var main = document.getElementById("main");
+  if(main) main.scrollTop = 0;
+  cover.classList.remove("gone");
+  cover.style.display = "flex";
+  cover.style.opacity = "1";
+  cover.style.transform = "none";
+  // Rejouer l'animation d'apparition (sinon les enfants restent a opacity:0)
+  var kids = cover.children;
+  for(var i=0;i<kids.length;i++){
+    var el = kids[i];
+    if(el.id === "mtoLogo"){
+      // Le logo apparait instantanement, sans animation (sinon delai visible)
+      el.style.animation = "none";
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      continue;
+    }
+    el.style.animation = "none";
+    el.style.opacity = "0";
+    void el.offsetWidth;       // reflow pour reinitialiser
+    el.style.animation = "";   // reprend la regle CSS coverIn
+    el.style.opacity = "";     // laisse l'animation forwards gerer l'opacite finale
+  }
+  // Filet de securite : si une animation ne se redeclenche pas, garantir la visibilite
+  setTimeout(function(){
+    for(var j=0;j<cover.children.length;j++){ cover.children[j].style.opacity = "1"; }
+  }, 1000);
+  window.scrollTo(0,0);
+  updateCountdown();
+}
+
+// ── SWIPE NAVIGATION ──────────────────────────────────
+var swipeStartX = 0;
+var swipeStartY = 0;
+
+document.addEventListener("touchstart", function(e){
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+}, {passive: true});
+
+document.addEventListener("touchend", function(e){
+  if(!curDay) return;
+  var dx = e.changedTouches[0].clientX - swipeStartX;
+  var dy = e.changedTouches[0].clientY - swipeStartY;
+  // Only horizontal swipe (dx > dy in absolute value) and minimum 60px
+  if(Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+  // Only on day detail screen
+  var dayScreen = document.getElementById("s-dy");
+  if(!dayScreen || !dayScreen.classList.contains("on")) return;
+  if(dx < 0) {
+    // Swipe left = next day
+    nextDay();
+  } else {
+    // Swipe right = previous day
+    prevDay();
+  }
+}, {passive: true});
+
+function prevDay(){
+  if(!curDay) return;
+  var idx = DYS.findIndex(function(d){return d.id===curDay.id});
+  if(idx > 0){
+    openDay(DYS[idx-1].id);
+    document.getElementById("main").scrollTop=0;
+  }
+}
+
+function nextDay(){
+  if(!curDay) return;
+  var idx = DYS.findIndex(function(d){return d.id===curDay.id});
+  if(idx < DYS.length-1){
+    openDay(DYS[idx+1].id);
+    document.getElementById("main").scrollTop=0;
+  }
+}
+
+function tclass(t){var m={transport:"tp",train:"tp",activity:"ta",meal:"tm",hotel:"th",show:"ts"};return m[t]||"ta"}
+function plbl(t){var m={transport:"Transport",train:"Trains",activity:"Activite",meal:"Repas",show:"Spectacle",hotel:"Sejour"};return m[t]||"Info"}
+function pcls(t){var m={transport:"t-tp",train:"t-tp",activity:"t-ac",meal:"t-me",show:"t-sh",hotel:"t-ht"};return m[t]||"t-ac"}
+
+function buildDays(){
+  var h="",last=null,tid=getTid();
+  DYS.forEach(function(day){
+    if(day.chap!==last){
+      var ch=CHS.find(function(c){return c.id===day.chap});
+      var hasCity=(typeof CITY_INFO!=="undefined" && CITY_INFO[ch.id]);
+      h+='<div class="ch'+(hasCity?' ch-tap':'')+'"'+(hasCity?' onclick="openCity(\''+ch.id+'\')"':'')+'>';
+      h+='<div class="ch-n" style="background:'+ch.color+'"><span class="ch-nn">'+ch.num+'</span></div>';
+      h+='<div class="ch-mid"><div class="ch-city">'+e(ch.city)+'</div><div class="ch-d" style="color:'+ch.color+'">'+e(ch.dates)+'</div></div>';
+      if(hasCity) h+='<div class="ch-go">Decouvrir<span>&#8250;</span></div>';
+      h+='</div>';
+      last=day.chap;
+    }
+    var ch=CHS.find(function(c){return c.id===day.chap});
+    var types=[],seen={};
+    day.events.slice(0,4).forEach(function(ev){if(!seen[ev.type]){seen[ev.type]=1;types.push(ev.type)}});
+    var pills=types.map(function(t){return'<span class="pl '+pcls(t)+'">'+plbl(t)+'</span>'}).join("");
+    var more=day.events.length-4;
+    var today=(day.id===tid)?'<span class="tb">AUJOURD HUI</span>':"";
+    h+='<div class="dc" onclick="openDay('+day.id+')">';
+    h+='<div class="dc-top"><div class="db" style="background:'+ch.color+'"><span class="db-j">JOUR</span><span class="db-n">'+day.dayNum+'</span></div>';
+    h+='<div class="di"><div class="di-d">'+e(day.date)+today+'</div><div class="di-l">'+e(day.location)+'</div></div>';
+    h+='<div class="dh" style="background:'+ch.color+'">'+e(day.hotel.replace(" *****",""))+'</div></div>';
+    h+='<div class="dp">'+pills+(more>0?'<span class="pm">+'+more+'</span>':"")+'</div></div>';
+  });
+  document.getElementById("dl").innerHTML=h;
+}
+
+function openCity(chapId){
+  var ch=CHS.find(function(c){return c.id===chapId});
+  if(!ch) return;
+  var info=(typeof CITY_INFO!=="undefined")?CITY_INFO[chapId]:null;
+  if(!info) return;
+  var col=ch.color;
+
+  var hero="";
+  if(info.image){
+    hero='<div style="position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:16px">'
+      +'<img src="./'+info.image+'" alt="'+e(ch.city)+'" style="width:100%;height:210px;object-fit:cover;display:block" '
+      +'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+      +'<div style="display:none;height:150px;border:1.5px dashed '+col+';border-radius:18px;align-items:center;justify-content:center;text-align:center;font-size:12px;color:#8a6d2f;background:#faf6ec;padding:18px">Ajoute une image nommee <strong>&nbsp;'+e(info.image)+'&nbsp;</strong> a cote de index.html</div>'
+      +'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.62) 100%);pointer-events:none"></div>'
+      +'<div style="position:absolute;left:16px;right:16px;bottom:12px;pointer-events:none">'
+        +'<div style="font-family:\'Hiragino Mincho ProN\',Georgia,serif;font-size:28px;font-weight:600;color:#fff;letter-spacing:1px;text-shadow:0 2px 12px rgba(0,0,0,.55)">'+e(ch.city)+'</div>'
+        +'<div style="font-family:-apple-system,sans-serif;font-size:12px;color:#fff;opacity:.94;margin-top:2px;text-shadow:0 1px 8px rgba(0,0,0,.65)">'+e(ch.subtitle||"")+'</div>'
+      +'</div></div>';
+  }
+
+  var introH='<div style="font-size:14px;color:var(--ink-soft);line-height:1.8;white-space:pre-wrap">'+e(info.intro)+'</div>';
+
+  var hi="";
+  if(info.highlights && info.highlights.length){
+    hi='<div style="margin-top:20px"><div class="cy-sec">Au programme de votre sejour</div>';
+    info.highlights.forEach(function(x){
+      hi+='<div style="display:flex;gap:11px;align-items:flex-start;margin-top:10px">'
+        +'<span style="flex-shrink:0;width:7px;height:7px;border-radius:50%;background:'+col+';margin-top:7px"></span>'
+        +'<div style="font-size:13.5px;color:var(--ink-soft);line-height:1.65">'+e(x)+'</div></div>';
+    });
+    hi+='</div>';
+  }
+
+  var consH=info.conseil?('<div style="margin-top:18px;border-left:3px solid '+col+';background:var(--paper-2);border-radius:0 10px 10px 0;padding:11px 13px;font-size:13px;color:var(--ink-soft);line-height:1.7;font-style:italic">'+e(info.conseil)+'</div>'):"";
+
+  var days=DYS.filter(function(d){return d.chap===chapId});
+  var daysH="";
+  if(days.length){
+    daysH='<div style="margin-top:24px"><div class="cy-sec">Jour par jour</div>';
+    days.forEach(function(day){
+      daysH+='<div class="cy-day" onclick="openDay('+day.id+')">'
+        +'<div class="cy-day-b" style="background:'+col+'"><span class="cy-day-j">JOUR</span><span class="cy-day-n">'+day.dayNum+'</span></div>'
+        +'<div style="flex:1;min-width:0"><div class="cy-day-d">'+e(day.date)+'</div><div class="cy-day-l">'+e(day.location)+'</div></div>'
+        +'<span class="cy-day-go" style="color:'+col+'">&#8250;</span></div>';
+    });
+    daysH+='</div>';
+  }
+
+  document.getElementById("cy2").innerHTML=
+    '<div class="cy-head" style="background:'+col+'">'
+      +'<div class="cy-badge"><span class="cy-badge-n">'+ch.num+'</span></div>'
+      +'<div class="ch-mid"><div class="cy-head-city">'+e(ch.city)+'</div><div class="cy-head-d">'+e(ch.dates)+'</div></div>'
+    +'</div>'
+    +'<div class="cy-body">'+hero+introH+hi+consH+daysH+'</div>';
+
+  showS("cy");
+  document.getElementById("main").scrollTop=0;
+}
+
+function openDay(id){
+  curDay=DYS.find(function(d){return d.id===id});
+  if(!curDay)return;
+  try{ localStorage.setItem("capvert26_lastDayId", id); }catch(e){}
+  var ch=CHS.find(function(c){return c.id===curDay.chap});
+  var parts=curDay.label.split(" - ");
+  var ds=parts[0]||"",ss=parts.slice(1).join(" - ")||"";
+  var evh="";
+  curDay.events.forEach(function(ev,i){
+    var last=(i===curDay.events.length-1);
+    var cost=(ev.cost&&ev.cost!=="---")?'<div class="tc2">'+e(ev.cost)+'</div>':"";
+    var mapsTypes=["activity","meal","show","hotel"];
+    var mapsAlwaysTitles=["Depart de la maison vers Orly", "Orly Terminal 3 - Depot bagages Transavia", "Atterrissage a Sal - Aeroport Amilcar Cabral", "Prise de la voiture de location - Aeroport SID", "Route vers Santa Maria", "Route vers le Bikini Beach Club", "Check-out et route vers l aeroport", "Restitution de la voiture - Aeroport SID", "Enregistrement Transavia - Aeroport de Sal"];
+    var mapsHtml="";
+    if(mapsTypes.indexOf(ev.type)>=0 || mapsAlwaysTitles.indexOf(ev.title)>=0){
+      var customUrls={"Depart de la maison vers Orly": "https://www.google.com/maps/search/?api=1&query=Aeroport+Paris-Orly+Terminal+3", "Orly Terminal 3 - Depot bagages Transavia": "https://www.google.com/maps/search/?api=1&query=Aeroport+Paris-Orly+Terminal+3", "Atterrissage a Sal - Aeroport Amilcar Cabral": "https://www.google.com/maps/search/?api=1&query=Aeroporto+Internacional+Amilcar+Cabral+Sal", "Prise de la voiture de location - Aeroport SID": "https://www.google.com/maps/search/?api=1&query=Aeroporto+Internacional+Amilcar+Cabral+Sal", "Route vers Santa Maria": "https://www.google.com/maps/search/?api=1&query=Rua+15+de+Agosto+108+Santa+Maria+Sal+Cabo+Verde", "Check-in Airbnb Sal Sol & Mar": "https://www.google.com/maps/search/?api=1&query=Rua+15+de+Agosto+108+Santa+Maria+Sal+Cabo+Verde", "Premiere balade - plage et ponton de Santa Maria": "https://www.google.com/maps/search/?api=1&query=Pontao+de+Santa+Maria+Sal+Cabo+Verde", "Route vers le Bikini Beach Club": "https://www.google.com/maps/search/?api=1&query=Bikini+Beach+Club+Sal+Cabo+Verde", "Brunch au Bikini Beach Club": "https://www.google.com/maps/search/?api=1&query=Bikini+Beach+Club+Sal+Cabo+Verde", "Apres-midi piscine et plage": "https://www.google.com/maps/search/?api=1&query=Bikini+Beach+Club+Sal+Cabo+Verde", "Coucher de soleil sur Algodoeiro": "https://www.google.com/maps/search/?api=1&query=Praia+de+Algodoeiro+Sal+Cabo+Verde", "RDV Cabo Verde Diving - Porto Antigo 1": "https://www.google.com/maps/search/?api=1&query=Porto+Antigo+1+Santa+Maria+Sal+Cabo+Verde", "Briefing et entrainement plongee": "https://www.google.com/maps/search/?api=1&query=Cabo+Verde+Diving+Aquarium+Santa+Maria+Sal", "Plongee en mer": "https://www.google.com/maps/search/?api=1&query=Cabo+Verde+Diving+Aquarium+Santa+Maria+Sal", "Check-out et route vers l aeroport": "https://www.google.com/maps/search/?api=1&query=Aeroporto+Internacional+Amilcar+Cabral+Sal", "Restitution de la voiture - Aeroport SID": "https://www.google.com/maps/search/?api=1&query=Aeroporto+Internacional+Amilcar+Cabral+Sal", "Enregistrement Transavia - Aeroport de Sal": "https://www.google.com/maps/search/?api=1&query=Aeroporto+Internacional+Amilcar+Cabral+Sal", "Coucher de soleil": "https://www.google.com/maps/search/?api=1&query=Praia+de+Santa+Maria+Sal+Cabo+Verde", "Dejeuner a Santa Maria": "https://www.google.com/maps/search/?api=1&query=restaurants+Santa+Maria+Sal+Cabo+Verde", "Courses pour le logement": "https://www.google.com/maps/search/?api=1&query=supermercado+Santa+Maria+Sal+Cabo+Verde", "Petit-dejeuner": "https://www.google.com/maps/search/?api=1&query=cafe+Santa+Maria+Sal+Cabo+Verde", "Journee libre pour Francoise et Virginie": "https://www.google.com/maps/search/?api=1&query=Praia+de+Santa+Maria+Sal+Cabo+Verde", "Pause dejeuner": "https://www.google.com/maps/search/?api=1&query=restaurants+Santa+Maria+Sal+Cabo+Verde", "Diner": "https://www.google.com/maps/search/?api=1&query=restaurants+Santa+Maria+Sal+Cabo+Verde", "Reveil et derniers rangements": "https://www.google.com/maps/search/?api=1&query=Rua+15+de+Agosto+108+Santa+Maria+Sal+Cabo+Verde"};
+      var q=encodeURIComponent(ev.title.split(" - ")[0].split(" + ")[0]);
+      var url=customUrls[ev.title]||("https://www.google.com/maps/search/?api=1&query="+q);
+      mapsHtml='<a href="'+url+'" target="_blank" rel="noopener" class="maps-btn">&#128205; Maps</a>';
+    }
+    var infoBtn="";
+    if(INFO_DATA && INFO_DATA[ev.title]){
+      var safeKey=ev.title.replace(/'/g,"&#39;");
+      infoBtn='<button class="info-btn" onclick="openInfo(this)" data-key="'+safeKey+'">&#9432; Infos</button>';
+    }
+    var calBtn="";
+    if(typeof CAL_MAP!=="undefined" && CAL_MAP[ev.title]){
+      calBtn='<button class="cal-btn" data-calid="'+CAL_MAP[ev.title]+'">&#128197; Calendrier</button>';
+    }
+    var uberBtn="";
+    if(typeof UBER_EVENTS!=="undefined" && UBER_EVENTS[ev.title]){
+      uberBtn='<a href="'+UBER_EVENTS[ev.title]+'" class="uber-btn">&#128663; Uber</a>';
+    }
+    var boatBtn="";
+    if(typeof BOAT_EVENTS!=="undefined" && BOAT_EVENTS[ev.title]){
+      boatBtn='<span class="boat-btn">&#9972; Ferry</span>';
+    }
+    var trainBtn="";
+    if(typeof TRAIN_EVENTS!=="undefined" && TRAIN_EVENTS[ev.title]){
+      var tIdx = (typeof TRAIN_EVENT_TO_IDX!=="undefined" && TRAIN_EVENT_TO_IDX[ev.title]!=null) ? TRAIN_EVENT_TO_IDX[ev.title] : -1;
+      if(tIdx>=0){
+        trainBtn='<button class="train-btn" data-goto-train="'+tIdx+'">&#128646; Train</button>';
+      } else {
+        trainBtn='<span class="train-btn">&#128646; Train</span>';
+      }
+    }
+    var planeBtn="";
+    if(typeof PLANE_EVENTS!=="undefined" && PLANE_EVENTS[ev.title]){
+      planeBtn='<button class="plane-btn" data-goto="in">&#9992;&#65039; Vol</button>';
+    }
+    var walkBtn="";
+    if(typeof WALK_EVENTS!=="undefined" && WALK_EVENTS[ev.title]){
+      walkBtn='<span class="walk-btn">&#129406; A pied</span>';
+    }
+    var grabBtn="";
+    if(typeof GRAB_EVENTS!=="undefined" && GRAB_EVENTS[ev.title]){
+      grabBtn='<a href="'+GRAB_EVENTS[ev.title]+'" class="grab-btn">&#128663; Grab</a>';
+    }
+    var copyBtn="";
+    if(typeof GRABDEST_EVENTS!=="undefined" && GRABDEST_EVENTS[ev.title]){
+      var addr=GRABDEST_EVENTS[ev.title];
+      copyBtn='<button class="copy-btn" onclick="copyDest(this)" data-addr="'+addr.replace(/"/g,"&quot;").replace(/'/g,"&#39;")+'">&#128203; Copier</button>';
+    }
+    var carBtn="";
+    if(typeof CAR_EVENTS!=="undefined" && CAR_EVENTS[ev.title]){
+      carBtn='<span class="car-btn">&#128663; Voiture</span>';
+    }
+    var navBtn="";
+    if(typeof NAV_EVENTS!=="undefined" && NAV_EVENTS[ev.title]){
+      navBtn='<span class="nav-btn">&#128652; Navette</span>';
+    }
+    evh+='<div class="tr '+tclass(ev.type)+'" id="ev-'+curDay.id+'-'+i+'">';
+    evh+='<div class="tll"><div class="tld"></div>'+(last?"":'<div class="tlln"></div>')+'</div>';
+    evh+='<div class="tc">'+cost+'<div class="tt">'+e(ev.time)+'</div><div class="tti">'+e(ev.title)+'</div><div class="tb2">'+e(ev.body)+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+mapsHtml+planeBtn+walkBtn+trainBtn+boatBtn+uberBtn+grabBtn+copyBtn+carBtn+navBtn+infoBtn+calBtn+'</div></div></div>';
+  });
+  var tip=curDay.tip?'<div class="tipb"><div class="tipl">BON A SAVOIR</div><div class="tipt">'+e(curDay.tip)+'</div></div>':"";
+  var note=curDay.note?'<div class="noteb"><div class="notel">DEMAIN</div><div class="notet">'+e(curDay.note)+'</div></div>':"";
+  var savedNote = loadDayNote(curDay.id);
+  var perso='<div style="background:#fff;border:1px solid #ececec;border-radius:14px;padding:12px 14px;margin-top:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)">'+
+    '<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;margin-bottom:8px">MES NOTES</div>'+
+    '<textarea id="dayNote" data-dayid="'+curDay.id+'" placeholder="Notez ici : resto conseille, code wifi, code de la porte..." '+
+    'style="width:100%;box-sizing:border-box;min-height:70px;border:1px solid #eee;border-radius:10px;padding:10px;font-size:13px;font-family:inherit;color:#333;resize:vertical;outline:none;background:#fcfcfc">'+e(savedNote)+'</textarea>'+
+    '<div id="dayNoteStatus" style="font-size:10px;color:#BBB;margin-top:5px;min-height:12px"></div>'+
+    '</div>';
+  document.getElementById("dd2").innerHTML=
+    '<div class="dh2" style="background:'+ch.color+'">'+
+    '<div class="dhr" style="position:relative"><div class="dbg"><span class="dbg-j">JOUR</span><span class="dbg-n">'+curDay.dayNum+'</span></div>'+
+    '<div class="dd"><div class="dd-d">'+e(ds)+'</div><div class="dd-s">'+e(ss)+'</div><div class="dd-l" style="color:rgba(255,255,255,.8)">'+e(curDay.location)+'</div></div>'+
+    '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">'+
+    '<div class="dhp">'+e(curDay.hotel)+'</div>'+
+    '<button onclick="shareDay()" style="background:rgba(255,255,255,.12);border:none;border-radius:20px;padding:4px 9px;color:rgba(255,255,255,.75);font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap">&#128279; Partager</button>'+
+    '</div>'+
+    '</div>'+
+    '</div>'+
+    '<div class="tl">'+evh+tip+note+perso+'</div>';
+  bindDayNote();
+  showS("dy");
+  var idx2=DYS.findIndex(function(d){return d.id===curDay.id});
+  var pb=document.getElementById("prevBtn");
+  if(pb) pb.style.display=(idx2>0)?"block":"none";
+  var nb2=document.getElementById("nextBtn");
+  if(nb2) nb2.style.display=(idx2<DYS.length-1)?"block":"none";
+}
+
+// === RESERVATIONS DEJA EFFECTUEES (en dur, survivent aux push GitHub) ===
+// Le localStorage garde la priorite : si l'utilisateur modifie sur son tel, sa version gagne.
+var DEFAULT_RESA_DONE = {"vols": true, "airbnb": true, "bikini": true, "plongee": true};
+// Reservations deja payees/confirmees : verrouillees, impossible a decocher.
+var LOCKED_RESA = {"vols": true, "airbnb": true, "bikini": true, "plongee": true};
+var DEFAULT_RESA_DETAILS = {
+ "vols": {
+  "num": "K6UNPB",
+  "site": "Transavia (ref client 40-1068303696)",
+  "info": "PAYE 2 426,00 EUR pour 4 - TO3232 sam 14/11 Orly T3 06h30 > Sal 10h45 - TO3233 sam 21/11 Sal 11h40 > Orly 19h30 - eco"
+ },
+ "airbnb": {
+  "num": "HMYTYQTCD3",
+  "site": "Airbnb",
+  "info": "RESERVE - Sal Sol & Mar - Rua 15 Agosto 108, Santa Maria - arrivee 14/11 15h00, depart 21/11 11h00 - annulation gratuite avant 31/10 15h00, partielle avant 7/11 15h00"
+ },
+ "bikini": {
+  "num": "Resos - au nom de Morieux",
+  "site": "Bikini Beach Club",
+  "info": "RESERVE - dim 15/11 13h00-14h30 - 4 pers - zone Restaurant - paiement sur place CB ou Apple Pay - acces piscine a confirmer"
+ },
+ "plongee": {
+  "num": "Cabo Verde Diving",
+  "site": "caboverdediving.net",
+  "info": "PAYE 226,72 EUR pour 2 (Samuel, Cedric) - lun 16/11 RDV 08h30 Porto Antigo 1 - 09h00-11h30 briefing, 14h00-16h30 mer - +238 595 37 96"
+ }
+};
+function loadChkState(){
+  var s={}; try{ var v=localStorage.getItem("capvert26_chkState"); if(v) s=JSON.parse(v); }catch(e){}
+  for(var k in DEFAULT_RESA_DONE){ if(!(k in s)) s[k]=DEFAULT_RESA_DONE[k]; }
+  // Les reservations verrouillees sont toujours faites, quel que soit le localStorage.
+  for(var lk in LOCKED_RESA){ if(LOCKED_RESA[lk]) s[lk]=true; }
+  return s;
+}
+function loadResaDetails(){
+  var d={}; try{ var v=localStorage.getItem("capvert26_resaDetails"); if(v) d=JSON.parse(v); }catch(e){}
+  for(var k in DEFAULT_RESA_DETAILS){ if(!d[k]) d[k]=DEFAULT_RESA_DETAILS[k]; }
+  // Pour les reservations verrouillees, on impose les details de reference.
+  for(var lk in LOCKED_RESA){ if(LOCKED_RESA[lk] && DEFAULT_RESA_DETAILS[lk]) d[lk]=DEFAULT_RESA_DETAILS[lk]; }
+  return d;
+}
+
+function buildInfo(){
+  // Load checklist state
+  var chkState = loadChkState();
+
+  var chkItems = [
+ {
+  "id": "vols",
+  "name": "Vols Transavia TO3232 / TO3233",
+  "date": "14 et 21 nov",
+  "deadline": "PAYE",
+  "color": "#2E6B3E"
+ },
+ {
+  "id": "airbnb",
+  "name": "Airbnb Sal Sol & Mar",
+  "date": "14 au 21 nov",
+  "deadline": "RESERVE",
+  "color": "#2E6B3E"
+ },
+ {
+  "id": "bikini",
+  "name": "Brunch Bikini Beach Club",
+  "date": "15 nov",
+  "deadline": "RESERVE - paiement sur place",
+  "color": "#2E6B3E"
+ },
+ {
+  "id": "plongee",
+  "name": "Plongee Cabo Verde Diving",
+  "date": "16 nov",
+  "deadline": "PAYE",
+  "color": "#2E6B3E"
+ },
+ {
+  "id": "ease",
+  "name": "Preenregistrement EASE (x4)",
+  "date": "Avant le 9 nov",
+  "deadline": "A faire sur ease.gov.cv, au moins 5 jours avant",
+  "color": "#C8573F"
+ },
+ {
+  "id": "voiture",
+  "name": "Voiture de location aeroport SID",
+  "date": "14 au 21 nov",
+  "deadline": "A reserver",
+  "color": "#C8573F"
+ },
+ {
+  "id": "parking",
+  "name": "Parking Orly",
+  "date": "14 au 21 nov",
+  "deadline": "A reserver",
+  "color": "#C8573F"
+ },
+ {
+  "id": "checkin",
+  "name": "Enregistrement en ligne aller",
+  "date": "13 nov",
+  "deadline": "Ouvre le 13/11 a 00h30",
+  "color": "#5B3A7E"
+ }
+];
+  var doneCount = chkItems.filter(function(i){ return chkState[i.id]; }).length;
+
+  // Helper accordeon : section repliable, fermee par defaut (sauf open=true)
+  function acc(title, inner, open){
+    return '<details class="acc"'+(open?' open':'')+' style="margin-bottom:10px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff">'
+      +'<summary style="list-style:none;cursor:pointer;padding:14px 16px;font-size:14px;font-weight:700;color:#1a1a1a;display:flex;justify-content:space-between;align-items:center;gap:10px">'
+      +'<span>'+title+'</span><span class="acc-chevron" style="color:#B8923D;font-size:13px;transition:transform .2s">&#9660;</span>'
+      +'</summary><div style="padding:0 14px 14px">'+inner+'</div></details>';
+  }
+
+  var h='';
+  var hChk='';
+  hChk+='<div class="chk-card" style="margin:0">';
+  hChk+='<div class="chk-head"><span class="chk-title">RESERVATIONS ESSENTIELLES</span><span class="chk-progress">'+doneCount+' / '+chkItems.length+' faites</span></div>';
+  var resaDetails = loadResaDetails();
+
+  chkItems.forEach(function(item){
+    var done = !!chkState[item.id];
+    var boxCls = done ? "chk-box done" : "chk-box";
+    var nameCls = done ? "chk-name done" : "chk-name";
+    var deadlineTxt = done ? "&#10003; Reserve !" : e(item.deadline);
+    var det = resaDetails[item.id] || {};
+    var refText = (done && (det.num||det.site)) ? ((det.num ? '# '+det.num : '') + (det.num&&det.site ? ' - ' : '') + (det.site||'')) : '';
+    var infoText = (done && det.info) ? det.info : '';
+    var locked = !!LOCKED_RESA[item.id];
+    if(locked) boxCls += ' locked';
+    hChk += '<div class="chk-item'+(locked?' locked':'')+'" data-chkid="'+item.id+'">';
+    hChk += '<div class="'+boxCls+'"><span class="chk-check">&#10003;</span></div>';
+    hChk += '<div class="chk-info" style="flex:1;min-width:0">';
+    hChk += '<div class="'+nameCls+'">'+e(item.name)+(locked?' <span class="chk-lock" title="Reservation confirmee - verrouillee">&#128274;</span>':'')+'</div>';
+    hChk += '<div class="chk-date">'+e(item.date)+'</div>';
+    hChk += '<div class="chk-deadline" style="color:'+item.color+'" data-orig="'+e(item.deadline)+'">'+deadlineTxt+'</div>';
+    if(refText) hChk += '<div class="chk-refnum">'+refText+'</div>';
+    if(infoText) hChk += '<div class="chk-infobadge" data-resaid="'+item.id+'">&#8505; <span>'+e(infoText)+'</span></div>';
+    if(done) hChk += '<button class="chk-viewbtn" data-resaid="'+item.id+'">&#128196; Voir details</button>';
+    hChk += '</div></div>';
+  });
+  hChk+='</div>';
+  h+=acc('&#9989; Checklist Reservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
+
+  // === FORMALITES ADMINISTRATIVES ===
+  var hForm='';
+  hForm+='<div style="background:#faf6ec;border-left:3px solid #B8923D;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:#5a4a22;line-height:1.6;margin-bottom:12px">'
+    +'Pour 4 voyageurs francais. Pas de visa pour un sejour touristique de moins de 30 jours, mais un <b>preenregistrement en ligne obligatoire</b> (EASE) avec une taxe aeroport.</div>';
+
+  hForm+='<div style="font-size:13px;font-weight:700;color:#1a1a1a;margin:6px 0 6px">&#128188; Passeport</div>';
+  hForm+='<div style="font-size:12.5px;color:#444;line-height:1.7;margin-bottom:14px">'
+    +'Passeport obligatoire pour chacun, en cours de validite. La regle la plus prudente : valide au moins 6 mois apres le retour, soit apres le <b>21 mai 2027</b>. Regle exacte a verifier sur France Diplomatie avant le depart.<br>'
+    +'Billet retour obligatoire (deja reserve).</div>';
+
+  hForm+='<div style="font-size:13px;font-weight:700;color:#2A6B7C;margin:6px 0 6px">&#127464;&#127483; Cap-Vert - preenregistrement EASE + taxe TSA</div>';
+  hForm+='<div style="font-size:12.5px;color:#444;line-height:1.7;margin-bottom:6px">'
+    +'<b>Obligatoire</b> pour chaque voyageur, a faire <b>au moins 5 jours avant l arrivee</b>, soit au plus tard le <b>9 novembre</b>.<br>'
+    +'Taxe de securite aeroportuaire (TSA) : <b>3 400 CVE, environ 31 EUR par personne</b>, payee en ligne par carte.<br>'
+    +'Utiliser uniquement le site officiel ease.gov.cv : des intermediaires facturent jusqu au double.<br>'
+    +'Renseigner le vol TO3232 et l adresse du logement (Rua 15 Agosto 108, Santa Maria).<br>'
+    +'Garder le recu ou le QR code de chacun en capture d ecran pour le controle a l arrivee.</div>';
+  hForm+='<a href="https://www.ease.gov.cv" target="_blank" rel="noopener" style="display:inline-block;background:#2A6B7C;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 14px;border-radius:10px;margin-bottom:16px">&#127760; ease.gov.cv</a>';
+
+  hForm+='<div style="font-size:13px;font-weight:700;color:#C8573F;margin:6px 0 6px">&#128663; Conduite</div>';
+  hForm+='<div style="font-size:12.5px;color:#444;line-height:1.7;margin-bottom:6px">'
+    +'Permis francais valide. Certains loueurs demandent ou conseillent le permis international : verifier aupres du loueur choisi au moment de reserver.</div>';
+
+  hForm+='<div style="font-size:13px;font-weight:700;color:#5B3A7E;margin:10px 0 6px">&#127973; Sante</div>';
+  hForm+='<div style="font-size:12.5px;color:#444;line-height:1.7;margin-bottom:6px">'
+    +'Aucun vaccin obligatoire en venant de France. Vaccins habituels a jour. La carte europeenne d assurance maladie ne marche pas au Cap-Vert : verifier l assistance de la carte bancaire (frais medicaux + rapatriement).</div>';
+  hForm+='<a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/conseils-par-pays-destination/cap-vert/" target="_blank" rel="noopener" style="display:inline-block;background:#5B3A7E;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 14px;border-radius:10px;margin:6px 0">&#127760; Conseils aux voyageurs - Cap-Vert</a>';
+  hForm+='<div style="font-size:11px;color:#999;line-height:1.6;margin-top:8px">S inscrire sur Ariane (France Diplomatie) avant le depart pour recevoir les alertes de securite.</div>';
+
+  h+=acc('&#128196; Formalites administratives', hForm, false);
+
+  var hVols='';
+  var volLinks = {
+    "ALLER":  {ref:"PNR K6UNPB - ref client 40-1068303696 - PAYE", site:"transavia.com - Ma reservation", url:"https://www.transavia.com"},
+    "RETOUR": {ref:"PNR K6UNPB - ref client 40-1068303696 - PAYE", site:"transavia.com - Ma reservation", url:"https://www.transavia.com"},
+  };
+  VLS.forEach(function(v){
+    var lnk = volLinks[v.type] || {};
+    hVols+='<div class="vc"><div class="vi"><div class="vt">'+e(v.type)+'</div><div class="vr">'+e(v.route)+'</div><div class="vd">'+e(v.airline)+'</div><div class="vd">'+e(v.schedule)+'</div>';
+    if(lnk.ref) hVols+='<div class="vd" style="margin-top:4px">Ref : <b>'+e(lnk.ref)+'</b></div>';
+    if(lnk.url) hVols+='<a href="'+lnk.url+'" target="_blank" style="font-size:11px;font-weight:700;color:#2A6B7C;text-decoration:none;display:inline-block;margin-top:4px">&#127760; '+e(lnk.site)+'</a>';
+    hVols+='<div class="vo">Paye - 2 426,00 EUR pour 4</div></div></div>';
+  });
+  h+='<div id="section-vols" style="scroll-margin-top:60px"></div>'+acc('&#9992;&#65039; Vols', hVols, false);
+  // === Section Trains (recap facon Vols) ===
+  if(TRN.length){
+    var hTrains='';
+    TRN.forEach(function(t,ti){
+      var badge = t.pass
+        ? '<span style="display:inline-block;background:#2A6B7C;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">INCLUS PASS</span>'
+        : '<span style="display:inline-block;background:#C8573F;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">NON INCLUS - billet a acheter</span>';
+      hTrains+='<div class="vc" id="train-'+ti+'" style="scroll-margin-top:70px"><div class="vi">';
+      hTrains+='<div class="vt">'+e(t.date)+' - '+e(t.time)+'</div>';
+      hTrains+='<div class="vr">'+e(t.from)+' &rarr; '+e(t.to)+'</div>';
+      hTrains+='<div class="vd">'+e(t.line)+'</div>';
+      hTrains+='<div class="vd" style="margin-top:5px">'+badge+'</div>';
+      hTrains+='</div></div>';
+    });
+    h+='<div id="section-trains" style="scroll-margin-top:60px"></div>'+acc('&#128642; Trains', hTrains, false);
+  }
+  var hHeb='<div class="hl" style="margin:0">';
+  [
+ {
+  "dates": "14-21 NOV",
+  "name": "Airbnb Sal Sol & Mar",
+  "stars": "Airbnb - 7 nuits",
+  "addr": "Rua 15 Agosto 108, Santa Maria, Sal 4111, Cap-Vert",
+  "ref": "Airbnb HMYTYQTCD3",
+  "maps": "https://www.google.com/maps/search/?api=1&query=Rua+15+de+Agosto+108+Santa+Maria+Sal+Cabo+Verde"
+ }
+]
+  .forEach(function(hh){
+    var mapsLink=hh.maps?'<a href="'+hh.maps+'" target="_blank" rel="noopener" class="maps-btn" style="margin-top:5px">&#128205; Maps</a>':"";
+    var infoLink=(typeof INFO_DATA!=="undefined" && INFO_DATA[hh.name])?'<button class="info-btn" onclick="openInfo(this)" data-key="'+hh.name.replace(/'/g,"&#39;")+'" style="margin-top:5px;margin-left:6px">&#9432; Infos</button>':"";
+    hHeb+='<div class="hr2"><div style="flex:1;min-width:0"><div class="hn">'+e(hh.name)+'</div><div class="hs">'+e(hh.stars)+' - '+e(hh.dates)+'</div><div class="ha">'+e(hh.addr)+'</div>'+mapsLink+infoLink+'</div><div class="href" style="text-align:right">'+e(hh.ref)+'</div></div>';
+  });
+  hHeb+='</div>';
+  h+=acc('&#127976; Hebergements', hHeb, false);
+
+  var hEss='<div class="el" style="margin:0">';
+  ESS.forEach(function(es){
+    hEss+='<div class="er"><div class="edd"></div><div><div class="ela">'+e(es.label)+'</div><div class="elv">'+e(es.val)+'</div></div></div>';
+  });
+  hEss+='</div>';
+  h+=acc('&#127890; Essentiels a emporter', hEss, false);
+
+  // === MISE A JOUR (derniere section) ===
+  var hMaj='';
+  hMaj+='<div style="font-size:12.5px;color:#444;line-height:1.7;margin-bottom:12px">'
+    +'Derniere mise a jour installee sur cet appareil :<br>'
+    +'<span id="majDate" style="font-weight:700;color:#1a1a1a;font-size:14px">verification...</span>'
+    +'</div>';
+  hMaj+='<button id="majRefreshBtn" onclick="majRefresh()" style="width:100%;background:#B8923D;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer">&#128260; Verifier et recharger</button>';
+  hMaj+='<div id="majStatus" style="font-size:11px;color:#999;line-height:1.6;margin-top:10px;text-align:center">Touchez pour rechercher la derniere version en ligne.</div>';
+  h+=acc('&#128260; Mise a jour', hMaj, false);
+
+  document.getElementById("ic").innerHTML=h;
+  majShowDate();
+}
+
+/* ===== MISE A JOUR (accordeon Infos) ===== */
+function majFormatTs(raw){
+  // raw attendu : carnet-capvert-YYYYMMDD-HHMMSS
+  var m=String(raw||"").match(/(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})/);
+  if(!m) return raw||"inconnue";
+  var mois=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
+  return parseInt(m[3],10)+" "+mois[parseInt(m[2],10)-1]+" "+m[1]+" a "+m[4]+"h"+m[5];
+}
+function majShowDate(){
+  var el=document.getElementById("majDate");
+  if(!el) return;
+  if(!('caches' in window)){ el.textContent="non disponible (mode navigateur)"; return; }
+  caches.keys().then(function(keys){
+    var k=keys.filter(function(x){return x.indexOf("carnet-capvert-")===0;}).sort().pop();
+    el.textContent = k ? majFormatTs(k) : "aucune version en cache";
+  }).catch(function(){ el.textContent="inconnue"; });
+}
+function majRefresh(){
+  var st=document.getElementById("majStatus");
+  var btn=document.getElementById("majRefreshBtn");
+  if(btn){ btn.disabled=true; btn.style.opacity=".6"; }
+  if(st) st.textContent="Recherche de la derniere version...";
+  if(!('serviceWorker' in navigator)){ window.location.reload(true); return; }
+  navigator.serviceWorker.getRegistration().then(function(reg){
+    if(!reg){ window.location.reload(true); return; }
+    return reg.update().then(function(){
+      // Si une nouvelle version est en attente, l'activer
+      var waiting=reg.waiting;
+      if(waiting){
+        waiting.postMessage && waiting.postMessage('skipWaiting');
+      }
+      if(st) st.textContent="Application de la mise a jour...";
+      setTimeout(function(){ window.location.reload(true); }, 600);
+    });
+  }).catch(function(){ window.location.reload(true); });
+}
+
+function buildTips(){
+  // Change : escudo a parite fixe avec l euro
+  var h='<div class="st">Taux de change</div>';
+  h+='<div id="currencyBox" style="display:flex;gap:10px;margin-bottom:14px">';
+  h+='<div style="flex:1;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)">';
+  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">CAP-VERT</div>';
+  h+='<div style="font-size:11px;color:#666;margin-bottom:4px">1 EUR =</div>';
+  h+='<div id="cveRate" style="font-size:28px;font-weight:800;color:#1a1a1a;line-height:1">110,265</div>';
+  h+='<div style="font-size:11px;font-weight:600;color:#2A6B7C;margin-top:4px">CVE (escudo)</div>';
+  h+='</div>';
+  h+='<div style="flex:1;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)">';
+  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">REPERE</div>';
+  h+='<div style="font-size:11px;color:#666;margin-bottom:4px">1 000 CVE =</div>';
+  h+='<div style="font-size:28px;font-weight:800;color:#1a1a1a;line-height:1">9,07</div>';
+  h+='<div style="font-size:11px;font-weight:600;color:#C8573F;margin-top:4px">EUR</div>';
+  h+='</div>';
+  h+='</div>';
+  h+='<div id="rateInfo" style="font-size:10px;color:#AAA;text-align:center;margin-bottom:10px">Parite fixe avec l euro</div>';
+  h+='<div style="background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">';
+  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:10px">CALCULATRICE DE CHANGE</div>';
+  h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">';
+  h+='<input id="calcInput" type="number" placeholder="Montant" oninput="calcChange()" style="flex:1;border:1.5px solid #f0ead4;border-radius:10px;padding:10px 12px;font-size:16px;font-weight:600;color:#1a1a1a;outline:none;-webkit-appearance:none">';
+  h+='<div style="display:flex;flex-direction:column;gap:4px">';
+  h+='<button data-cur="EUR" id="btnEUR" class="cur-btn" style="padding:6px 10px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:#C9A84C;color:#1a1a1a">EUR</button>';
+  h+='<button data-cur="CVE" id="btnCVE" class="cur-btn" style="padding:6px 10px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:#f0f0f0;color:#666">CVE</button>';
+  h+='</div></div>';
+  h+='<div id="calcResult" style="font-size:13px;color:#444;line-height:1.9;min-height:44px">Entrez un montant ci-dessus</div>';
+  h+='</div>';
+
+  // ── FUSEAUX HORAIRES ──
+  h+='<div class="st">Fuseaux Horaires</div>';
+  h+='<div style="display:flex;gap:8px;margin-bottom:6px" id="clockBox">';
+  h+='<div style="flex:1;background:#fff;border-radius:14px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)">';
+  h+='<div style="font-size:9px;font-weight:700;color:#AAA;letter-spacing:1px;margin-bottom:4px">PARIS</div>';
+  h+='<div id="clock-paris" style="font-size:22px;font-weight:800;color:#1a1a1a;line-height:1;font-variant-numeric:tabular-nums">--:--</div>';
+  h+='<div style="font-size:9px;color:#AAA;margin-top:3px">UTC+1</div>';
+  h+='</div>';
+  h+='<div style="flex:1;background:#fff;border-radius:14px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)">';
+  h+='<div style="font-size:9px;font-weight:700;color:#2A6B7C;letter-spacing:1px;margin-bottom:4px">ILE DE SAL</div>';
+  h+='<div id="clock-sal" style="font-size:22px;font-weight:800;color:#2A6B7C;line-height:1;font-variant-numeric:tabular-nums">--:--</div>';
+  h+='<div style="font-size:9px;color:#AAA;margin-top:3px">UTC-1</div>';
+  h+='</div>';
+  h+='</div>';
+  h+='<div style="font-size:10px;color:#AAA;text-align:center;margin-bottom:14px">Sal = Paris moins 2 heures en novembre</div>';
+
+  h+='<div class="st">Meteo en direct</div>';
+  h+='<div id="weatherBox" style="display:flex;flex-direction:column;gap:10px;margin-bottom:6px">';
+  h+='<div style="text-align:center;padding:16px;color:#AAA;font-size:12px">Chargement de la meteo...</div>';
+  h+='</div>';
+  h+='<div style="font-size:10px;color:#AAA;text-align:center;margin-bottom:14px">Normales de novembre : 28 C le jour, 22 C la nuit, mer a 26 C, soleil jusqu a 17h58</div>';
+
+  // ── INFOS PRATIQUES CAP-VERT ──
+  var prat=[
+    ["Urgences","Police 132 - Hopital 130 - Pompiers 131"],
+    ["Ambassade de France (Praia)","+238 260 45 35 - urgence absolue +238 991 21 29"],
+    ["Plongee - Cabo Verde Diving","+238 595 37 96 (tel et WhatsApp)"],
+    ["Argent","Escudo (CVE), parite fixe 1 EUR = 110,265 CVE. Euro accepte dans les lieux touristiques avec un taux moins bon. Carte refusee dans certains petits commerces : garder des especes."],
+    ["Telephone","Le Cap-Vert est hors Union europeenne : le forfait francais facture le roaming. Prendre une eSIM ou une carte SIM locale, ou rester en wifi."],
+    ["Electricite","220 V, prises C et F comme en France. Pas d adaptateur."],
+    ["Eau","Boire de l eau en bouteille."],
+    ["Soleil","Indice UV jusqu a 9. Creme, chapeau, lunettes meme quand le vent rafraichit."],
+    ["Mer","Vent et courants parfois forts selon les plages. La baie de Santa Maria, cote ponton, est la plus abritee pour se baigner."],
+    ["Langue","Portugais officiel, creole au quotidien. Francais et anglais compris dans le tourisme a Sal."],
+    ["Securite","Ile calme. Ne rien laisser en vue dans la voiture ni sans surveillance sur la plage."]
+  ];
+  h+='<div class="st">Infos pratiques Cap-Vert</div><div class="el" style="margin-bottom:14px">';
+  prat.forEach(function(p){
+    h+='<div class="er"><div class="edd"></div><div><div class="ela">'+e(p[0])+'</div><div class="elv">'+e(p[1])+'</div></div></div>';
+  });
+  h+='</div>';
+
+  h+='<div class="st">Phrases utiles en portugais</div><div class="phl">';
+  PHS.forEach(function(p){
+    h+='<div class="phr"><span class="phj">'+e(p.jp)+'</span><span class="phf">'+e(p.fr)+'</span></div>';
+  });
+  h+='</div>';
+  document.getElementById("tc2").innerHTML=h;
+}
+
+// ── SCROLL TO TOP ──────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function(){
+  var main = document.getElementById("main");
+  if(main){
+    main.addEventListener("scroll", function(){
+      var btn = document.getElementById("scrollTopBtn");
+      if(!btn) return;
+      if(main.scrollTop > 200) btn.classList.add("show");
+      else btn.classList.remove("show");
+    }, {passive:true});
+  }
+});
+
+var currentResaId = null;
+
+function toggleChk(id){
+  var state = {};
+  var state = loadChkState();
+  if(!state[id]){
+    // Not yet done - open modal to enter reservation details
+    currentResaId = id;
+    var item = document.querySelector('[data-chkid="'+id+'"]');
+    var name = item ? item.querySelector(".chk-name") : null;
+    document.getElementById("resaModalTitle").textContent = (name ? name.textContent : id) + " - Details reservation";
+    // Pre-fill if already has data
+    var details = {};
+    var details = loadResaDetails();
+    document.getElementById("resaNumInput").value = (details[id] && details[id].num) || "";
+    document.getElementById("resaSiteInput").value = (details[id] && details[id].site) || "";
+    document.getElementById("resaInfoInput").value = (details[id] && details[id].info) || "";
+    document.getElementById("resaModal").classList.add("open");
+  } else {
+    // Reservation verrouillee (deja payee/confirmee) : on interdit le decochage.
+    if(LOCKED_RESA[id]){
+      var it = document.querySelector('[data-chkid="'+id+'"]');
+      if(it){
+        it.classList.remove("chk-shake");
+        void it.offsetWidth; // reflow pour relancer l'animation
+        it.classList.add("chk-shake");
+        setTimeout(function(){ it.classList.remove("chk-shake"); }, 500);
+      }
+      return;
+    }
+    // Already done - uncheck directly
+    state[id] = false;
+    try{ localStorage.setItem("capvert26_chkState", JSON.stringify(state)); }catch(e){}
+    buildInfo();
+    updateProgress();
+  }
+}
+
+function saveResaDetails(){
+  var id = currentResaId;
+  if(!id) return;
+  var num = document.getElementById("resaNumInput").value.trim();
+  var site = document.getElementById("resaSiteInput").value.trim();
+  var info = document.getElementById("resaInfoInput").value.trim();
+  // Save state
+  var state = {};
+  var state = loadChkState();
+  state[id] = true;
+  try{ localStorage.setItem("capvert26_chkState", JSON.stringify(state)); }catch(e){}
+  // Save details
+  var details = {};
+  var details = loadResaDetails();
+  details[id] = {num: num, site: site, info: info};
+  try{ localStorage.setItem("capvert26_resaDetails", JSON.stringify(details)); }catch(e){}
+  closeResaModal();
+  buildInfo();
+  updateProgress();
+  // Scroll back to checklist
+  setTimeout(function(){
+    var el = document.querySelector('[data-chkid="'+id+'"]');
+    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  }, 100);
+}
+
+var currentViewId = null;
+
+function viewResaDetails(evt, id){
+  evt.stopPropagation();
+  currentViewId = id;
+  var details = {};
+  var details = loadResaDetails();
+  var det = details[id] || {};
+  var item = document.querySelector('[data-chkid="'+id+'"]');
+  var name = item ? (item.querySelector(".chk-name") || {textContent:id}) : {textContent:id};
+  document.getElementById("resaDetailsName").textContent = name.textContent.replace(/\u0336/g,"");
+  var html = "";
+  if(det.num) html += '<div class="resa-detail-row"><div class="resa-detail-label">NUMERO DE RESERVATION</div><div class="resa-detail-value">'+det.num+'</div></div>';
+  if(det.site) html += '<div class="resa-detail-row"><div class="resa-detail-label">SITE / PLATEFORME</div><div class="resa-detail-value">'+det.site+'</div></div>';
+  if(det.info) html += '<div class="resa-detail-row"><div class="resa-detail-label">INFO COMPLEMENTAIRE</div><div class="resa-detail-value">'+det.info+'</div></div>';
+  if(!det.num && !det.site && !det.info) html = '<div style="color:#AAA;font-size:13px;padding:10px 0">Aucun detail enregistre.</div>';
+  document.getElementById("resaDetailsBody").innerHTML = html;
+  document.getElementById("resaDetailsPopup").classList.add("open");
+}
+
+function closeResaDetails(){
+  document.getElementById("resaDetailsPopup").classList.remove("open");
+  currentViewId = null;
+}
+
+function editResaFromDetails(){
+  closeResaDetails();
+  if(currentViewId) setTimeout(function(){ openResaBadge({stopPropagation:function(){}}, currentViewId); }, 100);
+}
+
+function openResaBadge(evt, id){
+  evt.stopPropagation();
+  // Re-open modal to edit
+  currentResaId = id;
+  var item = document.querySelector('[data-chkid="'+id+'"]');
+  var name = item ? item.querySelector(".chk-name") : null;
+  document.getElementById("resaModalTitle").textContent = (name ? name.textContent : id) + " - Details reservation";
+  var details = {};
+  var details = loadResaDetails();
+  document.getElementById("resaNumInput").value = (details[id] && details[id].num) || "";
+  document.getElementById("resaSiteInput").value = (details[id] && details[id].site) || "";
+  document.getElementById("resaInfoInput").value = (details[id] && details[id].info) || "";
+  document.getElementById("resaModal").classList.add("open");
+}
+
+function closeResaModal(){
+  document.getElementById("resaModal").classList.remove("open");
+  currentResaId = null;
+}
+
+function updateChkDOM(id, done, num, site, info){
+  var item = document.querySelector('[data-chkid="'+id+'"]');
+  if(!item) return;
+  var box = item.querySelector(".chk-box");
+  var name = item.querySelector(".chk-name");
+  var deadline = item.querySelector(".chk-deadline");
+  var refEl = item.querySelector(".chk-refnum");
+  if(box) box.className = done ? "chk-box done" : "chk-box";
+  if(name) name.className = done ? "chk-name done" : "chk-name";
+  if(deadline) deadline.innerHTML = done ? "&#10003; Reserve !" : (deadline.getAttribute("data-orig")||"");
+  if(refEl){
+    if(done && (num||site)) refEl.textContent = (num ? "# "+num : "") + (num&&site ? " - " : "") + (site||"");
+    else refEl.textContent = "";
+  }
+  // Show ref number + site below name
+  if(refEl){
+    if(done && (num||site)) refEl.textContent = (num ? "# "+num : "") + (num&&site ? " - " : "") + (site||"");
+    else refEl.textContent = "";
+  }
+  // Show info badge
+  var badgeEl = item ? item.querySelector(".chk-infobadge") : null;
+  if(badgeEl){
+    if(done && info){ badgeEl.style.display="inline-flex"; badgeEl.querySelector("span").textContent=info; }
+    else badgeEl.style.display="none";
+  }
+  // Show view-details button
+  var viewBtn = item ? item.querySelector(".chk-viewbtn") : null;
+  if(viewBtn) viewBtn.style.display = done ? "inline-flex" : "none";
+}
+
+function updateProgress(){
+  var allState = {};
+  var allState = loadChkState();
+  var doneCount = Object.values(allState).filter(Boolean).length;
+  var prog = document.querySelector(".chk-progress");
+  if(prog) prog.textContent = doneCount + " / " + chkItems.length + " faites";
+}
+
+
+
+function shareDay(){
+  if(!curDay) return;
+  var text = "📅 " + curDay.label + "\n\n";
+  curDay.events.forEach(function(ev){
+    text += "⏰ " + ev.time + " — " + ev.title + "\n";
+  });
+  text += "\n🏝 Cap-Vert - Ile de Sal 2026";
+  if(navigator.share){
+    navigator.share({title: curDay.date + " — Carnet Voyage", text: text})
+      .catch(function(){});
+  } else {
+    // Fallback: copy to clipboard
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    // Show brief confirmation
+    var btn = document.querySelector(".share-btn");
+    if(btn){ var orig=btn.innerHTML; btn.innerHTML="✓ Copié !"; setTimeout(function(){ btn.innerHTML=orig; },2000); }
+  }
+}
+
+function scrollToTop(){
+  var main = document.getElementById("main");
+  if(main) main.scrollTo({top:0, behavior:"smooth"});
+}
+
+// ── INFO POPUP ──────────────────────────────────────────
+function infoEsc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function infoSection(label, color, items){
+  if(!items || !items.length) return "";
+  var h='<div style="margin-top:14px"><div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:'+color+';margin-bottom:6px">'+infoEsc(label)+'</div>';
+  h+='<div style="font-size:13px;color:#444;line-height:1.7">';
+  for(var i=0;i<items.length;i++){
+    h+='<div style="display:flex;gap:8px;margin-bottom:3px"><span style="color:'+color+';flex-shrink:0">–</span><span>'+infoEsc(items[i])+'</span></div>';
+  }
+  return h+'</div></div>';
+}
+function infoLogistique(blocks){
+  if(!blocks || !blocks.length) return "";
+  var SLATE = "#5A6472";
+  var h='<div style="margin-top:20px;border-top:1px solid #e2e5ea;padding-top:14px">';
+  h+='<div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:'+SLATE+';margin-bottom:10px">';
+  h+='<span style="font-size:13px">&#9881;</span><span>Infos pratiques</span></div>';
+  h+='<div style="background:#f5f6f8;border-radius:10px;padding:12px 14px">';
+  for(var b=0;b<blocks.length;b++){
+    var bl=blocks[b];
+    h+='<div style="'+(b>0?'margin-top:12px;':'')+'">';
+    if(bl.titre){
+      h+='<div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:'+SLATE+';margin-bottom:5px">'+infoEsc(bl.titre)+'</div>';
+    }
+    var lignes=bl.lignes||[];
+    h+='<div style="font-size:13px;color:#3d4350;line-height:1.7">';
+    for(var i=0;i<lignes.length;i++){
+      h+='<div style="display:flex;gap:8px;margin-bottom:2px"><span style="color:'+SLATE+';flex-shrink:0">·</span><span>'+infoEsc(lignes[i])+'</span></div>';
+    }
+    h+='</div></div>';
+  }
+  return h+'</div></div>';
+}
+function openInfo(btn) {
+  var key = btn.getAttribute("data-key");
+  var d = INFO_DATA[key];
+  if (!d) return;
+  var GOLD = "#B8923D";
+  var titleEl = document.getElementById("infoTitle");
+  titleEl.textContent = d.title;
+  var isRich = d.intro || d.horaires || d.tarifs || d.duree || d.voir || d.conseil || d.logistique;
+  if (isRich) {
+    titleEl.style.fontFamily = "Georgia, 'Times New Roman', serif";
+    titleEl.style.fontSize = "20px";
+    titleEl.style.borderBottom = "2px solid " + GOLD;
+    titleEl.style.paddingBottom = "8px";
+  } else {
+    titleEl.style.fontFamily = "";
+    titleEl.style.fontSize = "15px";
+    titleEl.style.borderBottom = "";
+    titleEl.style.paddingBottom = "";
+  }
+
+  var ii = document.getElementById("infoImg");
+  if (ii) {
+    if (d.image) {
+      ii.innerHTML = '<img src="./' + d.image + '" alt="' + infoEsc(d.title) + '" style="width:100%;height:auto;display:block;border-radius:12px" '
+        + 'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'">'
+        + '<div style="display:none;border:1.5px dashed ' + GOLD + ';border-radius:12px;padding:18px;text-align:center;font-size:12px;color:#8a6d2f;background:#faf6ec">'
+        + 'Ajoute une image nommee <strong>' + infoEsc(d.image) + '</strong> dans GitHub, a cote de index.html</div>';
+      ii.style.display = "block";
+    } else { ii.innerHTML = ""; ii.style.display = "none"; }
+  }
+
+  var body = document.getElementById("infoBody");
+  if (isRich) {
+    var h = "";
+    if (d.intro) h += '<div style="font-size:13px;color:#444;line-height:1.8;white-space:pre-wrap">' + infoEsc(d.intro) + '</div>';
+    if (d.mapsUrl) h += '<a href="' + infoEsc(d.mapsUrl) + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;margin-top:12px;background:#fff;border:1.5px solid ' + GOLD + ';color:#8a6d2f;border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;text-decoration:none">&#128205; ' + infoEsc(d.mapsLabel || "Itineraire Maps") + '</a>';
+    h += infoSection("Horaires", GOLD, d.horaires);
+    h += infoSection("Tarifs", GOLD, d.tarifs);
+    if (d.duree) h += infoSection("Duree conseillee", GOLD, [d.duree]);
+    h += infoSection("A ne pas manquer", GOLD, d.voir);
+    if (d.conseil) {
+      h += '<div style="margin-top:16px;border-left:3px solid ' + GOLD + ';background:#faf6ec;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12.5px;color:#5a4a22;line-height:1.7;font-style:italic">'
+        + infoEsc(d.conseil) + '</div>';
+    }
+    h += infoLogistique(d.logistique);
+    if (d.mailImage || (d.mailImages && d.mailImages.length)) {
+      var imgs = d.mailImages && d.mailImages.length ? d.mailImages : [{src:d.mailImage, legende:d.mailLegende}];
+      h += '<div style="margin-top:18px;padding-top:14px;border-top:1px solid #e4dcc8">'
+        + '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:12px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px">Confirmation de reservation</div>';
+      for (var mi = 0; mi < imgs.length; mi++) {
+        var im0 = imgs[mi];
+        h += '<a href="' + im0.src + '" target="_blank" rel="noopener" style="display:block;border:1px solid #e4dcc8;border-radius:10px;overflow:hidden;background:#fff' + (mi > 0 ? ';margin-top:10px' : '') + '">'
+          + '<img src="' + im0.src + '" alt="Confirmation de reservation" style="width:100%;height:auto;display:block">'
+          + '</a>'
+          + (im0.legende ? '<div style="margin-top:7px;font-size:11px;color:#8a7a5c;font-style:italic;text-align:center">' + infoEsc(im0.legende) + ' - toucher pour agrandir</div>' : '');
+      }
+      h += '</div>';
+    }
+    body.innerHTML = h;
+    body.style.whiteSpace = "normal";
+  } else {
+    body.textContent = d.body || "";
+    body.style.whiteSpace = "pre-wrap";
+  }
+
+  var ov = document.getElementById("infoOverlay");
+  ov.style.display = "flex";
+  ov.style.alignItems = "flex-end";
+  ov.style.justifyContent = "center";
+  document.getElementById("main").style.overflow = "hidden";
+}
+
+function closeInfoOverlay() {
+  document.getElementById("infoOverlay").style.display = "none";
+  document.getElementById("main").style.overflow = "";
+}
+
+/* ===== OUTIL DE RECHERCHE (overlay loupe) ===== */
+var SEARCH_FILTER = "all";
+function srchNorm(s){
+  return String(s||"").toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9 ]/g," ");
+}
+function srchTypeLabel(t){var m={activity:"Visite",meal:"Repas",show:"Spectacle",transport:"Transport",train:"Transport",hotel:"Sejour"};return m[t]||"Info";}
+function srchTypeColor(t){var m={activity:"#2A6B7C",meal:"#C8573F",show:"#5B3A7E",transport:"#777",train:"#777",hotel:"#1a7c4a"};return m[t]||"#777";}
+function openSearch(){
+  var ov=document.getElementById("searchOverlay");
+  ov.style.display="flex";
+  document.getElementById("main").style.overflow="hidden";
+  document.getElementById("searchInput").value="";
+  SEARCH_FILTER="all";
+  renderSearchFilters();
+  renderSearch();
+  setTimeout(function(){var i=document.getElementById("searchInput"); if(i) i.focus();},80);
+}
+function closeSearch(){
+  document.getElementById("searchOverlay").style.display="none";
+  document.getElementById("main").style.overflow="";
+}
+function setSearchFilter(f){ SEARCH_FILTER=f; renderSearchFilters(); renderSearch(); }
+function renderSearchFilters(){
+  var filters=[["all","Tout"],["activity","Visites"],["meal","Repas"],["show","Spectacles"],["transport","Transport"]];
+  var h="";
+  filters.forEach(function(f){
+    var on=(SEARCH_FILTER===f[0]);
+    h+='<button onclick="setSearchFilter(\''+f[0]+'\')" style="border:1.5px solid '+(on?"#B8923D":"#ddd")+';background:'+(on?"#B8923D":"#fff")+';color:'+(on?"#fff":"#666")+';border-radius:16px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer">'+f[1]+'</button>';
+  });
+  document.getElementById("searchFilters").innerHTML=h;
+}
+function srchMatchesFilter(type){
+  if(SEARCH_FILTER==="all") return true;
+  if(SEARCH_FILTER==="transport") return (type==="transport"||type==="train");
+  return type===SEARCH_FILTER;
+}
+function searchJump(dayId, evIdx){
+  closeSearch();
+  openDay(dayId);
+  setTimeout(function(){
+    var el=document.getElementById("ev-"+dayId+"-"+evIdx);
+    var main=document.getElementById("main");
+    if(el && main){
+      el.scrollIntoView({behavior:"smooth",block:"center"});
+      el.style.transition="box-shadow .3s";
+      el.style.boxShadow="0 0 0 2px #B8923D";
+      setTimeout(function(){el.style.boxShadow="";},1700);
+    }
+  },120);
+}
+function renderSearch(){
+  var qRaw=document.getElementById("searchInput").value;
+  var q=srchNorm(qRaw).trim();
+  var terms=q.split(/\s+/).filter(Boolean);
+  var box=document.getElementById("searchResults");
+  var h="";
+  var anyResult=false;
+
+  CHS.forEach(function(ch){
+    var cityDays=DYS.filter(function(d){return d.chap===ch.id;});
+    var cityHtml="";
+    var cityCount=0;
+
+    cityDays.forEach(function(day){
+      var evHtml="";
+      day.events.forEach(function(ev,i){
+        if(!srchMatchesFilter(ev.type)) return;
+        var hayText=srchNorm(ev.title+" "+(ev.body||""));
+        var hayDate=srchNorm(day.date);
+        var ok=terms.every(function(t){
+          if(/^[0-9]+$/.test(t)) return hayDate.indexOf(t)>=0;
+          return (hayText.indexOf(t)>=0 || hayDate.indexOf(t)>=0);
+        });
+        if(!ok) return;
+        cityCount++;
+        anyResult=true;
+        var col=srchTypeColor(ev.type);
+        evHtml+='<div onclick="searchJump('+day.id+','+i+')" style="display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:8px;cursor:pointer;border-bottom:1px solid #f2f2f2">'
+          +'<div style="width:3px;align-self:stretch;background:'+col+';border-radius:2px;flex-shrink:0"></div>'
+          +'<div style="flex:1;min-width:0">'
+          +'<div style="font-size:13.5px;color:#1a1a1a;font-weight:600;line-height:1.3">'+e(ev.title)+'</div>'
+          +'<div style="font-size:11px;color:'+col+';font-weight:600;margin-top:2px">'+srchTypeLabel(ev.type)+' &middot; '+e(ev.time)+'</div>'
+          +'</div>'
+          +'<div style="background:'+ch.color+';color:#fff;border-radius:12px;padding:4px 9px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0">J'+day.dayNum+' &middot; '+e(day.date.replace(" AOUT",""))+'</div>'
+          +'</div>';
+      });
+      if(evHtml){
+        cityHtml+='<div style="padding:6px 8px 2px;font-size:11px;color:#999;font-weight:700;letter-spacing:.5px">'+e(day.date)+' &mdash; '+e(day.location)+'</div>'+evHtml;
+      }
+    });
+
+    if(cityCount>0){
+      var openAttr=(terms.length>0)?" open":"";
+      cityHtml='<details'+openAttr+' style="margin-bottom:10px;border:1px solid #eee;border-radius:12px;overflow:hidden">'
+        +'<summary style="list-style:none;cursor:pointer;padding:12px 14px;background:'+ch.color+';color:#fff;font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center">'
+        +'<span>'+e(ch.city)+'</span>'
+        +'<span style="background:rgba(255,255,255,.22);border-radius:12px;padding:2px 9px;font-size:11px">'+cityCount+'</span>'
+        +'</summary><div style="padding:4px 8px 8px">'+cityHtml+'</div></details>';
+      h+=cityHtml;
+    }
+  });
+
+  if(!anyResult){
+    h='<div style="text-align:center;color:#999;padding:40px 20px;font-size:13px">Aucun resultat'+(qRaw?' pour "'+e(qRaw)+'"':"")+'.</div>';
+  }
+  box.innerHTML=h;
+}
+
+function updateClocks(){
+  var now = new Date();
+  var paris = new Date(now.toLocaleString("en-US", {timeZone:"Europe/Paris"}));
+  var sal   = new Date(now.toLocaleString("en-US", {timeZone:"Atlantic/Cape_Verde"}));
+  function fmt(d){ return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
+  var cp = document.getElementById("clock-paris");
+  var cs = document.getElementById("clock-sal");
+  if(cp) cp.textContent = fmt(paris);
+  if(cs) cs.textContent = fmt(sal);
+}
+updateClocks();
+setInterval(updateClocks, 10000);
+
+var WEATHER_CITIES = [
+  {name:"Santa Maria", lat:16.5977, lon:-22.9045, color:"#2A6B7C"},
+  {name:"Espargos",    lat:16.7550, lon:-22.9440, color:"#C8573F"}
+];
+
+function weatherIcon(code){
+  if(code===0) return "Ensoleille";
+  if(code<=2)  return "Peu nuageux";
+  if(code<=3)  return "Nuageux";
+  if(code<=49) return "Brouillard";
+  if(code<=59) return "Bruine";
+  if(code<=69) return "Pluie";
+  if(code<=79) return "Neige";
+  if(code<=82) return "Averses";
+  if(code<=95) return "Orage";
+  return "Variable";
+}
+
+function fetchWeather(){
+  var box = document.getElementById("weatherBox");
+  if(!box) return;
+  var results = [];
+  var done = 0;
+  WEATHER_CITIES.forEach(function(city, idx){
+    var url = "https://api.open-meteo.com/v1/forecast?latitude="+city.lat+"&longitude="+city.lon
+      +"&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+      +"&timezone=auto&forecast_days=2";
+    fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        results[idx] = {city:city, data:d};
+        done++;
+        if(done === WEATHER_CITIES.length) finishWeather(results);
+      })
+      .catch(function(){
+        results[idx] = {city:city, data:null};
+        done++;
+        if(done === WEATHER_CITIES.length) finishWeather(results);
+      });
+  });
+}
+
+// Traite les resultats meteo : cache si OK, sinon reutilise la derniere prevision reelle.
+function finishWeather(results){
+  var anyData = results.some(function(r){ return r && r.data && r.data.daily; });
+  if(anyData){
+    // Au moins une ville a repondu : on met en cache et on affiche en direct
+    try{
+      var payload = results.map(function(r){ return { name:r.city.name, data:(r.data&&r.data.daily)?r.data:null }; });
+      localStorage.setItem("capvert26_lastWeather", JSON.stringify({ results:payload, ts:Date.now() }));
+    }catch(e){}
+    renderWeather(results, null);
+    return;
+  }
+  // Tout est hors ligne : tenter la derniere prevision reelle mise en cache
+  var cached=null;
+  try{ var v=localStorage.getItem("capvert26_lastWeather"); if(v) cached=JSON.parse(v); }catch(e){}
+  if(cached && cached.results){
+    var merged = WEATHER_CITIES.map(function(city){
+      var found = cached.results.find(function(c){ return c.name===city.name; });
+      return { city:city, data:(found?found.data:null) };
+    });
+    renderWeather(merged, cached.ts);
+  } else {
+    renderWeather(results, null);
+  }
+}
+
+function weatherEmoji(code){
+  if(code===0) return "&#9728;&#65039;";
+  if(code<=2)  return "&#9925;";
+  if(code<=3)  return "&#9729;";
+  if(code<=49) return "&#127787;";
+  if(code<=59) return "&#127746;";
+  if(code<=67) return "&#127783;";
+  if(code<=69) return "&#127784;";
+  if(code<=79) return "&#127781;";
+  if(code<=82) return "&#127783;";
+  if(code<=95) return "&#9928;";
+  return "&#9729;";
+}
+
+function renderWeather(results, offlineTs){
+  var box = document.getElementById("weatherBox");
+  if(!box) return;
+  var days = ["Aujourd hui","Demain"];
+  var html = "";
+  if(offlineTs){
+    var wd = new Date(offlineTs);
+    var whh = wd.getHours().toString().padStart(2,"0");
+    var wmm = wd.getMinutes().toString().padStart(2,"0");
+    html += '<div style="font-size:11px;color:#AAA;margin-bottom:8px">Derniere prevision du '+wd.toLocaleDateString("fr-FR")+' a '+whh+'h'+wmm+' (hors ligne)</div>';
+  }
+  results.forEach(function(r){
+    html += '<div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)">';
+    html += '<div style="background:'+r.city.color+';padding:10px 14px">';
+    html += '<span style="font-size:13px;font-weight:700;color:#fff;letter-spacing:1px">'+r.city.name.toUpperCase()+'</span>';
+    html += '</div>';
+    if(!r.data || !r.data.daily){
+      html += '<div style="padding:12px 14px;font-size:12px;color:#AAA">Meteo non disponible (hors ligne)</div>';
+    } else {
+      var d = r.data.daily;
+      html += '<div style="display:flex">';
+      for(var i=0;i<2;i++){
+        html += '<div style="flex:1;padding:12px 10px;text-align:center;'+(i===0?'border-right:1px solid #f0f0f0':'')+'">';
+        html += '<div style="font-size:10px;font-weight:700;color:#AAA;letter-spacing:1px;margin-bottom:8px">'+days[i].toUpperCase()+'</div>';
+        var max = Math.round(d.temperature_2m_max[i]);
+        var min = Math.round(d.temperature_2m_min[i]);
+        var emoji = weatherEmoji(d.weathercode[i]);
+        var label = weatherIcon(d.weathercode[i]);
+        var rain = d.precipitation_probability_max[i]||0;
+        html += '<div style="font-size:32px;line-height:1;margin-bottom:6px">'+emoji+'</div>';
+        html += '<div style="font-size:22px;font-weight:800;color:'+r.city.color+'">'+max+'<span style="font-size:13px">°C</span></div>';
+        html += '<div style="font-size:11px;color:#888;margin-top:2px">min '+min+'°C</div>';
+        html += '<div style="font-size:11px;font-weight:600;color:#555;margin-top:5px">'+label+'</div>';
+        html += '<div style="font-size:10px;color:'+(rain>40?'#C8573F':'#AAA')+';margin-top:3px">&#127783; '+rain+'% pluie</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+  box.innerHTML = html;
+}
+
+
+var calcCurrency = "EUR";
+var cachedRates = {CVE: 110.265};
+
+function setCalcCurrency(cur) {
+  calcCurrency = cur;
+  ["EUR","CVE"].forEach(function(c){
+    var btn = document.getElementById("btn"+c);
+    if(btn) {
+      btn.style.background = (c===cur) ? "#C9A84C" : "#f0f0f0";
+      btn.style.color = (c===cur) ? "#1a1a1a" : "#666";
+    }
+  });
+  calcChange();
+}
+
+function calcChange() {
+  var input = document.getElementById("calcInput");
+  var result = document.getElementById("calcResult");
+  if(!input || !result) return;
+  var val = parseFloat(input.value);
+  if(!val || isNaN(val)) {
+    result.innerHTML = "Entrez un montant ci-dessus";
+    return;
+  }
+  var cve = cachedRates.CVE || 110.265;
+  var html = "";
+  if(calcCurrency === "EUR") {
+    html = "<b style='color:#2A6B7C'>" + Math.round(val * cve).toLocaleString("fr-FR") + " CVE</b>";
+    html += "<br><span style='font-size:11px;color:#AAA'>" + val.toFixed(2) + " EUR</span>";
+  } else {
+    html = "<b style='color:#C9A84C'>" + (val / cve).toFixed(2) + " EUR</b>";
+    html += "<br><span style='font-size:11px;color:#AAA'>" + Math.round(val).toLocaleString("fr-FR") + " CVE</span>";
+  }
+  result.innerHTML = html;
+}
+
+var BOAT_EVENTS = {};
+
+var TRAIN_EVENTS = {};
+
+// Correspondance titre d'event timeline -> index du trajet dans la section Trains (DATA.TRAINS)
+var TRAIN_EVENT_TO_IDX = {};
+
+var PLANE_EVENTS = {
+  "Vol Transavia TO3232 Orly vers Sal": true,
+  "Atterrissage a Sal - Aeroport Amilcar Cabral": true,
+  "Vol Transavia TO3233 Sal vers Orly": true,
+  "Arrivee a Orly (heure de Paris)": true
+};
+
+var WALK_EVENTS = {
+  "Orly Terminal 3 - Depot bagages Transavia": true,
+  "Securite et controle des passeports": true,
+  "Premiere balade - plage et ponton de Santa Maria": true
+};
+
+var UBER_EVENTS = {};
+
+var CAR_EVENTS = {
+  "Depart de la maison vers Orly": true,
+  "Parking Orly - depot voiture": true,
+  "Prise de la voiture de location - Aeroport SID": true,
+  "Route vers Santa Maria": true,
+  "Route vers le Bikini Beach Club": true,
+  "Check-out et route vers l aeroport": true,
+  "Restitution de la voiture - Aeroport SID": true,
+  "Route retour vers la maison": true,
+  "Plein de carburant et bagages": true
+};
+var NAV_EVENTS = {};
+var GRAB_EVENTS = {};
+
+// Adresse de destination a copier (GPS, taxi)
+var GRABDEST_EVENTS = {
+  "Route vers Santa Maria": "Rua 15 Agosto 108, Santa Maria, Sal 4111, Cabo Verde",
+  "Check-in Airbnb Sal Sol & Mar": "Rua 15 Agosto 108, Santa Maria, Sal 4111, Cabo Verde",
+  "Route vers le Bikini Beach Club": "Bikini Beach, ZDTI, Praia de Algodoeiro, Santa Maria, Ilha do Sal, Cabo Verde",
+  "Check-out et route vers l aeroport": "Aeroporto Internacional Amilcar Cabral, Espargos, Ilha do Sal, Cabo Verde",
+  "Depart de la maison vers Orly": "Aeroport Paris-Orly, Terminal 3, 94390 Orly"
+};
+
+function copyDest(btn){
+  var addr=btn.getAttribute("data-addr")||"";
+  var done=function(){
+    var old=btn.innerHTML;
+    btn.classList.add("copied");
+    btn.innerHTML="&#10003; Copie";
+    setTimeout(function(){ btn.classList.remove("copied"); btn.innerHTML=old; },1600);
+  };
+  var fallback=function(){
+    try{
+      var t=document.createElement("textarea");
+      t.value=addr; t.setAttribute("readonly","");
+      t.style.position="fixed"; t.style.top="-9999px";
+      document.body.appendChild(t); t.select();
+      document.execCommand("copy"); document.body.removeChild(t); done();
+    }catch(e){
+      window.prompt("Copiez l'adresse :", addr);
+    }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(addr).then(done).catch(fallback);
+  }else{
+    fallback();
+  }
+}
+
+var CAL_MAP = {
+ "Depart de la maison vers Orly": "depart_maison",
+ "Vol Transavia TO3232 Orly vers Sal": "vol_aller",
+ "Brunch au Bikini Beach Club": "bikini",
+ "RDV Cabo Verde Diving - Porto Antigo 1": "plongee",
+ "Enregistrement en ligne vol retour": "checkin_retour",
+ "Check-out et route vers l aeroport": "depart_retour",
+ "Vol Transavia TO3233 Sal vers Orly": "vol_retour"
+};
+
+var CAL_EVENTS = [
+  {id:"depart_maison", title:"Depart de la maison vers Orly", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261114T003000
+DTEND:20261114T033000
+SUMMARY:Depart de la maison vers Orly
+DESCRIPTION:Etre a Orly T3 a 04h00. Depot bagages ferme a 05h15. Passeports + recus EASE.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Depart de la maison vers Orly
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"vol_aller", title:"Vol Transavia TO3232 Orly - Sal", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261114T063000
+DTEND:20261114T084500
+SUMMARY:Vol Transavia TO3232 Orly - Sal
+DESCRIPTION:Ref K6UNPB. Orly T3. Depot bagages ferme 05h15. Arrivee Sal 10h45 heure locale.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Vol Transavia TO3232 Orly - Sal
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"bikini", title:"Brunch Bikini Beach Club", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261115T130000
+DTEND:20261115T143000
+SUMMARY:Brunch Bikini Beach Club
+DESCRIPTION:Reserve Resos au nom de Morieux - 4 pers - zone Restaurant. CB ou Apple Pay uniquement.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT45M
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Brunch Bikini Beach Club
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"plongee", title:"Plongee Cabo Verde Diving - RDV Porto Antigo 1", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261116T083000
+DTEND:20261116T163000
+SUMMARY:Plongee Cabo Verde Diving - RDV Porto Antigo 1
+DESCRIPTION:Samuel et Cedric. Paye 226,72 EUR. Briefing 09h00-11h30, mer 14h00-16h30. +238 595 37 96.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Plongee Cabo Verde Diving - RDV Porto Antigo 1
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"checkin_retour", title:"Enregistrement en ligne Transavia TO3233", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261120T090000
+DTEND:20261120T091500
+SUMMARY:Enregistrement en ligne Transavia TO3233
+DESCRIPTION:Ouvert depuis 05h40. PNR K6UNPB. Telecharger les 4 cartes d embarquement.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Enregistrement en ligne Transavia TO3233
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"depart_retour", title:"Depart vers l aeroport de Sal", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261121T083000
+DTEND:20261121T090000
+SUMMARY:Depart vers l aeroport de Sal
+DESCRIPTION:Check-out. Voiture rendue a 09h00. Comptoir Transavia 09h10. Bagages fermes a 10h25.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Depart vers l aeroport de Sal
+END:VALARM
+END:VEVENT
+END:VCALENDAR`},
+  {id:"vol_retour", title:"Vol Transavia TO3233 Sal - Orly", ics:`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carnet Voyage Cap-Vert 2026//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20261121T114000
+DTEND:20261121T123000
+SUMMARY:Vol Transavia TO3233 Sal - Orly
+DESCRIPTION:Ref K6UNPB. Depot bagages ferme 10h25. Arrivee Orly 19h30 heure de Paris.
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Rappel - Vol Transavia TO3233 Sal - Orly
+END:VALARM
+END:VEVENT
+END:VCALENDAR`}
+];
+
+function addToCalendar(id) {
+  var ev = CAL_EVENTS.find(function(e){ return e.id === id; });
+  if(!ev) return;
+  var blob = new Blob([ev.ics], {type: "text/calendar;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = ev.id + ".ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
+
+
+// Escudo : parite fixe avec l euro (1 EUR = 110,265 CVE), aucun appel reseau necessaire.
+function renderRates(rates, offlineTs){
+  var el = document.getElementById("cveRate");
+  if(el) el.textContent = "110,265";
+  var el_info = document.getElementById("rateInfo");
+  if(el_info) el_info.textContent = "Parite fixe avec l euro : le taux ne varie pas (fonctionne hors ligne)";
+}
+
+function fetchRates() {
+  cachedRates = {CVE: 110.265};
+  renderRates(cachedRates, null);
+  calcChange();
+}
+</script>
+<div id="infoOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeInfoOverlay()">
+  <div style="background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 40px;max-height:75vh;overflow-y:auto;width:100%;max-width:480px;position:relative">
+    <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:12px;padding-right:36px;line-height:1.4" id="infoTitle"></div>
+    <button onclick="closeInfoOverlay()" style="position:absolute;top:16px;right:16px;background:#f0f0f0;border:none;border-radius:50%;width:30px;height:30px;font-size:17px;cursor:pointer;color:#666;display:flex;align-items:center;justify-content:center">&#x2715;</button>
+    <div id="infoImg" style="display:none;margin:12px 0 4px"></div>
+    <div style="font-size:13px;color:#444;line-height:1.8;white-space:pre-wrap" id="infoBody"></div>
+  </div>
+</div>
+<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeSearch()">
+  <div style="background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 32px;height:82vh;display:flex;flex-direction:column;width:100%;max-width:480px;position:relative">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="position:relative;flex:1">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:#999">&#128269;</span>
+        <input id="searchInput" type="text" placeholder="Rechercher un lieu, un plat, une date..." oninput="renderSearch()" autocomplete="off"
+          style="width:100%;box-sizing:border-box;padding:12px 12px 12px 38px;border:1.5px solid #ddd;border-radius:12px;font-size:15px;outline:none">
+      </div>
+      <button onclick="closeSearch()" style="background:#f0f0f0;border:none;border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer;color:#666;flex-shrink:0">&#x2715;</button>
+    </div>
+    <div id="searchFilters" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"></div>
+    <div id="searchResults" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
+  </div>
+</div>
+
+<div class="resa-modal" id="resaModal" onclick="if(event.target===this)closeResaModal()">
+  <div class="resa-sheet">
+    <button onclick="closeResaModal()" style="position:absolute;top:16px;right:16px;background:#f0f0f0;border:none;border-radius:50%;width:30px;height:30px;font-size:17px;cursor:pointer;color:#666">&#x2715;</button>
+    <div class="resa-sheet-title" id="resaModalTitle">Reservation</div>
+    <div class="resa-field"><label>NUMERO DE RESERVATION</label><input id="resaNumInput" type="text" placeholder="Ex: 3171464751"></div>
+    <div class="resa-field"><label>SITE / PLATEFORME</label><input id="resaSiteInput" type="text" placeholder="Ex: Klook, Viator, GetYourGuide..."></div>
+    <div class="resa-field"><label>INFO COMPLEMENTAIRE</label><input id="resaInfoInput" type="text" placeholder="Ex: Prelevement le 20/07, Annulation gratuite..."></div>
+    <button class="resa-save-btn" onclick="saveResaDetails()">&#10003; Confirmer la reservation</button>
+  </div>
+</div>
+
+<div class="resa-details-popup" id="resaDetailsPopup" onclick="if(event.target===this)closeResaDetails()">
+  <div class="resa-details-card">
+    <button onclick="closeResaDetails()" style="position:absolute;top:14px;right:14px;background:#f0f0f0;border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;color:#666">&#x2715;</button>
+    <div class="resa-details-name" id="resaDetailsName"></div>
+    <div id="resaDetailsBody"></div>
+    <button class="resa-edit-btn" onclick="editResaFromDetails()">&#9998; Modifier les details</button>
+  </div>
+</div>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js').then(function(reg){
+      // Verifier une mise a jour a chaque ouverture
+      reg.update();
+      // Si une nouvelle version est trouvee, l'installer puis recharger
+      reg.addEventListener('updatefound',function(){
+        var nw=reg.installing;
+        if(!nw) return;
+        nw.addEventListener('statechange',function(){
+          if(nw.state==='installed' && navigator.serviceWorker.controller){
+            // nouvelle version prete : on recharge pour l'appliquer
+            window.location.reload();
+          }
+        });
+      });
+    }).catch(function(){});
+    // Re-verifier quand l'app repasse au premier plan (PWA iOS)
+    document.addEventListener('visibilitychange',function(){
+      if(document.visibilityState==='visible'){
+        navigator.serviceWorker.getRegistration().then(function(reg){ if(reg) reg.update(); });
+      }
+    });
+  });
+}
+</script>
+<button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()" aria-label="Remonter">↑</button>
+</body>
+</html>
