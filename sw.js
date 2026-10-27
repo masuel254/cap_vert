@@ -1,4 +1,4 @@
-const CACHE = 'carnet-capvert-20261028-003149';
+const CACHE = 'carnet-capvert-20261028-003536';
 const PREFIX = 'carnet-capvert-';
 
 const CORE = [
@@ -9,6 +9,7 @@ const CORE = [
 // Photos des fiches : ajouter ici './nom-du-fichier.jpg' une fois deposees sur GitHub.
 const IMAGES = [
   './angulo.jpg',
+  './area-docas.jpg',
   './barracuda.jpg',
   './bikini-beach.jpg',
   './buddy-bar.jpg',
