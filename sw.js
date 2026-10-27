@@ -1,4 +1,4 @@
-const CACHE = 'carnet-capvert-20261027-234339';
+const CACHE = 'carnet-capvert-20261027-234500';
 const PREFIX = 'carnet-capvert-';
 
 const CORE = [
@@ -17,6 +17,7 @@ const IMAGES = [
   './ocean-cafe.jpg',
   './oeil-bleu.jpg',
   './ola-brasil.jpg',
+  './pedra-de-lume.jpg',
 ];
 
 self.addEventListener('message', e => {
