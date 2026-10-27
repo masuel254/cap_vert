@@ -1,4 +1,4 @@
-const CACHE = 'carnet-capvert-20261027-235546';
+const CACHE = 'carnet-capvert-20261028-000231';
 const PREFIX = 'carnet-capvert-';
 
 const CORE = [
