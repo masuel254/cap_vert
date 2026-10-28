@@ -1,4 +1,4 @@
-const CACHE = 'carnet-capvert-20261029-004039';
+const CACHE = 'carnet-capvert-20261029-004244';
 const PREFIX = 'carnet-capvert-';
 
 const CORE = [
@@ -26,6 +26,7 @@ const IMAGES = [
   './oeil-bleu.jpg',
   './ola-brasil.jpg',
   './palm-beach.jpg',
+  './papaya.jpg',
   './pedra-de-lume.jpg',
   './plan-sal.jpg',
   './ponta-preta.jpg',
