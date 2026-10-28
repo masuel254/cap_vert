@@ -286,7 +286,7 @@ body{
 .wsh a{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:12px;margin-bottom:9px;text-decoration:none;font-weight:700;font-size:14px}
 .wsh .w-tel{background:#2E6B3E;color:#fff}.wsh .w-wa{background:var(--c-sg);color:#fff}.wsh .w-lnk{background:#f2f2f2;color:#333}
 .wsh .wx{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:#f0f0f0;font-size:16px;color:#555}
-.wa-lnk{color:#2E6B3E;font-weight:700;text-decoration:underline;white-space:nowrap}
+.wa-lnk{color:#2E6B3E;font-weight:700;text-decoration:underline;white-space:nowrap}.tel-lnk{color:var(--c-sg);font-weight:700;text-decoration:underline;white-space:nowrap}
 .nav-btn{background:#3A7BD5;color:#fff;cursor:default}
 .boat-btn{background:#E7F0F2;color:var(--c-sg);cursor:default}
 .train-btn{background:#E7F0F2;color:var(--c-sg);cursor:default}
@@ -2700,10 +2700,13 @@ function openWeb(btn){
 // Numeros de mobile au format international -> lien WhatsApp
 var WA_RE=/\+(?:238 [59]\d{2} \d{2} \d{2}|351 9\d{2} \d{3} \d{3}|33 [67](?: \d{2}){4}|34 [67]\d{2}(?: \d{3}){2}|39 3\d{2} \d{3} \d{3,4}|44 7\d{3} \d{6}|65 [89]\d{3} \d{4}|81 [789]0(?:[ -]\d{4}){2})/g;
 function waA(m){return '<a class="wa-lnk" href="https://wa.me/'+m.replace(/\D/g,'')+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#128172; '+m+'</a>';}
+// Tout numero international : mobile -> WhatsApp, fixe -> appel direct
+var PH_RE=/\+\d{2,3}(?:[ -]\d{1,4}){2,5}/g;
+var WA_TEST=new RegExp('^(?:'+WA_RE.source+')$');
+function telA(m){return '<a class="tel-lnk" href="tel:'+m.replace(/[^\d+]/g,'')+'" onclick="event.stopPropagation()">&#128222; '+m+'</a>';}
 function waLink(h){
-  h=String(h).replace(WA_RE,waA);
-  (typeof WA_EXTRA!=="undefined"?WA_EXTRA:[]).forEach(function(n){h=h.split(n).join(waA(n));});
-  return h;
+  var extra=(typeof WA_EXTRA!=="undefined"?WA_EXTRA:[]);
+  return String(h).replace(PH_RE,function(m){return (WA_TEST.test(m)||extra.indexOf(m)>=0)?waA(m):telA(m);});
 }
 var DEFAULT_RESA_DONE = {"vols": true, "airbnb": true, "bikini": true, "plongee": true};
 // Reservations deja payees/confirmees : verrouillees, impossible a decocher.
@@ -3114,7 +3117,9 @@ function buildTips(){
   ];
   h+='<div class="st">Infos pratiques Cap-Vert</div><div class="el" style="margin-bottom:14px">';
   prat.forEach(function(p){
-    h+='<div class="er"><div class="edd"></div><div><div class="ela">'+e(p[0])+'</div><div class="elv">'+e(p[1])+'</div></div></div>';
+    var v=waLink(e(p[1]));
+    if(p[0]==="Urgences") v=v.replace(/\b(13[0-2])\b/g,'<a class="tel-lnk" href="tel:$1">&#128222; $1</a>');
+    h+='<div class="er"><div class="edd"></div><div><div class="ela">'+e(p[0])+'</div><div class="elv">'+v+'</div></div></div>';
   });
   h+='</div>';
 
