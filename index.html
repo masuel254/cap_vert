@@ -3408,6 +3408,7 @@ function buildTips(){
   h+='<div id="weatherBox" style="display:flex;flex-direction:column;gap:10px;margin-bottom:6px">';
   h+='<div style="text-align:center;padding:16px;color:#AAA;font-size:12px">Chargement de la météo...</div>';
   h+='</div>';
+  h+='<div id="seaBox" style="margin-bottom:6px"></div>';
   h+='<div style="font-size:10px;color:#AAA;text-align:center;margin-bottom:14px">Normales de novembre : 28 °C le jour, 22 °C la nuit, mer à 26 °C, soleil jusqu’à 17h58</div>';
 
   // ── INFOS PRATIQUES CAP-VERT ──
@@ -3897,7 +3898,39 @@ function weatherIcon(code){
   return "Variable";
 }
 
+var SEA_POINT = {name:"Baie de Santa Maria", lat:16.585, lon:-22.905};
+function fetchSea(){
+  var box=document.getElementById("seaBox"); if(!box) return;
+  var url="https://marine-api.open-meteo.com/v1/marine?latitude="+SEA_POINT.lat+"&longitude="+SEA_POINT.lon+"&hourly=sea_surface_temperature&timezone=auto&forecast_days=2";
+  fetch(url).then(function(r){return r.json();}).then(function(d){
+    if(!d||!d.hourly||!d.hourly.sea_surface_temperature) throw 0;
+    try{ localStorage.setItem("capvert26_lastSea", JSON.stringify({d:d, ts:Date.now()})); }catch(e){}
+    renderSea(d, null);
+  }).catch(function(){
+    var c=null; try{ var v=localStorage.getItem("capvert26_lastSea"); if(v) c=JSON.parse(v); }catch(e){}
+    if(c&&c.d) renderSea(c.d, c.ts); else box.innerHTML="";
+  });
+}
+function renderSea(d, ts){
+  var box=document.getElementById("seaBox"); if(!box) return;
+  var t=d.hourly.time, v=d.hourly.sea_surface_temperature, byDay={}, order=[];
+  for(var i=0;i<t.length;i++){ if(v[i]==null) continue; var k=t[i].slice(0,10); if(!byDay[k]){byDay[k]=[];order.push(k);} byDay[k].push(v[i]); }
+  if(!order.length){ box.innerHTML=""; return; }
+  function avg(a){ var s=0; a.forEach(function(x){s+=x;}); return Math.round(s/a.length*10)/10; }
+  var labels=["Aujourd\u2019hui","Demain"], cells="";
+  order.slice(0,2).forEach(function(k,j){
+    cells+='<div style="flex:1;text-align:center;padding:12px 6px'+(j?';border-left:1px solid #f0ebe0':'')+'">'
+      +'<div style="font-size:10px;letter-spacing:1.5px;color:#999;text-transform:uppercase">'+labels[j]+'</div>'
+      +'<div style="font-family:Georgia,serif;font-size:30px;color:#2A6B7C;margin-top:4px">'+String(avg(byDay[k])).replace(".",",")+'<span style="font-size:15px">\u00b0C</span></div></div>';
+  });
+  var off=ts?'<div style="font-size:10px;color:#AAA;text-align:center;padding:0 0 8px">Derni\u00e8re mesure en m\u00e9moire (hors ligne)</div>':'';
+  box.innerHTML='<div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)">'
+    +'<div style="background:#1F5D73;color:#fff;padding:12px 16px;font-family:Georgia,serif;letter-spacing:2px;font-size:15px">\ud83c\udf0a TEMP\u00c9RATURE DE LA MER</div>'
+    +'<div style="display:flex">'+cells+'</div>'
+    +'<div style="font-size:11px;color:#999;text-align:center;padding:0 10px 10px">Moyenne de la journ\u00e9e, baie de Santa Maria</div>'+off+'</div>';
+}
 function fetchWeather(){
+  fetchSea();
   var box = document.getElementById("weatherBox");
   if(!box) return;
   var results = [];
@@ -3964,7 +3997,7 @@ function weatherEmoji(code){
 function renderWeather(results, offlineTs){
   var box = document.getElementById("weatherBox");
   if(!box) return;
-  var days = ["Aujourd hui","Demain"];
+  var days = ["Aujourd\u2019hui","Demain"];
   var html = "";
   if(offlineTs){
     var wd = new Date(offlineTs);
