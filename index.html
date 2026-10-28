@@ -2988,8 +2988,15 @@ function majRefresh(){
 }
 
 function buildTips(){
+  // Partage des frais : Tricount du groupe
+  var h='<div class="st">Partage des frais</div>';
+  h+='<a href="https://tricount.com/tEQVBeyiPUfUmuZgCJ" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07);text-decoration:none">';
+  h+='<div style="width:42px;height:42px;border-radius:12px;background:#2A6B7C;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">&#128184;</div>';
+  h+='<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:800;color:#1a1a1a">Ouvrir le Tricount du voyage</div>';
+  h+='<div style="font-size:11px;color:#777;margin-top:2px;line-height:1.4">Noter chaque depense des qu elle est payee. Les depenses sont partagees entre les 2 couples.</div></div>';
+  h+='<div style="font-size:18px;color:#C9A84C;font-weight:800">&#8250;</div></a>';
   // Change : escudo a parite fixe avec l euro
-  var h='<div class="st">Taux de change</div>';
+  h+='<div class="st">Taux de change</div>';
   h+='<div id="currencyBox" style="display:flex;gap:10px;margin-bottom:14px">';
   h+='<div style="flex:1;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)">';
   h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">CAP-VERT</div>';
