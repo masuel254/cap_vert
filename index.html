@@ -2779,7 +2779,7 @@ function openDay(id){
     }
     evh+='<div class="tr '+tclass(ev.type)+'" id="ev-'+curDay.id+'-'+i+'">';
     evh+='<div class="tll"><div class="tld"></div>'+(last?"":'<div class="tlln"></div>')+'</div>';
-    evh+='<div class="tc">'+cost+'<div class="tt">'+e(ev.time)+'</div><div class="tti">'+themeBtn+e(ev.title)+'</div>'+_dep+'<div class="tb2'+(_long?' clamp':'')+'">'+waLink(e(_bd))+'</div>'+(_long?'<button class="more-btn" onclick="var b=this.previousElementSibling;b.classList.toggle(\'open\');this.innerHTML=b.classList.contains(\'open\')?\'R&eacute;duire &#9652;\':\'Lire la suite &#9662;\'">Lire la suite &#9662;</button>':'')+'<div style="display:flex;gap:6px;flex-wrap:wrap">'+mapsHtml+planeBtn+(_dep?'':walkBtn)+trainBtn+boatBtn+uberBtn+grabBtn+copyBtn+carBtn+navBtn+payBtn+infoBtn+webBtn+calBtn+'</div></div></div>';
+    evh+='<div class="tc">'+cost+'<div class="tt">'+e(ev.time)+'</div><div class="tti">'+themeBtn+e(ev.title)+'</div>'+_dep+'<div class="tb2'+(_long?' clamp':'')+'">'+waLink(e(_bd))+'</div>'+(_long?'<button class="more-btn" onclick="var b=this.previousElementSibling;b.classList.toggle(\'open\');this.innerHTML=b.classList.contains(\'open\')?\'R&eacute;duire &#9652;\':\'Lire la suite &#9662;\'">Lire la suite &#9662;</button>':'')+'<div style="display:flex;gap:6px;flex-wrap:wrap">'+mapsHtml+planeBtn+(_dep?'':walkBtn)+trainBtn+boatBtn+uberBtn+grabBtn+copyBtn+carBtn+navBtn+payBtn+infoBtn+webBtn+'</div></div></div>';
   });
   var _br=(curDay.brief||[]).slice(), _nr=0, _cs=loadChkState();
   if(typeof RESA_TODO!=="undefined") curDay.events.forEach(function(ev){ if(RESA_TODO[ev.title] && !_cs[RESA_TODO[ev.title]]) _nr++; });
