@@ -277,7 +277,7 @@ body{
 .car-btn{background:var(--ink);color:#fff;cursor:default}
 .web-btn{background:#fff;color:var(--c-sg);box-shadow:inset 0 0 0 1.5px var(--c-sg)}
 .web-btn:active{transform:scale(.94)}
-.theme-btn{cursor:default}.th-f{background:#FCEFD9;color:#9A6A1E}.th-v{background:#E4EEF0;color:var(--c-sg)}
+.thi{display:inline-block;font-size:15px;line-height:1;margin-right:6px;vertical-align:-1px}
 .tc2.tc2-resa{background:var(--c-osaka)!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
 .wsv{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:9998}
 .wsh{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);padding:18px 18px calc(22px + env(safe-area-inset-bottom));z-index:9999;max-height:80vh;overflow:auto;font-family:-apple-system,sans-serif}
@@ -2535,7 +2535,7 @@ function openDay(id){
     var cost=(ev.cost&&ev.cost!=="---")?'<div class="tc2">'+e(ev.cost)+'</div>':"";
     if(typeof RESA_TODO!=="undefined" && RESA_TODO[ev.title] && !loadChkState()[RESA_TODO[ev.title]]) cost='<div class="tc2 tc2-resa">A RESERVER</div>';
     var themeBtn="";
-    if(typeof THEME_EVENTS!=="undefined" && THEME_EVENTS[ev.title]) themeBtn=THEME_EVENTS[ev.title]==="f"?'<span class="theme-btn th-f">&#127958;&#65039; Farniente</span>':'<span class="theme-btn th-v">&#129517; Visite</span>';
+    if(typeof THEME_EVENTS!=="undefined" && THEME_EVENTS[ev.title]) themeBtn=THEME_EVENTS[ev.title]==="f"?'<span class="thi thi-f" title="Farniente">&#127958;&#65039;</span>':'<span class="thi thi-v" title="Visite">&#129517;</span>';
     var webBtn="";
     if(typeof WEB_DATA!=="undefined" && WEB_DATA[ev.title]) webBtn='<button class="web-btn" onclick="openWeb(this)" data-key="'+ev.title.replace(/"/g,"&quot;")+'">&#127760; Web</button>';
     var mapsTypes=["activity","meal","show","hotel"];
@@ -2600,7 +2600,7 @@ function openDay(id){
     }
     evh+='<div class="tr '+tclass(ev.type)+'" id="ev-'+curDay.id+'-'+i+'">';
     evh+='<div class="tll"><div class="tld"></div>'+(last?"":'<div class="tlln"></div>')+'</div>';
-    evh+='<div class="tc">'+cost+'<div class="tt">'+e(ev.time)+'</div><div class="tti">'+e(ev.title)+'</div><div class="tb2">'+e(ev.body)+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+themeBtn+mapsHtml+planeBtn+walkBtn+trainBtn+boatBtn+uberBtn+grabBtn+copyBtn+carBtn+navBtn+infoBtn+webBtn+calBtn+'</div></div></div>';
+    evh+='<div class="tc">'+cost+'<div class="tt">'+e(ev.time)+'</div><div class="tti">'+themeBtn+e(ev.title)+'</div><div class="tb2">'+e(ev.body)+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+mapsHtml+planeBtn+walkBtn+trainBtn+boatBtn+uberBtn+grabBtn+copyBtn+carBtn+navBtn+infoBtn+webBtn+calBtn+'</div></div></div>';
   });
   var tip=curDay.tip?'<div class="tipb"><div class="tipl">BON A SAVOIR</div><div class="tipt">'+e(curDay.tip)+'</div></div>':"";
   var note=curDay.note?'<div class="noteb"><div class="notel">DEMAIN</div><div class="notet">'+e(curDay.note)+'</div></div>':"";
