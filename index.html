@@ -2513,7 +2513,7 @@ function e(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").re
 function getTid(){var n=new Date(),s=new Date(2026,10,14),d=Math.floor((n-s)/86400000);return(d>=0&&d<8)?d+1:null}
 
 // === NOTES LIBRES PAR JOUR (persistantes) ===
-var DEFAULT_DAY_NOTES = {"5": "À FAIRE AVANT LE DÉPART : contacter Cape Verde Sailing (chat Viator ou WhatsApp +238 933 95 10, référence 1460555133) pour connaître l’heure précise de prise en charge à l’hôtel Odjo d’Água et le point de départ du bateau (ponton de Santa Maria ou Bikini Beach). Heure probable : 08h00.\nHeure confirmée : "};
+var DEFAULT_DAY_NOTES = {"5": "CATAMARAN - À FAIRE AVANT LE DÉPART : contacter Cape Verde Sailing (chat Viator ou WhatsApp +238 933 95 10, référence 1460555133) pour connaître l’heure précise de prise en charge à l’hôtel Odjo d’Água et le point de départ du bateau (ponton de Santa Maria ou Bikini Beach). Heure probable : 08h00.\nHeure confirmée : "};
 function loadDayNote(id){
   try{ var v=localStorage.getItem("capvert26_dayNotes"); if(v){ var o=JSON.parse(v); if(Object.prototype.hasOwnProperty.call(o,id)) return o[id]; } }catch(e){}
   return DEFAULT_DAY_NOTES[id]||"";
@@ -2524,16 +2524,29 @@ function saveDayNote(id, text){
   if(text && text.trim()!==""){ o[id]=text; } else if(DEFAULT_DAY_NOTES[id]){ o[id]=""; } else { delete o[id]; }
   try{ localStorage.setItem("capvert26_dayNotes", JSON.stringify(o)); return true; }catch(e){ return false; }
 }
+function noteLinks(val){
+  var box=document.getElementById("dayNoteLinks"); if(!box) return;
+  var seen={}, h="", extra=(typeof WA_EXTRA!=="undefined"?WA_EXTRA:[]);
+  (String(val||"").match(PH_RE)||[]).forEach(function(m){
+    var k=m.replace(/\D/g,""); if(seen[k]) return; seen[k]=1;
+    var wa=WA_TEST.test(m)||extra.indexOf(m)>=0;
+    h+=wa?'<a href="https://wa.me/'+k+'" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-family:-apple-system,sans-serif;background:#25D366;color:#fff;font-weight:700;font-size:13px;padding:8px 13px;border-radius:20px;text-decoration:none">&#128172; WhatsApp '+m+'</a>'
+         :'<a href="tel:'+m.replace(/[^\d+]/g,"")+'" style="display:inline-flex;align-items:center;gap:6px;font-family:-apple-system,sans-serif;background:#2E6B3E;color:#fff;font-weight:700;font-size:13px;padding:8px 13px;border-radius:20px;text-decoration:none">&#128222; Appeler '+m+'</a>';
+  });
+  box.innerHTML=h; box.style.display=h?"flex":"none";
+}
 function bindDayNote(){
   var ta=document.getElementById("dayNote");
   if(!ta) return;
   var status=document.getElementById("dayNoteStatus");
   var timer=null;
+  noteLinks(ta.value);
   ta.addEventListener("input", function(){
     if(status) status.textContent="";
     if(timer) clearTimeout(timer);
     var id=parseInt(ta.getAttribute("data-dayid"));
     var val=ta.value;
+    noteLinks(val);
     timer=setTimeout(function(){
       var ok=saveDayNote(id, val);
       if(status) status.textContent = ok ? "Enregistre" : "";
@@ -2854,6 +2867,7 @@ function openDay(id){
     '<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;margin-bottom:8px">MES NOTES</div>'+
     '<textarea id="dayNote" data-dayid="'+curDay.id+'" placeholder="Notez ici : resto conseille, code wifi, code de la porte..." '+
     'style="width:100%;box-sizing:border-box;min-height:70px;border:1px solid #eee;border-radius:10px;padding:10px;font-size:13px;font-family:inherit;color:#333;resize:vertical;outline:none;background:#fcfcfc">'+e(savedNote)+'</textarea>'+
+    '<div id="dayNoteLinks" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>'+
     '<div id="dayNoteStatus" style="font-size:10px;color:#BBB;margin-top:5px;min-height:12px"></div>'+
     '</div>';
   document.getElementById("dd2").innerHTML=
