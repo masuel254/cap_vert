@@ -456,6 +456,34 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 }
 details.acc summary::-webkit-details-marker{display:none}
 details.acc[open] .acc-chevron{transform:rotate(180deg)}
+
+/* ---- couverture Cap-Vert : photo plein ecran ---- */
+#cover{background:#0f1b23;justify-content:flex-start;padding-top:max(env(safe-area-inset-top),34px)}
+#cover::before,#cover::after{display:none}
+#cover>.cv-photo{position:absolute;left:0;right:0;top:0;height:66%;z-index:0;opacity:1;animation:none;
+  background:url(ile-de-sal.jpg) 30% center/cover no-repeat}
+#cover>.cv-shade{position:absolute;inset:0;z-index:0;opacity:1;animation:none;
+  background:linear-gradient(180deg,rgba(10,20,28,.7) 0%,rgba(10,20,28,0) 24%,rgba(10,20,28,0) 36%,rgba(14,26,34,.8) 50%,#0f1b23 64%)}
+#cover #mtoLogo{margin:0 auto auto;max-width:72%;filter:drop-shadow(0 2px 8px rgba(0,0,0,.45))}
+#cover .cv-line{display:none}
+#cover .cv-tag{color:#F2D08A;margin-bottom:12px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+#cover .cv-big{text-shadow:0 2px 14px rgba(0,0,0,.35)}
+#cover .cv-amp{color:#F2D08A}
+#cover .cv-date{color:#CFE7EC;margin-top:16px}
+#cover .cv-stats{margin-top:18px}
+#cover .cv-stat{background:rgba(255,255,255,.07);border-color:rgba(242,208,138,.35)}
+#cover .cv-sn{color:#F2D08A}
+#cover .cv-sl{color:#B9CDD3}
+#cover .cv-route{margin-top:14px}
+#cover .cv-route span{color:#9FB6BD}
+#cover .cv-hl{color:#CFE7EC !important}
+#cover .cv-dot{background:#2BB3C0;opacity:.9}
+#cover #cd-label{color:#9FB6BD !important;font-size:10px !important}
+#cover #countdown>div>div{background:rgba(255,255,255,.08) !important}
+#cover #cd-days,#cover #cd-hours,#cover #cd-mins{color:#F2D08A !important;font-family:Georgia,serif;font-weight:400 !important}
+#cover #countdown>div>div>div:last-child{color:#B9CDD3 !important}
+#cover #startBtn{margin-top:24px;margin-bottom:12px;background:linear-gradient(90deg,#2BB3C0,#1F8FA6);color:#fff;box-shadow:0 8px 26px rgba(43,179,192,.35)}
+#cover #startBtn:active{box-shadow:0 4px 14px rgba(43,179,192,.3)}
 </style>
 </head>
 <body>
@@ -483,7 +511,7 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
     <text x="270" y="58" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="22" font-weight="700" letter-spacing="4" fill="#EFE4C6">MORIEUX</text>
     <text x="272" y="82" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="11" letter-spacing="7" fill="#A89E8E">TOUR OPERATOR</text>
   </svg>
-  <div class="cv-line" id="cv-line-top"></div>
+  <div class="cv-photo" aria-hidden="true"></div><div class="cv-shade" aria-hidden="true"></div><div class="cv-line" id="cv-line-top"></div>
   <div class="cv-tag">Carnet de Voyage</div>
   <div class="cv-big">CAP-VERT</div>
   <div class="cv-amp">île de</div>
@@ -2529,7 +2557,7 @@ function updateCountdown(){
   // Phase 1 : avant le depart
   var diff = depart - now;
   if(diff > 0){
-    if(label) label.textContent = "AVANT LE DÉPART";
+    if(label) label.textContent = "☀️ AVANT LES PIEDS DANS LE SABLE";
     renderCountdown(diff);
     return;
   }
