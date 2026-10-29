@@ -3070,105 +3070,92 @@ var DEFAULT_RESA_DETAILS = {
 };
 var todoItems = [
  {
-  "id": "ady_aller",
-  "ico": "🚕",
-  "evd": "2026-11-14",
-  "evl": "Arrivée à Sal : sam 14/11, atterrissage 10h45",
-  "rt": "11:00",
-  "due": "2026-11-14",
-  "name": "Taxi Ady : WhatsApp à l’atterrissage",
-  "detail": "Sam 14/11 vers 11h00, dès l’atterrissage du TO3232 : 4 pers et 4 valises, vers Rua 15 Agosto 108. WhatsApp +238 952 97 19, fixer le prix. S’il n’est pas dispo : file des taxis officiels devant l’aérogare",
-  "color": "#C8573F"
- },
- {
-  "id": "ady_nord",
-  "ico": "🚙",
-  "evd": "2026-11-17",
-  "evl": "Tour du nord : mar 17/11 à 09h30",
-  "rt": "18:00",
-  "due": "2026-11-15",
-  "name": "Taxi Ady : réserver le tour du nord",
-  "detail": "Mar 17/11 09h30-16h30 - 4x4 ou pick-up obligatoire pour la piste de Buracona - Espargos, Buracona, Palmeira, Pedra de Lume - prix de la journée à fixer. En parler dès le trajet de l’aéroport",
-  "color": "#C8573F"
- },
- {
-  "id": "ady_vendredi",
-  "ico": "🚕",
-  "evd": "2026-11-20",
-  "evl": "Pedra de Lume : ven 20/11 à 12h20",
-  "rt": "18:00",
-  "due": "2026-11-18",
-  "name": "Taxi Ady : réserver Pedra de Lume et Shark Bay",
-  "detail": "Ven 20/11 12h20-17h30 avec attente - lui demander de faire garder une table de 4 à Area Docas vers 12h50 - prix à fixer",
-  "color": "#C8573F"
- },
- {
-  "id": "ady_white",
-  "ico": "🚕",
-  "evd": "2026-11-20",
-  "evl": "White Party : ven 20/11, départ 21h40",
-  "rt": "18:00",
-  "due": "2026-11-18",
-  "name": "Taxi Ady : réserver la soirée White Party",
-  "detail": "Ven 20/11 - 21h40 du Bounty Beach au Bikini Beach Club, retour 01h30 devant l’entrée du club vers le logement",
-  "color": "#C8573F"
- },
- {
-  "id": "ady_retour",
-  "ico": "🚕",
-  "evd": "2026-11-21",
-  "evl": "Départ du logement : sam 21/11 à 08h00",
-  "rt": "18:00",
-  "due": "2026-11-18",
-  "name": "Taxi Ady : réserver l’aéroport au départ",
-  "detail": "Sam 21/11 08h00 - logement vers aéroport - minivan pour 4 avec valises - 1 000 CVE tarif officiel",
-  "color": "#C8573F"
- },
- {
   "id": "ease",
   "ico": "🛂",
-  "evd": "2026-11-14",
-  "evl": "Arrivée à Sal : sam 14/11",
-  "rt": "09:00",
   "due": "2026-11-09",
+  "rt": "09:00",
+  "evd": "2026-11-14",
+  "color": "#C8573F",
   "name": "Préenregistrement EASE (x4)",
-  "detail": "Sur ease.gov.cv, au plus tard 5 jours avant l’arrivée",
-  "color": "#C8573F"
+  "sub": "Sur ease.gov.cv, pour l’arrivée du sam 14/11 (5 jours avant au plus tard)"
  },
  {
   "id": "morabeza",
   "ico": "🏖️",
-  "evd": "2026-11-19",
-  "evl": "Morabeza : jeu 19/11 après-midi",
-  "rt": "09:00",
   "due": "2026-11-10",
-  "name": "Morabeza Beach rouvert ?",
-  "detail": "Vérifier sur Google Maps (fermé après la tempête). Si oui : jeudi 19 après-midi à la place d’Angulo",
-  "color": "#C8573F"
+  "rt": "09:00",
+  "evd": "2026-11-19",
+  "color": "#C8573F",
+  "name": "Vérifier la réouverture du Morabeza",
+  "sub": "Sur Google Maps. Si oui : jeu 19/11 après-midi à la place d’Angulo"
  },
  {
   "id": "checkin",
   "ico": "✈️",
-  "evd": "2026-11-14",
-  "evl": "Vol TO3232 : sam 14/11 à 06h30 d’Orly",
-  "rt": "09:00",
   "due": "2026-11-13",
+  "rt": "09:00",
+  "evd": "2026-11-14",
+  "color": "#5B3A7E",
   "name": "Enregistrement en ligne aller",
-  "detail": "Ouvre le 13/11 à 00h30 - Transavia K6UNPB",
-  "color": "#5B3A7E"
+  "sub": "Vol TO3232 du sam 14/11 à 06h30 - ouvre le 13/11 à 00h30 - ref K6UNPB"
  },
  {
-  "id": "ady_19",
-  "ico": "🚕",
-  "evd": "2026-11-20",
-  "evl": "Trajets : ven 20/11 dès 12h20 et sam 21/11 à 08h00",
+  "id": "ady_aller",
+  "group": "ady",
+  "due": "2026-11-14",
+  "rt": "11:00",
+  "evd": "2026-11-14",
+  "color": "#C8573F",
+  "name": "WhatsApp à l’atterrissage",
+  "sub": "Vers 11h00 - aéroport vers logement Rua 15 Agosto 108, 4 pers. et 4 valises"
+ },
+ {
+  "id": "ady_nord",
+  "group": "ady",
+  "due": "2026-11-15",
   "rt": "18:00",
-  "due": "2026-11-19",
-  "name": "Taxi Ady : confirmer vendredi et l’aéroport",
-  "detail": "Ven 12h20 Pedra de Lume et Shark Bay, 21h40 Bounty vers White Party, retour 01h30. Sam 08h00 logement vers aéroport",
-  "color": "#C8573F"
+  "evd": "2026-11-17",
+  "color": "#C8573F",
+  "name": "Réserver le tour du nord",
+  "sub": "Pour le mar 17/11 à 09h30, en 4x4 ou pick-up (piste de Buracona), prix de la journée"
+ },
+ {
+  "id": "ady_fin",
+  "group": "ady",
+  "due": "2026-11-18",
+  "rt": "18:00",
+  "evd": "2026-11-20",
+  "color": "#C8573F",
+  "name": "Réserver la fin du séjour",
+  "sub": "",
+  "subs": [
+   {
+    "id": "ady_vendredi",
+    "when": "Ven 20/11 - 12h20",
+    "what": "Pedra de Lume et Shark Bay, avec attente"
+   },
+   {
+    "id": "ady_white",
+    "when": "Ven 20/11 - 21h40",
+    "what": "Bounty vers White Party, retour 01h30"
+   },
+   {
+    "id": "ady_retour",
+    "when": "Sam 21/11 - 08h00",
+    "what": "Logement vers aéroport, minivan"
+   }
+  ]
  }
 ];
+var todoGroups = {
+ "ady": {
+  "ico": "🚕",
+  "name": "Taxi Ady",
+  "sub": "Chauffeur de l’hôte Airbnb - espèces - prix à fixer avant",
+  "wa": "2389529719",
+  "foot": "S’il n’est pas dispo : taxis officiels, prix fixe avant de monter."
+ }
+};
 function loadTodoState(){
   var s={}; try{ var v=localStorage.getItem("capvert26_todoState"); if(v) s=JSON.parse(v); }catch(e){}
   // reprise des cases cochees quand ces actions etaient dans la checklist reservations
@@ -3181,28 +3168,66 @@ function todoDays(iso){
   var p=iso.split("-"), d=new Date(+p[0],+p[1]-1,+p[2]), n=new Date(); n.setHours(0,0,0,0);
   return Math.round((d-n)/86400000);
 }
+function todoDone(i,st){ return i.subs ? i.subs.every(function(x){return st[x.id]}) : !!st[i.id]; }
+function todoCount(){ var st=loadTodoState(); return [todoItems.filter(function(i){return todoDone(i,st)}).length, todoItems.length]; }
+function todoJ(iso){ var j=todoDays(iso); return j>0?"J-"+j:(j===0?"Aujourd’hui":"En retard"); }
+function todoDate(iso){ var p=iso.split("-"), d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2])); return (RP_J[d.getUTCDay()]+" "+(+p[2])+" "+RP_M[+p[1]-1].replace(/\.$/,"")).toUpperCase(); }
+function rpBell(i){
+  var r=rpLoad()[i.id], ic="&#128276;", op="1", bg="transparent";
+  if(r && r.st==="off"){ ic="&#128277;"; op=".35"; }
+  else if(r && r.st==="on"){ bg="#E6F0E8"; }
+  return '<span class="rp-chip" data-rp="'+i.id+'" style="flex-shrink:0;font-size:18px;line-height:1;cursor:pointer;opacity:'+op+';background:'+bg+';border-radius:10px;padding:5px 6px;align-self:flex-start">'+ic+'</span>';
+}
+function rpLine(i){
+  var r=rpLoad()[i.id]; if(!(r && r.st==="on")) return "";
+  return '<div class="rp-chip" data-rp="'+i.id+'" style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;color:#2E6B3E;margin-top:4px;cursor:pointer">&#10003; Rappel '+e(rpLabel(r.d,r.t))+(i.evd?" &middot; "+rpRel(r.d,i.evd):"")+'</div>';
+}
 function renderTodo(){
-  var st=loadTodoState(), M=["JANV","FÉVR","MARS","AVR","MAI","JUIN","JUIL","AOÛT","SEPT","OCT","NOV","DÉC"];
-  var it=todoItems.slice().sort(function(a,b){ var da=st[a.id]?1:0, db=st[b.id]?1:0; return da-db || (a.due<b.due?-1:a.due>b.due?1:0); });
-  var nd=it.filter(function(i){return st[i.id]}).length;
-  var h='<div class="chk-card" style="margin:0"><div class="chk-head" style="background:linear-gradient(135deg,#3a2a1a,#5a3f24)"><span class="chk-title">À FAIRE</span><span class="chk-progress todo-progress">'+nd+' / '+it.length+' faites</span></div>';
-  var _row=function(i){
-    var done=!!st[i.id], j=todoDays(i.due), p=i.due.split("-");
-    var c=done?"#9a948a":(j<0?"#B3261E":i.color);
-    var jl=done?"Fait":(j>0?"J-"+j:(j===0?"Auj.":"Retard"));
-    h+='<div class="chk-item todo-row" data-todoid="'+i.id+'">';
-    h+='<div class="chk-box'+(done?' done':'')+'"><span class="chk-check">&#10003;</span></div>';
-    h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+(i.ico?'<span style="text-decoration:none;display:inline-block;margin-right:5px">'+i.ico+'</span>':'')+e(i.name)+'</div>';
-    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':(i.evl?'<div style="font-weight:800;margin-bottom:2px">&#128205; '+e(i.evl)+'</div>':'')+e(i.detail))+'</div>'+(done?'':rpChip(i))+'</div>';
-    h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
-    h+='</div>';
+  var st=loadTodoState(), F="font-family:-apple-system,sans-serif;", h='';
+  var box=function(done){ return '<div class="chk-box'+(done?' done':'')+'" style="flex-shrink:0;width:22px;height:22px;margin-top:1px"><span class="chk-check">&#10003;</span></div>'; };
+  var col=function(i,done){ var j=todoDays(i.due); return done?"#9a948a":(j<0?"#B3261E":i.color); };
+  var hdr=function(i,done){ var c=col(i,done); return '<div style="display:flex;align-items:baseline;gap:8px;margin:12px 2px 5px;'+F+'"><span style="font-size:12px;font-weight:800;letter-spacing:1px;color:#1a1a1a">'+todoDate(i.due)+'</span><span style="font-size:10px;font-weight:800;color:'+c+';background:'+c+'1A;border-radius:20px;padding:1px 7px">'+(done?'Fait':todoJ(i.due))+'</span></div>'; };
+  var card=function(i,done){
+    return '<div class="todo-row" data-todoid="'+i.id+'" style="display:flex;gap:11px;background:#fff;border:1px solid #ece5d8;border-left:4px solid '+col(i,done)+';border-radius:12px;padding:11px 12px;cursor:pointer">'+box(done)
+      +'<div style="flex:1;min-width:0"><div class="chk-name'+(done?' done':'')+'" style="font-size:14.5px">'+(i.ico?i.ico+' ':'')+e(i.name)+'</div>'
+      +(done?'':'<div style="'+F+'font-size:12px;color:#6d655b;margin-top:2px;line-height:1.4">'+e(i.sub)+'</div>'+rpLine(i))+'</div>'+(done?'':rpBell(i))+'</div>';
   };
-  it.filter(function(i){return !st[i.id]}).forEach(_row);
-  if(nd){ h+='<details class="chk-done-wrap"><summary>&#10003; D&eacute;j&agrave; fait ('+nd+') &#9662;</summary>'; it.filter(function(i){return st[i.id]}).forEach(_row); h+='</details>'; }
-  return h+'</div>';
+  var solo=todoItems.filter(function(i){return !i.group}), groups={};
+  todoItems.forEach(function(i){ if(i.group){ (groups[i.group]=groups[i.group]||[]).push(i); } });
+  var byDue=function(a,b){ return a.due<b.due?-1:a.due>b.due?1:0; };
+  var open=solo.filter(function(i){return !todoDone(i,st)}).sort(byDue), done=solo.filter(function(i){return todoDone(i,st)}).sort(byDue);
+  open.forEach(function(i){ h+=hdr(i,false)+card(i,false); });
+  Object.keys(groups).forEach(function(g){
+    var G=todoGroups[g]||{name:g}, L=groups[g].sort(byDue);
+    h+='<div style="margin-top:16px;background:#fff;border:1px solid #ece5d8;border-left:4px solid #C8573F;border-radius:12px;overflow:hidden">';
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:11px 12px;background:#fbf4ef;border-bottom:1px solid #f1e6dc"><div style="font-size:22px">'+(G.ico||'')+'</div>'
+      +'<div style="flex:1;min-width:0"><div style="font-family:Georgia,serif;font-size:15.5px;font-weight:700;color:#1a1a1a">'+e(G.name)+'</div><div style="'+F+'font-size:11.5px;color:#6d655b">'+e(G.sub||'')+'</div></div>'
+      +(G.wa?'<a href="https://wa.me/'+G.wa+'" target="_blank" rel="noopener" style="'+F+'font-size:11px;font-weight:800;color:#fff;background:#25a244;border-radius:20px;padding:6px 11px;text-decoration:none;white-space:nowrap">&#128172; WhatsApp</a>':'')+'</div>';
+    L.forEach(function(i,k){
+      var dn=todoDone(i,st), c=col(i,dn);
+      h+='<div class="todo-row" data-todoid="'+i.id+'" style="display:flex;gap:10px;padding:10px 12px;cursor:pointer;'+(k?'border-top:1px solid #f1ebe0':'')+'">'+box(dn)+'<div style="flex:1;min-width:0">'
+        +'<div style="'+F+'font-size:10.5px;font-weight:800;letter-spacing:.8px;color:'+c+'">'+todoDate(i.due)+' &middot; '+(dn?'FAIT':todoJ(i.due).toUpperCase())+'</div>'
+        +'<div class="chk-name'+(dn?' done':'')+'" style="font-size:14px;margin-top:1px">'+e(i.name)+'</div>';
+      if(i.sub && !dn) h+='<div style="'+F+'font-size:12px;color:#6d655b;margin-top:2px;line-height:1.4">'+e(i.sub)+'</div>';
+      (i.subs||[]).forEach(function(x){
+        var xd=!!st[x.id];
+        h+='<div class="todo-sub" data-todoid="'+x.id+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;'+F+'font-size:12px;border-top:1px dashed #eadfcd;margin-top:3px;cursor:pointer">'
+          +'<span style="width:17px;height:17px;border:1.8px solid '+(xd?'#2E6B3E':'#d9cfbf')+';background:'+(xd?'#2E6B3E':'#fff')+';color:#fff;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">'+(xd?'&#10003;':'')+'</span>'
+          +'<span style="font-weight:800;color:'+(xd?'#9a948a':'#333')+';white-space:nowrap">'+e(x.when)+'</span><span style="color:'+(xd?'#9a948a':'#6d655b')+';'+(xd?'text-decoration:line-through':'')+'">'+e(x.what)+'</span></div>';
+      });
+      if(!dn) h+=rpLine(i);
+      h+='</div>'+(dn?'':rpBell(i))+'</div>';
+    });
+    if(G.foot) h+='<div style="'+F+'font-size:11px;color:#8a8378;padding:8px 12px;background:#faf7f2;border-top:1px solid #f1ebe0">'+e(G.foot)+'</div>';
+    h+='</div>';
+  });
+  if(done.length){ h+='<details class="chk-done-wrap" style="margin-top:12px;border:1px solid #ece5d8;border-radius:12px;background:#fff"><summary>&#10003; D&eacute;j&agrave; fait ('+done.length+') &#9662;</summary><div style="padding:0 10px 10px">'; done.forEach(function(i){ h+='<div style="margin-top:8px">'+card(i,true)+'</div>'; }); h+='</div></details>'; }
+  return h;
 }
 function toggleTodo(id){
-  var s=loadTodoState(); s[id]=!s[id];
+  var s=loadTodoState(), it=null; todoItems.forEach(function(i){ if(i.id===id) it=i; });
+  if(it && it.subs){ var v=!todoDone(it,s); it.subs.forEach(function(x){ s[x.id]=v; }); s[id]=v; }
+  else s[id]=!s[id];
   try{ localStorage.setItem("capvert26_todoState", JSON.stringify(s)); }catch(e){}
   buildInfo();
 }
@@ -3230,7 +3255,7 @@ function rpIcs(i,iso,hm){
   var esc=function(x){ return String(x).replace(/\\/g,"\\\\").replace(/;/g,"\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); };
   return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//MTO//Carnet Cap-Vert//FR","CALSCALE:GREGORIAN","METHOD:PUBLISH","BEGIN:VEVENT",
     "UID:"+i.id+"-"+Date.now()+"@mto-capvert","DTSTAMP:"+f(new Date()),"DTSTART:"+f(u),"DTEND:"+f(new Date(u.getTime()+15*60000)),
-    "SUMMARY:"+esc("Cap-Vert : "+i.name),"DESCRIPTION:"+esc(i.detail),
+    "SUMMARY:"+esc("Cap-Vert : "+i.name),"DESCRIPTION:"+esc(i.sub||(i.subs||[]).map(function(x){return x.when+" "+x.what}).join(" / ")),
     "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+esc(i.name),"TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
 }
 function rpDownload(i,iso,hm){
@@ -3257,8 +3282,8 @@ function rpOpen(id, mode){
   if(rpMode==="saved"){
     h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#2E6B3E">&#10003; RAPPEL</div>';
     h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 6px">'+e(i.name)+'</div>';
-    h+='<div style="font-size:14px;color:#444;margin-bottom:'+(i.evl?'4':'16')+'px">'+e(rpLabel(r.d,r.t))+(i.evd?', '+rpRel(r.d,i.evd):'')+'</div>';
-    if(i.evl) h+='<div style="font-size:12px;font-weight:700;color:#C8573F;margin-bottom:16px">&#128205; '+e(i.evl)+'</div>';
+    h+='<div style="font-size:14px;color:#444;margin-bottom:'+(i.sub?'4':'16')+'px">'+e(rpLabel(r.d,r.t))+(i.evd?', '+rpRel(r.d,i.evd):'')+'</div>';
+    if(i.sub) h+='<div style="font-size:12px;color:#6d655b;margin-bottom:16px">'+e(i.sub)+'</div>';
     h+='<div style="display:flex;gap:8px"><button onclick="rpOpen(\''+id+'\',\'edit\')" style="'+B+'flex:1;border:1.5px solid #B8923D;border-radius:12px;background:#fff;color:#8a6a24;font-size:14px;font-weight:700;padding:12px 0">Changer l&rsquo;heure</button>';
     h+='<button onclick="rpCancel()" style="'+B+'flex:1;border:1.5px solid #C8573F;border-radius:12px;background:#fff;color:#C8573F;font-size:14px;font-weight:700;padding:12px 0">Annuler le rappel</button></div>';
   } else if(rpMode==="clean"){
@@ -3272,8 +3297,8 @@ function rpOpen(id, mode){
     var d0=(r&&r.d)||i.due, t0=(r&&r.t)||i.rt||"09:00", veille=rpAddDays(i.due,-1);
     var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button class="rp-pre" data-pd="'+d+'" data-pt="'+t+'" onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
     h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#B8923D">RAPPEL</div>';
-    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.evl?'4':'12')+'px">'+(i.ico?i.ico+' ':'')+e(i.name)+'</div>';
-    if(i.evl) h+='<div style="font-size:12px;font-weight:700;color:#C8573F;margin-bottom:12px">&#128205; '+e(i.evl)+'</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.sub?'4':'12')+'px">'+(i.ico?i.ico+' ':'')+e(i.name)+'</div>';
+    if(i.sub) h+='<div style="font-size:12px;font-weight:600;color:#6d655b;margin-bottom:12px">'+e(i.sub)+'</div>';
     h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+pre("La veille 18h",veille,"18:00")+pre("Le jour 9h",i.due,"09:00")+'<button onclick="document.getElementById(\'rpD\').focus()" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;background:#f3efe7;color:#555">Autre&hellip;</button></div>';
     h+='<div style="display:flex;gap:8px;margin-bottom:6px"><label style="flex:1.4;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">DATE</div><input id="rpD" type="date" value="'+d0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label>';
     h+='<label style="flex:1;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">HEURE</div><input id="rpT" type="time" value="'+t0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label></div>';
@@ -3312,6 +3337,8 @@ function rpCancel(){
 }
 document.addEventListener("click",function(ev){
   var cp=ev.target.closest&&ev.target.closest(".rp-chip"); if(cp){ ev.stopPropagation(); ev.preventDefault(); rpOpen(cp.getAttribute("data-rp")); return; }
+  var sb=ev.target.closest&&ev.target.closest(".todo-sub"); if(sb){ ev.stopPropagation(); toggleTodo(sb.getAttribute("data-todoid")); return; }
+  if(ev.target.closest&&ev.target.closest("a[href]")) return;
   var r=ev.target.closest&&ev.target.closest(".todo-row"); if(!r) return;
   ev.stopPropagation(); toggleTodo(r.getAttribute("data-todoid"));
 },true);
@@ -3511,8 +3538,8 @@ function buildInfo(){
   if(_ok.length){ hChk+='<details class="chk-done-wrap"><summary>&#10003; D&eacute;j&agrave; r&eacute;serv&eacute; ('+_ok.length+') &#9662;</summary>'; _ok.forEach(_row); hChk+='</details>'; }
   hChk+='</div>';
   h+=acc('&#9989; Checklist réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
-  var _td=todoItems, _ts=loadTodoState(), _tn=_td.filter(function(i){return _ts[i.id]}).length;
-  h+=acc('&#128221; À faire ('+_tn+'/'+_td.length+')', renderTodo(), true);
+  var _tc=todoCount();
+  h+=acc('&#128221; À faire ('+_tc[0]+'/'+_tc[1]+')', renderTodo(), true);
   var _rn=restoRows.filter(function(r){return r.st!=='free'}).length, _rc=loadChkState(), _ro=restoRows.filter(function(r){return r.st==='ok'||(r.st==='todo'&&_rc[r.chk])}).length;
   h+=acc('&#127869;&#65039; Restaurants ('+_ro+'/'+_rn+' réservés)', renderRestos(), false);
   if(typeof BUDGET_DATA!=="undefined" && BUDGET_DATA && BUDGET_DATA.days && BUDGET_DATA.days.length){
