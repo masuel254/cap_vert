@@ -21,7 +21,7 @@
   --paper:#F6F1E7;        /* washi crème */
   --paper-2:#FBF8F0;
   --paper-card:#FFFEFA;
-  --gold:#B8923D;         /* or laqué */
+  --gold:#1F8FA6;         /* or laqué */
   --gold-deep:#9A7A2E;
   --gold-soft:#EFE4C6;
   --gold-tint:#F7EFD9;
@@ -65,7 +65,7 @@ body{
 #cover::before{ /* halo doré */
   content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);
   width:140%;height:70%;
-  background:radial-gradient(closest-side,rgba(184,146,61,.16),transparent 70%);
+  background:radial-gradient(closest-side,rgba(31,143,166,.16),transparent 70%);
   pointer-events:none;
 }
 #cover::after{ /* grain */
@@ -93,7 +93,7 @@ body{
 .cv-line::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(45deg);width:6px;height:6px;background:var(--gold)}
 .cv-date{font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;color:var(--gold-soft);letter-spacing:4px}
 .cv-stats{display:flex;gap:9px;margin-top:26px}
-.cv-stat{background:rgba(255,255,255,.04);border:1px solid rgba(184,146,61,.25);border-radius:14px;padding:13px 16px;text-align:center;backdrop-filter:blur(6px)}
+.cv-stat{background:rgba(255,255,255,.04);border:1px solid rgba(31,143,166,.25);border-radius:14px;padding:13px 16px;text-align:center;backdrop-filter:blur(6px)}
 .cv-sn{font-family:-apple-system,sans-serif;font-size:26px;font-weight:700;color:var(--gold);line-height:1}
 .cv-sl{font-family:-apple-system,sans-serif;font-size:8px;font-weight:600;color:var(--muted-2);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px}
 .cv-route{display:flex;align-items:center;gap:6px;margin-top:22px;flex-wrap:wrap;justify-content:center}
@@ -105,9 +105,9 @@ body{
   color:var(--ink);border:none;border-radius:50px;padding:17px 46px;
   font-family:-apple-system,sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;
   cursor:pointer;-webkit-appearance:none;appearance:none;display:block;
-  box-shadow:0 10px 30px rgba(184,146,61,.35);transition:transform .2s var(--ease-spring),box-shadow .2s;
+  box-shadow:0 10px 30px rgba(31,143,166,.35);transition:transform .2s var(--ease-spring),box-shadow .2s;
 }
-#startBtn:active{transform:scale(.96);box-shadow:0 4px 14px rgba(184,146,61,.3)}
+#startBtn:active{transform:scale(.96);box-shadow:0 4px 14px rgba(31,143,166,.3)}
 #countdown div[style*="JOURS"],#countdown div[style*="HEURES"],#countdown div[style*="MINUTES"]{font-family:-apple-system,sans-serif}
 
 /* ============================== APP SHELL ============================== */
@@ -118,7 +118,7 @@ body{
   background:linear-gradient(180deg,#211D19,var(--ink));
   padding:calc(env(safe-area-inset-top,12px) + 13px) 16px 13px;
   display:flex;align-items:center;gap:9px;flex-shrink:0;position:relative;
-  box-shadow:0 1px 0 rgba(184,146,61,.25),0 6px 20px rgba(0,0,0,.25);
+  box-shadow:0 1px 0 rgba(31,143,166,.25),0 6px 20px rgba(0,0,0,.25);
 }
 #topbar button{font-family:-apple-system,sans-serif;transition:transform .18s var(--ease-spring),background .18s;flex-shrink:0}
 @media (max-width:430px){
@@ -129,10 +129,10 @@ body{
   #topLogo{width:68px;height:30px}
 }
 #topbar button:active{transform:scale(.92)}
-#homeBtn{background:rgba(184,146,61,.14)!important;border:1px solid rgba(184,146,61,.25)!important;border-radius:11px!important;color:var(--gold)!important}
-#backBtn{background:rgba(184,146,61,.14);border:1px solid rgba(184,146,61,.25);border-radius:11px;padding:9px 13px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;display:none}
+#homeBtn{background:rgba(31,143,166,.14)!important;border:1px solid rgba(31,143,166,.25)!important;border-radius:11px!important;color:var(--gold)!important}
+#backBtn{background:rgba(31,143,166,.14);border:1px solid rgba(31,143,166,.25);border-radius:11px;padding:9px 13px;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;display:none}
 #backBtn.show{display:block}
-#prevBtn{border-radius:11px!important;background:rgba(184,146,61,.14)!important;border:1px solid rgba(184,146,61,.25)!important;color:var(--gold)!important}
+#prevBtn{border-radius:11px!important;background:rgba(31,143,166,.14)!important;border:1px solid rgba(31,143,166,.25)!important;color:var(--gold)!important}
 #nextBtn{background:linear-gradient(180deg,var(--gold),var(--gold-deep));border:none;border-radius:11px;padding:9px 13px;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;display:none;white-space:nowrap}
 #nextBtn.show{display:block}
 #topTitle{flex:1;font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:18px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.3px}
@@ -160,7 +160,7 @@ body{
 #main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--paper);position:relative}
 #main::before{ /* texture papier subtile */
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
-  background-image:radial-gradient(rgba(184,146,61,.04) 1px,transparent 1px);
+  background-image:radial-gradient(rgba(31,143,166,.04) 1px,transparent 1px);
   background-size:22px 22px;
 }
 .scr{display:none;min-height:100%;position:relative;z-index:1}
@@ -175,7 +175,7 @@ body{
   margin-top:8px;position:relative;overflow:hidden;box-shadow:var(--shadow-md);
 }
 .ch:first-child{margin-top:0}
-.ch::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(closest-side,rgba(184,146,61,.18),transparent)}
+.ch::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(closest-side,rgba(31,143,166,.18),transparent)}
 .ch-n{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .ch-nn{font-family:-apple-system,sans-serif;font-size:19px;font-weight:800;color:#fff}
 .ch-city{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:21px;font-weight:600;color:#fff;letter-spacing:1px}
@@ -228,7 +228,7 @@ body{
 .t-sh{background:#F0EAF6;color:var(--c-kyoto)}
 .t-ht{background:#E8F1EB;color:#2E6B3E}
 .pm{font-family:-apple-system,sans-serif;font-size:10px;color:var(--muted-2);padding:4px 6px;font-weight:600}
-.tb{font-family:-apple-system,sans-serif;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);font-size:8px;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:7px;letter-spacing:.5px;box-shadow:0 2px 6px rgba(184,146,61,.4)}
+.tb{font-family:-apple-system,sans-serif;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);font-size:8px;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:7px;letter-spacing:.5px;box-shadow:0 2px 6px rgba(31,143,166,.4)}
 
 /* ============================== DAY DETAIL HEADER ============================== */
 .dh2{padding:11px 16px 11px;position:sticky;top:0;z-index:20;box-shadow:0 4px 16px rgba(26,23,20,.18)}
@@ -323,7 +323,7 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 
 /* couleurs par type d'événement (timeline) */
 .tp .tc{background:#EEF5F7}.tp .tld{background:var(--c-sg);color:#fff}.tp .tlln{background:rgba(42,107,124,.25)}.tp .tt{color:var(--c-sg)}.tp .tc2{background:var(--c-sg);color:#fff}
-.ta .tc{background:var(--gold-tint)}.ta .tld{background:var(--gold);color:#fff}.ta .tlln{background:rgba(184,146,61,.3)}.ta .tt{color:var(--gold-deep)}.ta .tc2{background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink)}
+.ta .tc{background:var(--gold-tint)}.ta .tld{background:var(--gold);color:#fff}.ta .tlln{background:rgba(31,143,166,.3)}.ta .tt{color:var(--gold-deep)}.ta .tc2{background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink)}
 .tm .tc{background:#FBEDE9}.tm .tld{background:var(--c-osaka);color:#fff}.tm .tlln{background:rgba(200,87,63,.25)}.tm .tt{color:var(--c-osaka)}.tm .tc2{background:var(--c-osaka);color:#fff}
 .th .tc{background:#EAF3ED}.th .tld{background:#2E6B3E;color:#fff}.th .tlln{background:rgba(46,107,62,.25)}.th .tt{color:#2E6B3E}.th .tc2{background:#2E6B3E;color:#fff}
 .ts .tc{background:#F2ECF8}.ts .tld{background:var(--c-kyoto);color:#fff}.ts .tlln{background:rgba(91,58,126,.25)}.ts .tt{color:var(--c-kyoto)}.ts .tc2{background:var(--c-kyoto);color:#fff}
@@ -339,7 +339,7 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 /* ============================== INFO SCREEN ============================== */
 .iw{padding:16px 14px 28px}
 .st{font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-deep);padding:18px 0 10px;display:flex;align-items:center;gap:10px}
-.st::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(184,146,61,.4),transparent)}
+.st::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(31,143,166,.4),transparent)}
 .vc{background:var(--paper-card);border-radius:var(--r);overflow:hidden;margin-bottom:11px;border:1px solid var(--line);border-left:3px solid var(--gold);box-shadow:var(--shadow-sm)}
 .vi{padding:14px 15px}
 .vt{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--gold-deep);letter-spacing:1.5px;margin-bottom:5px}
@@ -385,7 +385,7 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 .elv{font-size:12px;color:var(--ink-soft);line-height:1.45}
 
 .search-wrap{padding:14px 14px 4px;position:sticky;top:0;background:var(--paper);z-index:10}
-.search-input{font-family:-apple-system,sans-serif;width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:11px 14px 11px 38px;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;background:var(--paper-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23B8923D' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 13px center;background-size:16px;transition:border-color .2s}
+.search-input{font-family:-apple-system,sans-serif;width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:11px 14px 11px 38px;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;background:var(--paper-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%231F8FA6' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 13px center;background-size:16px;transition:border-color .2s}
 .search-input:focus{border-color:var(--gold)}
 .no-result{text-align:center;padding:40px 20px;color:var(--muted-2);font-size:13px;font-style:italic}
 ::-webkit-scrollbar{width:0}
@@ -399,7 +399,7 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 .resa-field label{font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;color:var(--muted-2);letter-spacing:1.2px;display:block;margin-bottom:6px}
 .resa-field input{font-family:-apple-system,sans-serif;width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;box-sizing:border-box;transition:border-color .2s;background:var(--paper-2)}
 .resa-field input:focus{border-color:var(--gold);background:#fff}
-.resa-save-btn{font-family:-apple-system,sans-serif;width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;border-radius:var(--r-sm);padding:15px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;box-shadow:0 8px 22px rgba(184,146,61,.3);transition:transform .18s var(--ease-spring)}
+.resa-save-btn{font-family:-apple-system,sans-serif;width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;border-radius:var(--r-sm);padding:15px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;box-shadow:0 8px 22px rgba(31,143,166,.3);transition:transform .18s var(--ease-spring)}
 .resa-save-btn:active{transform:scale(.97)}
 .chk-refnum{font-family:-apple-system,sans-serif;font-size:10px;font-weight:600;color:var(--c-sg);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chk-infobadge{font-family:-apple-system,sans-serif;display:inline-flex;align-items:center;gap:4px;background:#E7F0F2;color:var(--c-sg);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:600;margin-top:5px;cursor:pointer}
@@ -448,7 +448,7 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 .size-tab{transition:background .2s,color .2s}
 
 /* SCROLL TO TOP — fonctionne désormais (bouton ajouté au DOM) */
-.scroll-top{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));left:10px;width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;font-size:18px;cursor:pointer;box-shadow:0 6px 20px rgba(184,146,61,.45);display:none;align-items:center;justify-content:center;z-index:200;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s var(--ease-spring)}
+.scroll-top{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));left:10px;width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:var(--ink);border:none;font-size:18px;cursor:pointer;box-shadow:0 6px 20px rgba(31,143,166,.45);display:none;align-items:center;justify-content:center;z-index:200;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s var(--ease-spring)}
 .scroll-top.show{display:flex;opacity:1;transform:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -519,6 +519,7 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
 .dc-hasph .db{margin-top:-30px;box-shadow:0 0 0 3px #FFFEFA,0 4px 10px rgba(15,27,35,.25)!important;position:relative}
 .dh2.dh2-ph{background-size:cover!important;background-position:center!important}
 .tb{color:#fff!important}
+#topSub{color:#F2D08A!important}.noteb [style*="#1F8FA6"]{color:#F2D08A!important}
 </style>
 </head>
 <body>
@@ -569,15 +570,15 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
   <div id="cd-label" style="font-size:11px;font-weight:700;letter-spacing:3px;color:#AAA;margin-bottom:6px">AVANT LE DÉPART</div>
   <div style="display:flex;gap:10px;justify-content:center">
     <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
-      <div id="cd-days" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div id="cd-days" style="font-size:26px;font-weight:800;color:#1F8FA6;line-height:1">--</div>
       <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">JOURS</div>
     </div>
     <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
-      <div id="cd-hours" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div id="cd-hours" style="font-size:26px;font-weight:800;color:#1F8FA6;line-height:1">--</div>
       <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">HEURES</div>
     </div>
     <div style="background:#272727;border-radius:10px;padding:10px 14px;min-width:56px;text-align:center">
-      <div id="cd-mins" style="font-size:26px;font-weight:800;color:#C9A84C;line-height:1">--</div>
+      <div id="cd-mins" style="font-size:26px;font-weight:800;color:#1F8FA6;line-height:1">--</div>
       <div style="font-size:9px;color:#AAA;letter-spacing:1px;margin-top:2px">MINUTES</div>
     </div>
   </div>
@@ -587,15 +588,15 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
 
 <div id="app">
   <div id="topbar">
-    <button id="homeBtn" onclick="goHome()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#C9A84C;font-size:16px;cursor:pointer;flex-shrink:0" title="Accueil">&#127968;</button>
+    <button id="homeBtn" onclick="goHome()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#1F8FA6;font-size:16px;cursor:pointer;flex-shrink:0" title="Accueil">&#127968;</button>
     <button id="backBtn" onclick="goBack()" aria-label="Retour">&#8592;</button>
-    <button id="prevBtn" onclick="prevDay()" style="display:none;background:#2a2a2a;border:none;border-radius:8px;padding:8px 12px;color:#C9A84C;font-size:13px;font-weight:700;cursor:pointer">&#8592; Jour</button>
+    <button id="prevBtn" onclick="prevDay()" style="display:none;background:#2a2a2a;border:none;border-radius:8px;padding:8px 12px;color:#1F8FA6;font-size:13px;font-weight:700;cursor:pointer">&#8592; Jour</button>
     <button id="nextBtn" onclick="nextDay()">Suivant &#8594;</button>
     <div style="flex:1;min-width:0">
       <div id="topTitle">Itinéraire</div>
-      <div id="topSub" style="font-size:10px;color:#C9A84C;letter-spacing:1px;font-weight:500">CAP-VERT - ÎLE DE SAL 2026</div>
+      <div id="topSub" style="font-size:10px;color:#1F8FA6;letter-spacing:1px;font-weight:500">CAP-VERT - ÎLE DE SAL 2026</div>
     </div>
-    <button id="searchBtn" onclick="openSearch()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#C9A84C;font-size:16px;cursor:pointer;flex-shrink:0" title="Rechercher">&#128269;</button>
+    <button id="searchBtn" onclick="openSearch()" style="background:#2a2a2a;border:none;border-radius:8px;padding:8px 10px;color:#1F8FA6;font-size:16px;cursor:pointer;flex-shrink:0" title="Rechercher">&#128269;</button>
     <svg id="topLogo" width="78" height="34" viewBox="0 0 230 100" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="MTO Morieux Tour Operator" style="flex-shrink:0">
       <text x="36" y="70" text-anchor="middle" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="62" font-weight="700" fill="#F6F1E7" letter-spacing="-2">M</text>
       <text x="97" y="70" text-anchor="middle" font-family="'Hiragino Mincho ProN','Yu Mincho',Georgia,serif" font-size="62" font-weight="700" fill="#B8923D" letter-spacing="-2">T</text>
@@ -623,11 +624,11 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
     <div class="scr" id="s-ti"><div class="tw" id="tc2"></div></div>
     <div class="scr" id="s-pl">
       <div style="padding:14px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;padding:4px 0 12px;display:flex;align-items:center;gap:8px">Plan de l’île de Sal<span style="flex:1;height:1px;background:rgba(201,168,76,.2)"></span></div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1F8FA6;padding:4px 0 12px;display:flex;align-items:center;gap:8px">Plan de l’île de Sal<span style="flex:1;height:1px;background:rgba(31,143,166,.2)"></span></div>
         <a href="./plan-sal.jpg" target="_blank" rel="noopener" style="display:block;background:#fff;border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.07)"><img src="./plan-sal.jpg" alt="Plan de l ile de Sal" style="width:100%;height:auto;display:block;border-radius:10px"></a>
         <div style="font-size:11px;color:#999;text-align:center;margin:6px 0 4px">Toucher le plan pour l’agrandir</div>
-        <div style="margin-top:10px;background:#FBF6EA;border-left:3px solid #C9A84C;border-radius:10px;padding:12px 14px">
-          <div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">LE SUD : SANTA MARIA, NOTRE BASE</div>
+        <div style="margin-top:10px;background:#FBF6EA;border-left:3px solid #1F8FA6;border-radius:10px;padding:12px 14px">
+          <div style="font-size:10px;font-weight:700;color:#1F8FA6;letter-spacing:1px;margin-bottom:6px">LE SUD : SANTA MARIA, NOTRE BASE</div>
           <div style="font-size:12px;color:#444;line-height:1.9">
             Santa Maria, tout au sud : le logement, la plage, le ponton, les restos et les bars, tout à pied<br>
             Praia Antonio de Sousa (Angulo) à l’est du centre, le Bounty et les hôtels à l’ouest<br>
@@ -2606,7 +2607,7 @@ function updateCountdown(){
   }
 
   // Phase 3 : retour passe
-  if(el) el.innerHTML = '<div style="font-size:13px;font-weight:700;color:#C9A84C;letter-spacing:2px">BON RETOUR ! ✈</div>';
+  if(el) el.innerHTML = '<div style="font-size:13px;font-weight:700;color:#1F8FA6;letter-spacing:2px">BON RETOUR ! ✈</div>';
 }
 
 function renderCountdown(diff){
@@ -2649,7 +2650,7 @@ function goStart(){
         if(lastDay){
           var banner = document.createElement("div");
           banner.id = "resumeBanner";
-          banner.style.cssText = "position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:50px;font-size:12px;font-weight:600;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap;border:1px solid #C9A84C";
+          banner.style.cssText = "position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:50px;font-size:12px;font-weight:600;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap;border:1px solid #1F8FA6";
           banner.innerHTML = "&#9654; Reprendre le " + lastDay.date;
           banner.onclick = function(){
             openDay(parseInt(lastId));
@@ -2707,7 +2708,7 @@ function goStart(){
       document.querySelectorAll(".size-tab").forEach(function(t){
         var isActive = t.getAttribute("data-tab") === tabName;
         t.style.background = isActive ? "#1a1a1a" : "#f8f8f8";
-        t.style.color = isActive ? "#C9A84C" : "#666";
+        t.style.color = isActive ? "#1F8FA6" : "#666";
       });
       document.querySelectorAll("[id^='tab-']").forEach(function(p){
         p.style.display = (p.id === "tab-"+tabName) ? "block" : "none";
@@ -3072,7 +3073,7 @@ function openDay(id){
   var note=curDay.note?'<div class="noteb"><div class="notel">DEMAIN</div><div class="notet">'+e(curDay.note)+'</div></div>':"";
   var savedNote = loadDayNote(curDay.id);
   var perso='<div style="background:#fff;border:1px solid #ececec;border-radius:14px;padding:12px 14px;margin-top:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)">'+
-    '<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;margin-bottom:8px">MES NOTES</div>'+
+    '<div style="font-size:10px;font-weight:700;color:#1F8FA6;letter-spacing:1.5px;margin-bottom:8px">MES NOTES</div>'+
     '<textarea id="dayNote" data-dayid="'+curDay.id+'" placeholder="Notez ici : resto conseille, code wifi, code de la porte..." '+
     'style="width:100%;box-sizing:border-box;min-height:70px;border:1px solid #eee;border-radius:10px;padding:10px;font-size:13px;font-family:inherit;color:#333;resize:vertical;outline:none;background:#fcfcfc">'+e(savedNote)+'</textarea>'+
     '<div id="dayNoteLinks" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>'+
@@ -3132,7 +3133,7 @@ function telA(m){return '<a class="tel-lnk" href="tel:'+m.replace(/[^\d+]/g,'')+
 function waLink(h){
   var extra=(typeof WA_EXTRA!=="undefined"?WA_EXTRA:[]);
   return String(h).replace(PH_RE,function(m){return (WA_TEST.test(m)||extra.indexOf(m)>=0)?waA(m):telA(m);})
-    .replace(/\[([^\]]+)\]\((https:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:#B8923D;font-weight:700;text-decoration:underline">$1</a>');
+    .replace(/\[([^\]]+)\]\((https:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:#1F8FA6;font-weight:700;text-decoration:underline">$1</a>');
 }
 var BUDGET_DATA = {"title": "Budget sur place par couple", "intro": "Budget de dépenses sur place PAR COUPLE (les dépenses communes sont partagées en deux) : taxis et chauffeurs, visites et entrées, restaurants, bars et beach club. Estimation volontairement généreuse, boissons et vin compris : on se fait plaisir. Les vols, l’Airbnb, la plongée et le catamaran, déjà payés, ne sont pas comptés. Les lieux sans mention espèces uniquement dans les avis sont comptés en carte.", "days": [["Sam 14", 110, 90, "Taxis, Chez Pastis (espèces), petit-déjeuner à Orly, Angulo (carte)"], ["Dim 15", 5, 280, "Taxis (espèces), brunch et piscine au Bikini, Olá Brasil et Atlantic (carte)"], ["Lun 16", 10, 160, "Pourboires (espèces), Cam’s, déjeuner, Ocean Café, Angulo (carte)"], ["Mar 17", 240, 130, "Chauffeur Ady, entrées, Shark Bay, Cape Fruit, Marea (espèces), Gata Fish et Buddy Bar (carte)"], ["Mer 18", 15, 207, "Pourboire (espèces), Cam’s, LobStar, Il Gobbo (carte) - catamaran déjà payé sur Viator"], ["Jeu 19", 250, 110, "Cape Fruit, Palm Beach, taxis, Barracuda (espèces), Angulo, Ponta Preta, dernier verre (carte)"], ["Ven 20", 5, 305, "Taxis (espèces), Cam’s, Angulo, Bounty et White Party (carte)"], ["Sam 21", 5, 70, "Taxi Ady (espèces), aéroport de Sal et dîner sur l’autoroute (carte)"]], "note": "Prévoir les espèces au fil des jours (distributeurs à l’aéroport, Santa Maria et Espargos)."};
 var DEFAULT_RESA_DONE = {"vols": true, "airbnb": true, "pastis": true, "bikini": true, "plongee": true, "atlantic": true, "marea": true, "croisiere": true, "ilgobbo": true, "barracuda": true, "whiteparty": true};
@@ -3330,7 +3331,7 @@ function rpRel(d,evd){
   return n===0?"le jour même":(n===1?"la veille":(n>1?n+" jours avant":(-n)+(n===-1?" jour après":" jours après")));
 }
 function rpChip(i){
-  var r=rpLoad()[i.id], st="background:#F4EBD6;color:#8a6a24;border:1.5px solid #B8923D", tx="&#128276; Rappel ?";
+  var r=rpLoad()[i.id], st="background:#F4EBD6;color:#177688;border:1.5px solid #1F8FA6", tx="&#128276; Rappel ?";
   if(r && r.st==="on"){ st="background:#E6F0E8;color:#2E6B3E;border:1.5px solid #2E6B3E"; tx="&#10003; Rappel &middot; "+e(rpLabel(r.d,r.t))+(i.evd?" &middot; "+rpRel(r.d,i.evd):""); }
   else if(r && r.st==="off"){ st="background:#fff;color:#aaa;border:1.5px dashed #ccc"; tx="&#128277; Pas de rappel"; }
   return '<span class="rp-chip" data-rp="'+i.id+'" style="display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:5px 11px;border-radius:20px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;cursor:pointer;'+st+'">'+tx+'</span>';
@@ -3369,7 +3370,7 @@ function rpOpen(id, mode){
     h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 6px">'+e(i.name)+'</div>';
     h+='<div style="font-size:14px;color:#444;margin-bottom:'+(i.sub?'4':'16')+'px">'+e(rpLabel(r.d,r.t))+(i.evd?', '+rpRel(r.d,i.evd):'')+'</div>';
     if(i.sub) h+='<div style="font-size:12px;color:#6d655b;margin-bottom:16px">'+e(i.sub)+'</div>';
-    h+='<div style="display:flex;gap:8px"><button onclick="rpOpen(\''+id+'\',\'edit\')" style="'+B+'flex:1;border:1.5px solid #B8923D;border-radius:12px;background:#fff;color:#8a6a24;font-size:14px;font-weight:700;padding:12px 0">Changer l&rsquo;heure</button>';
+    h+='<div style="display:flex;gap:8px"><button onclick="rpOpen(\''+id+'\',\'edit\')" style="'+B+'flex:1;border:1.5px solid #1F8FA6;border-radius:12px;background:#fff;color:#177688;font-size:14px;font-weight:700;padding:12px 0">Changer l&rsquo;heure</button>';
     h+='<button onclick="rpCancel()" style="'+B+'flex:1;border:1.5px solid #C8573F;border-radius:12px;background:#fff;color:#C8573F;font-size:14px;font-weight:700;padding:12px 0">Annuler le rappel</button></div>';
   } else if(rpMode==="clean"){
     var old=rpSheet()._old;
@@ -3381,14 +3382,14 @@ function rpOpen(id, mode){
   } else {
     var d0=(r&&r.d)||i.due, t0=(r&&r.t)||i.rt||"09:00", veille=rpAddDays(i.due,-1);
     var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button class="rp-pre" data-pd="'+d+'" data-pt="'+t+'" onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
-    h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#B8923D">RAPPEL</div>';
+    h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#1F8FA6">RAPPEL</div>';
     h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.sub?'4':'12')+'px">'+(i.ico?i.ico+' ':'')+e(i.name)+'</div>';
     if(i.sub) h+='<div style="font-size:12px;font-weight:600;color:#6d655b;margin-bottom:12px">'+e(i.sub)+'</div>';
     h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+pre("La veille 18h",veille,"18:00")+pre("Le jour 9h",i.due,"09:00")+'<button onclick="document.getElementById(\'rpD\').focus()" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;background:#f3efe7;color:#555">Autre&hellip;</button></div>';
     h+='<div style="display:flex;gap:8px;margin-bottom:6px"><label style="flex:1.4;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">DATE</div><input id="rpD" type="date" value="'+d0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label>';
     h+='<label style="flex:1;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">HEURE</div><input id="rpT" type="time" value="'+t0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label></div>';
     h+='<div id="rpHintBox" style="font-size:11px;color:#888;margin-bottom:14px;min-height:15px"></div>';
-    h+='<button onclick="rpAdd()" style="'+B+'width:100%;border:none;border-radius:12px;background:#B8923D;color:#fff;font-size:14px;font-weight:700;padding:13px 0;margin-bottom:8px">&#128197; Ajouter à mon agenda</button>';
+    h+='<button onclick="rpAdd()" style="'+B+'width:100%;border:none;border-radius:12px;background:#1F8FA6;color:#fff;font-size:14px;font-weight:700;padding:13px 0;margin-bottom:8px">&#128197; Ajouter à mon agenda</button>';
     h+='<button onclick="rpOff()" style="'+B+'width:100%;border:1.5px solid #e3ddd2;border-radius:12px;background:#fff;color:#888;font-size:13px;font-weight:600;padding:10px 0">'+((r&&r.st==="on")?'Garder le rappel actuel':'Pas de rappel pour cette action')+'</button>';
   }
   h+='</div>';
@@ -3434,12 +3435,12 @@ function renderRestos(){
   var F="font-family:-apple-system,sans-serif;", rows=restoRows.map(function(r){ var st=r.st; if(st==="todo" && cs[r.chk]) st="ok"; return {r:r,st:st}; });
   var nok=rows.filter(function(x){return x.st==="ok"}).length, nto=rows.filter(function(x){return x.st==="todo"}).length;
   var h='<div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;'+F+'font-size:11px;font-weight:700"><span style="background:#E6F0E8;color:#2E6B3E;border-radius:20px;padding:4px 10px">&#10003; '+nok+' réservés</span>'+(nto?'<span style="background:#FBE9E4;color:#C8573F;border-radius:20px;padding:4px 10px">'+nto+' à réserver</span>':'')
-    +'<span id="restoBfBtn" style="margin-left:auto;color:#B8923D;cursor:pointer;padding:4px 0">'+(sb?'&minus; petits-déj.':'+ petits-déj.')+'</span></div>';
+    +'<span id="restoBfBtn" style="margin-left:auto;color:#1F8FA6;cursor:pointer;padding:4px 0">'+(sb?'&minus; petits-déj.':'+ petits-déj.')+'</span></div>';
   h+='<div style="border:1px solid #efe9df;border-radius:12px;overflow:hidden;background:#fff">';
   var cur=null;
   rows.forEach(function(x){
     var r=x.r; if(r.bf && !sb) return;
-    if(r.d!==cur){ h+='<div style="background:#f7f2e9;padding:6px 12px;'+F+'font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:#8a6a24;border-top:1px solid #efe9df">'+e(r.d.toUpperCase())+'</div>'; cur=r.d; }
+    if(r.d!==cur){ h+='<div style="background:#f7f2e9;padding:6px 12px;'+F+'font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:#177688;border-top:1px solid #efe9df">'+e(r.d.toUpperCase())+'</div>'; cur=r.d; }
     var s=S[x.st], cl=(typeof INFO_DATA!=="undefined" && INFO_DATA[r.k]);
     h+='<div class="resto-row"'+(cl?' data-key="'+e(r.k).replace(/"/g,"&quot;")+'"':'')+' style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-top:1px solid #f3eee5;'+F+(cl?'cursor:pointer':'')+'">'
       +'<span style="width:40px;flex-shrink:0;font-size:12px;font-weight:700;color:#555">'+e(r.t)+'</span>'
@@ -3587,7 +3588,7 @@ function buildInfo(){
   function acc(title, inner, open){
     return '<details class="acc"'+(open?' open':'')+' style="margin-bottom:10px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff">'
       +'<summary style="list-style:none;cursor:pointer;padding:14px 16px;font-size:14px;font-weight:700;color:#1a1a1a;display:flex;justify-content:space-between;align-items:center;gap:10px">'
-      +'<span>'+title+'</span><span class="acc-chevron" style="color:#B8923D;font-size:13px;transition:transform .2s">&#9660;</span>'
+      +'<span>'+title+'</span><span class="acc-chevron" style="color:#1F8FA6;font-size:13px;transition:transform .2s">&#9660;</span>'
       +'</summary><div style="padding:0 14px 14px">'+inner+'</div></details>';
   }
 
@@ -3642,14 +3643,14 @@ function buildInfo(){
       L.forEach(function(r){ st+=r[1]; hb+='<tr><td style="'+td+'">'+e(r[0])+(r[2]?'<div style="font-size:11px;color:#999">'+e(r[2])+'</div>':'')+'</td><td style="'+td+tn+'">'+fm(r[1])+'</td></tr>'; });
       hb+='</table>'; tot+=st;
     });
-    hb+='<div style="margin-top:14px;background:#1d1d1d;color:#F6F1E7;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:700;letter-spacing:.5px">'+((B.paid&&B.paid.length)||(B.before&&B.before.length)?'TOTAL DU S&Eacute;JOUR PAR COUPLE':'TOTAL SUR PLACE PAR COUPLE')+'</span><span style="font-size:18px;font-weight:800;color:#C9A84C;white-space:nowrap;font-variant-numeric:tabular-nums">'+fm(tot)+'</span></div>';
+    hb+='<div style="margin-top:14px;background:#1d1d1d;color:#F6F1E7;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:700;letter-spacing:.5px">'+((B.paid&&B.paid.length)||(B.before&&B.before.length)?'TOTAL DU S&Eacute;JOUR PAR COUPLE':'TOTAL SUR PLACE PAR COUPLE')+'</span><span style="font-size:18px;font-weight:800;color:#1F8FA6;white-space:nowrap;font-variant-numeric:tabular-nums">'+fm(tot)+'</span></div>';
     hb+='<div style="margin-top:8px;font-size:11.5px;color:#666;line-height:1.6">Sur place : '+fm(se)+' en esp&egrave;ces et '+fm(sc)+' par carte. '+e(B.note||'')+'</div>';
     h+=acc('&#128182; '+(B.title?e(B.title):'Budget par couple'), hb, false);
   }
 
   // === FORMALITES ADMINISTRATIVES ===
   var hForm='';
-  hForm+='<div style="background:#faf6ec;border-left:3px solid #B8923D;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:#5a4a22;line-height:1.6;margin-bottom:12px">'
+  hForm+='<div style="background:#faf6ec;border-left:3px solid #1F8FA6;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:#5a4a22;line-height:1.6;margin-bottom:12px">'
     +'Pour 4 voyageurs francais. Pas de visa pour un sejour touristique de moins de 30 jours, mais un <b>preenregistrement en ligne obligatoire</b> (EASE) avec une taxe aeroport.</div>';
 
   hForm+='<div style="font-size:13px;font-weight:700;color:#1a1a1a;margin:6px 0 6px">&#128188; Passeport</div>';
@@ -3739,7 +3740,7 @@ function buildInfo(){
     +'Derniere mise a jour installee sur cet appareil :<br>'
     +'<span id="majDate" style="font-weight:700;color:#1a1a1a;font-size:14px">verification...</span>'
     +'</div>';
-  hMaj+='<button id="majRefreshBtn" onclick="majRefresh()" style="width:100%;background:#B8923D;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer">&#128260; Verifier et recharger</button>';
+  hMaj+='<button id="majRefreshBtn" onclick="majRefresh()" style="width:100%;background:#1F8FA6;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer">&#128260; Verifier et recharger</button>';
   hMaj+='<div id="majStatus" style="font-size:11px;color:#999;line-height:1.6;margin-top:10px;text-align:center">Touchez pour rechercher la dernière version en ligne.</div>';
   h+=acc('&#128260; Mise a jour', hMaj, false);
 
@@ -3791,18 +3792,18 @@ function buildTips(){
   h+='<div style="width:42px;height:42px;border-radius:12px;background:#2A6B7C;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">&#128184;</div>';
   h+='<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:800;color:#1a1a1a">Ouvrir le Tricount du voyage</div>';
   h+='<div style="font-size:11px;color:#777;margin-top:2px;line-height:1.4">Noter chaque dépense dès qu’elle est payée. Les dépenses sont partagées entre les 2 couples.</div></div>';
-  h+='<div style="font-size:18px;color:#C9A84C;font-weight:800">&#8250;</div></a>';
+  h+='<div style="font-size:18px;color:#1F8FA6;font-weight:800">&#8250;</div></a>';
   // Change : escudo a parite fixe avec l euro
   h+='<div class="st">Taux de change</div>';
   h+='<div id="currencyBox" style="display:flex;gap:10px;margin-bottom:14px">';
   h+='<div style="flex:1;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)">';
-  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">CAP-VERT</div>';
+  h+='<div style="font-size:10px;font-weight:700;color:#1F8FA6;letter-spacing:1px;margin-bottom:6px">CAP-VERT</div>';
   h+='<div style="font-size:11px;color:#666;margin-bottom:4px">1 EUR =</div>';
   h+='<div id="cveRate" style="font-size:28px;font-weight:800;color:#1a1a1a;line-height:1">110,265</div>';
   h+='<div style="font-size:11px;font-weight:600;color:#2A6B7C;margin-top:4px">CVE (escudo)</div>';
   h+='</div>';
   h+='<div style="flex:1;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)">';
-  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:6px">REPERE</div>';
+  h+='<div style="font-size:10px;font-weight:700;color:#1F8FA6;letter-spacing:1px;margin-bottom:6px">REPERE</div>';
   h+='<div style="font-size:11px;color:#666;margin-bottom:4px">1 000 CVE =</div>';
   h+='<div style="font-size:28px;font-weight:800;color:#1a1a1a;line-height:1">9,07</div>';
   h+='<div style="font-size:11px;font-weight:600;color:#C8573F;margin-top:4px">EUR</div>';
@@ -3810,11 +3811,11 @@ function buildTips(){
   h+='</div>';
   h+='<div id="rateInfo" style="font-size:10px;color:#AAA;text-align:center;margin-bottom:10px">Parité fixe avec l’euro</div>';
   h+='<div style="background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">';
-  h+='<div style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:1px;margin-bottom:10px">CALCULATRICE DE CHANGE</div>';
+  h+='<div style="font-size:10px;font-weight:700;color:#1F8FA6;letter-spacing:1px;margin-bottom:10px">CALCULATRICE DE CHANGE</div>';
   h+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">';
   h+='<input id="calcInput" type="number" placeholder="Montant" oninput="calcChange()" style="flex:1;border:1.5px solid #f0ead4;border-radius:10px;padding:10px 12px;font-size:16px;font-weight:600;color:#1a1a1a;outline:none;-webkit-appearance:none">';
   h+='<div style="display:flex;flex-direction:column;gap:4px">';
-  h+='<button data-cur="EUR" id="btnEUR" class="cur-btn" style="padding:6px 10px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:#C9A84C;color:#1a1a1a">EUR</button>';
+  h+='<button data-cur="EUR" id="btnEUR" class="cur-btn" style="padding:6px 10px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:#1F8FA6;color:#1a1a1a">EUR</button>';
   h+='<button data-cur="CVE" id="btnCVE" class="cur-btn" style="padding:6px 10px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:#f0f0f0;color:#666">CVE</button>';
   h+='</div></div>';
   h+='<div id="calcResult" style="font-size:13px;color:#444;line-height:1.9;min-height:44px">Entrez un montant ci-dessus</div>';
@@ -4107,7 +4108,7 @@ function openInfo(btn) {
   var key = btn.getAttribute("data-key");
   var d = INFO_DATA[key];
   if (!d) return;
-  var GOLD = "#B8923D";
+  var GOLD = "#1F8FA6";
   var titleEl = document.getElementById("infoTitle");
   titleEl.textContent = d.title;
   var isRich = d.intro || d.horaires || d.tarifs || d.duree || d.voir || d.conseil || d.logistique;
@@ -4219,7 +4220,7 @@ function renderSearchFilters(){
   var h="";
   filters.forEach(function(f){
     var on=(SEARCH_FILTER===f[0]);
-    h+='<button onclick="setSearchFilter(\''+f[0]+'\')" style="border:1.5px solid '+(on?"#B8923D":"#ddd")+';background:'+(on?"#B8923D":"#fff")+';color:'+(on?"#fff":"#666")+';border-radius:16px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer">'+f[1]+'</button>';
+    h+='<button onclick="setSearchFilter(\''+f[0]+'\')" style="border:1.5px solid '+(on?"#1F8FA6":"#ddd")+';background:'+(on?"#1F8FA6":"#fff")+';color:'+(on?"#fff":"#666")+';border-radius:16px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer">'+f[1]+'</button>';
   });
   document.getElementById("searchFilters").innerHTML=h;
 }
@@ -4237,7 +4238,7 @@ function searchJump(dayId, evIdx){
     if(el && main){
       el.scrollIntoView({behavior:"smooth",block:"center"});
       el.style.transition="box-shadow .3s";
-      el.style.boxShadow="0 0 0 2px #B8923D";
+      el.style.boxShadow="0 0 0 2px #1F8FA6";
       setTimeout(function(){el.style.boxShadow="";},1700);
     }
   },120);
@@ -4479,7 +4480,7 @@ function setCalcCurrency(cur) {
   ["EUR","CVE"].forEach(function(c){
     var btn = document.getElementById("btn"+c);
     if(btn) {
-      btn.style.background = (c===cur) ? "#C9A84C" : "#f0f0f0";
+      btn.style.background = (c===cur) ? "#1F8FA6" : "#f0f0f0";
       btn.style.color = (c===cur) ? "#1a1a1a" : "#666";
     }
   });
@@ -4501,7 +4502,7 @@ function calcChange() {
     html = "<b style='color:#2A6B7C'>" + Math.round(val * cve).toLocaleString("fr-FR") + " CVE</b>";
     html += "<br><span style='font-size:11px;color:#AAA'>" + val.toFixed(2) + " EUR</span>";
   } else {
-    html = "<b style='color:#C9A84C'>" + (val / cve).toFixed(2) + " EUR</b>";
+    html = "<b style='color:#1F8FA6'>" + (val / cve).toFixed(2) + " EUR</b>";
     html += "<br><span style='font-size:11px;color:#AAA'>" + Math.round(val).toLocaleString("fr-FR") + " CVE</span>";
   }
   result.innerHTML = html;
