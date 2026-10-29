@@ -3460,6 +3460,8 @@ function buildInfo(){
   if(_ok.length){ hChk+='<details class="chk-done-wrap"><summary>&#10003; D&eacute;j&agrave; r&eacute;serv&eacute; ('+_ok.length+') &#9662;</summary>'; _ok.forEach(_row); hChk+='</details>'; }
   hChk+='</div>';
   h+=acc('&#9989; Checklist réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
+  var _td=todoItems, _ts=loadTodoState(), _tn=_td.filter(function(i){return _ts[i.id]}).length;
+  h+=acc('&#128221; À faire ('+_tn+'/'+_td.length+')', renderTodo(), true);
   if(typeof BUDGET_DATA!=="undefined" && BUDGET_DATA && BUDGET_DATA.days && BUDGET_DATA.days.length){
     var B=BUDGET_DATA, fm=function(n){return Math.round(n).toLocaleString('fr-FR').replace(/\s/g,'&#8239;')+'&nbsp;&euro;'};
     var td='padding:7px 6px;border-bottom:1px solid #f0ece2;font-size:12.5px;color:#3d4350', tn=';text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;width:62px;vertical-align:top', th='padding:6px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#8a8478;text-align:right';
@@ -3479,8 +3481,6 @@ function buildInfo(){
     hb+='<div style="margin-top:8px;font-size:11.5px;color:#666;line-height:1.6">Sur place : '+fm(se)+' en esp&egrave;ces et '+fm(sc)+' par carte. '+e(B.note||'')+'</div>';
     h+=acc('&#128182; '+(B.title?e(B.title):'Budget par couple'), hb, false);
   }
-  var _td=todoItems, _ts=loadTodoState(), _tn=_td.filter(function(i){return _ts[i.id]}).length;
-  h+=acc('&#128221; À faire ('+_tn+'/'+_td.length+')', renderTodo(), true);
 
   // === FORMALITES ADMINISTRATIVES ===
   var hForm='';
