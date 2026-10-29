@@ -3303,6 +3303,33 @@ document.addEventListener("click",function(ev){
   var r=ev.target.closest&&ev.target.closest(".todo-row"); if(!r) return;
   ev.stopPropagation(); toggleTodo(r.getAttribute("data-todoid"));
 },true);
+var restoRows = [{"d": "Sam 14 nov", "t": "12h30", "n": "Angulo Beach Bar", "k": "Déjeuner pieds dans le sable et transats à Angulo", "pay": "carte", "bf": false, "st": "free", "chk": ""}, {"d": "Sam 14 nov", "t": "18h30", "n": "Chez Pastis", "k": "Premier dîner chez Chez Pastis", "pay": "especes", "bf": false, "st": "ok", "chk": ""}, {"d": "Dim 15 nov", "t": "10h00", "n": "Papaya Café", "k": "Petit-déjeuner au Papaya Café", "pay": "carte", "bf": true, "st": "free", "chk": ""}, {"d": "Dim 15 nov", "t": "13h00", "n": "Bikini Beach Club (brunch)", "k": "Brunch au Bikini Beach Club", "pay": "carte", "bf": false, "st": "ok", "chk": ""}, {"d": "Dim 15 nov", "t": "19h45", "n": "Atlantic Piano Bar", "k": "Dîner et karaoké à l’Atlantic Piano Bar & Grill", "pay": "carte", "bf": false, "st": "ok", "chk": ""}, {"d": "Lun 16 nov", "t": "07h30", "n": "Cam’s", "k": "Petit-déjeuner chez Cam’s", "pay": "carte", "bf": true, "st": "free", "chk": ""}, {"d": "Lun 16 nov", "t": "11h30", "n": "Pause déjeuner libre", "k": "Pause déjeuner", "pay": "carte", "bf": false, "st": "free", "chk": ""}, {"d": "Lun 16 nov", "t": "19h30", "n": "Ocean Café", "k": "Dîner en musique à l’Ocean Café", "pay": "carte", "bf": false, "st": "todo", "chk": "oceancafe"}, {"d": "Mar 17 nov", "t": "09h00", "n": "Cape Fruit", "k": "Petit-déjeuner au Cape Fruit", "pay": "plutot", "bf": true, "st": "free", "chk": ""}, {"d": "Mar 17 nov", "t": "12h30", "n": "Gata Fish, Palmeira", "k": "Déjeuner de poisson à Palmeira", "pay": "carte", "bf": false, "st": "todo", "chk": "gata"}, {"d": "Mar 17 nov", "t": "19h00", "n": "Marea", "k": "Dîner gastronomique au Marea", "pay": "especes", "bf": false, "st": "todo", "chk": "marea"}, {"d": "Mer 18 nov", "t": "07h30", "n": "Cam’s", "k": "Petit-déjeuner chez Cam’s avant la croisière", "pay": "carte", "bf": true, "st": "free", "chk": ""}, {"d": "Mer 18 nov", "t": "12h30", "n": "LobStar", "k": "Déjeuner au LobStar, au pied du ponton", "pay": "carte", "bf": false, "st": "free", "chk": ""}, {"d": "Mer 18 nov", "t": "19h30", "n": "Il Gobbo", "k": "Dîner chez Il Gobbo", "pay": "carte", "bf": false, "st": "ok", "chk": ""}, {"d": "Jeu 19 nov", "t": "09h30", "n": "Cape Fruit (brunch)", "k": "Brunch tranquille au Cape Fruit", "pay": "plutot", "bf": true, "st": "free", "chk": ""}, {"d": "Jeu 19 nov", "t": "12h30", "n": "Palm Beach", "k": "Déjeuner au Palm Beach Restaurant", "pay": "plutot", "bf": false, "st": "free", "chk": ""}, {"d": "Jeu 19 nov", "t": "19h00", "n": "Barracuda", "k": "Dîner homard grillé au Barracuda", "pay": "especes", "bf": false, "st": "ok", "chk": ""}, {"d": "Ven 20 nov", "t": "10h00", "n": "Cam’s", "k": "Dernier petit-déjeuner chez Cam’s", "pay": "carte", "bf": true, "st": "free", "chk": ""}, {"d": "Ven 20 nov", "t": "12h50", "n": "Area Docas, Pedra de Lume", "k": "Déjeuner à Area Docas - Pedra de Lume", "pay": "plutot", "bf": false, "st": "free", "chk": ""}, {"d": "Ven 20 nov", "t": "19h00", "n": "Bounty Beach", "k": "Dîner de fête au Bounty Beach", "pay": "carte", "bf": false, "st": "todo", "chk": "bounty"}];
+function renderRestos(){
+  var cs=loadChkState(), sb=false; try{ sb=localStorage.getItem("capvert26_restoBf")==="1"; }catch(x){}
+  var P={carte:"&#128179;",especes:"&#128182;",plutot:"&#128182;?"}, S={ok:["#2E6B3E","#E6F0E8","&#10003; Réservé"],todo:["#C8573F","#FBE9E4","À réserver"],free:["#8a8378","#f1ede6","Sans résa"]};
+  var F="font-family:-apple-system,sans-serif;", rows=restoRows.map(function(r){ var st=r.st; if(st==="todo" && cs[r.chk]) st="ok"; return {r:r,st:st}; });
+  var nok=rows.filter(function(x){return x.st==="ok"}).length, nto=rows.filter(function(x){return x.st==="todo"}).length;
+  var h='<div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;'+F+'font-size:11px;font-weight:700"><span style="background:#E6F0E8;color:#2E6B3E;border-radius:20px;padding:4px 10px">&#10003; '+nok+' réservés</span>'+(nto?'<span style="background:#FBE9E4;color:#C8573F;border-radius:20px;padding:4px 10px">'+nto+' à réserver</span>':'')
+    +'<span id="restoBfBtn" style="margin-left:auto;color:#B8923D;cursor:pointer;padding:4px 0">'+(sb?'&minus; petits-déj.':'+ petits-déj.')+'</span></div>';
+  h+='<div style="border:1px solid #efe9df;border-radius:12px;overflow:hidden;background:#fff">';
+  var cur=null;
+  rows.forEach(function(x){
+    var r=x.r; if(r.bf && !sb) return;
+    if(r.d!==cur){ h+='<div style="background:#f7f2e9;padding:6px 12px;'+F+'font-size:10.5px;font-weight:800;letter-spacing:1.2px;color:#8a6a24;border-top:1px solid #efe9df">'+e(r.d.toUpperCase())+'</div>'; cur=r.d; }
+    var s=S[x.st], cl=(typeof INFO_DATA!=="undefined" && INFO_DATA[r.k]);
+    h+='<div class="resto-row"'+(cl?' data-key="'+e(r.k).replace(/"/g,"&quot;")+'"':'')+' style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-top:1px solid #f3eee5;'+F+(cl?'cursor:pointer':'')+'">'
+      +'<span style="width:40px;flex-shrink:0;font-size:12px;font-weight:700;color:#555">'+e(r.t)+'</span>'
+      +'<span style="flex:1;min-width:0;font-family:Georgia,serif;font-size:14px;font-weight:600;color:'+(r.bf?'#6d655b':'#1a1a1a')+'">'+e(r.n)+'</span>'
+      +'<span style="font-size:12px;flex-shrink:0">'+(P[r.pay]||'')+'</span>'
+      +'<span style="flex-shrink:0;font-size:10px;font-weight:800;color:'+s[0]+';background:'+s[1]+';border-radius:20px;padding:3px 8px;white-space:nowrap">'+s[2]+'</span></div>';
+  });
+  return h+'</div><div style="'+F+'font-size:10.5px;color:#999;margin-top:7px">&#128179; carte &middot; &#128182; espèces &middot; &#128182;? espèces probables &middot; toucher un restaurant pour sa fiche</div>';
+}
+document.addEventListener("click",function(ev){
+  if(!ev.target.closest) return;
+  if(ev.target.closest("#restoBfBtn")){ var v="0"; try{ v=localStorage.getItem("capvert26_restoBf")==="1"?"0":"1"; localStorage.setItem("capvert26_restoBf",v); }catch(x){} var dd=ev.target.closest("details"); if(dd && dd.lastElementChild) dd.lastElementChild.innerHTML=renderRestos(); return; }
+  var r=ev.target.closest(".resto-row[data-key]"); if(r) openInfo(r);
+});
 function loadChkState(){
   var s={}; try{ var v=localStorage.getItem("capvert26_chkState"); if(v) s=JSON.parse(v); }catch(e){}
   for(var k in DEFAULT_RESA_DONE){ if(!(k in s)) s[k]=DEFAULT_RESA_DONE[k]; }
@@ -3474,6 +3501,8 @@ function buildInfo(){
   h+=acc('&#9989; Checklist réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
   var _td=todoItems, _ts=loadTodoState(), _tn=_td.filter(function(i){return _ts[i.id]}).length;
   h+=acc('&#128221; À faire ('+_tn+'/'+_td.length+')', renderTodo(), true);
+  var _rn=restoRows.filter(function(r){return r.st!=='free'}).length, _rc=loadChkState(), _ro=restoRows.filter(function(r){return r.st==='ok'||(r.st==='todo'&&_rc[r.chk])}).length;
+  h+=acc('&#127869;&#65039; Restaurants ('+_ro+'/'+_rn+' réservés)', renderRestos(), false);
   if(typeof BUDGET_DATA!=="undefined" && BUDGET_DATA && BUDGET_DATA.days && BUDGET_DATA.days.length){
     var B=BUDGET_DATA, fm=function(n){return Math.round(n).toLocaleString('fr-FR').replace(/\s/g,'&#8239;')+'&nbsp;&euro;'};
     var td='padding:7px 6px;border-bottom:1px solid #f0ece2;font-size:12.5px;color:#3d4350', tn=';text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;width:62px;vertical-align:top', th='padding:6px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#8a8478;text-align:right';
