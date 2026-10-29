@@ -3043,56 +3043,62 @@ var DEFAULT_RESA_DETAILS = {
 var todoItems = [
  {
   "id": "ady_aller",
+  "ico": "🚕",
   "evd": "2026-11-14",
   "evl": "Arrivée à Sal : sam 14/11, atterrissage 10h45",
   "rt": "11:00",
   "due": "2026-11-14",
-  "name": "Ady : WhatsApp à l’atterrissage",
+  "name": "Taxi Ady : WhatsApp à l’atterrissage",
   "detail": "Sam 14/11 vers 11h00, dès l’atterrissage du TO3232 : 4 pers et 4 valises, vers Rua 15 Agosto 108. WhatsApp +238 952 97 19, fixer le prix. S’il n’est pas dispo : file des taxis officiels devant l’aérogare",
   "color": "#C8573F"
  },
  {
   "id": "ady_nord",
+  "ico": "🚙",
   "evd": "2026-11-17",
   "evl": "Tour du nord : mar 17/11 à 09h30",
   "rt": "18:00",
   "due": "2026-11-15",
-  "name": "Ady : réserver le tour du nord",
+  "name": "Taxi Ady : réserver le tour du nord",
   "detail": "Mar 17/11 09h30-16h30 - 4x4 ou pick-up obligatoire pour la piste de Buracona - Espargos, Buracona, Palmeira, Pedra de Lume - prix de la journée à fixer. En parler dès le trajet de l’aéroport",
   "color": "#C8573F"
  },
  {
   "id": "ady_vendredi",
+  "ico": "🚕",
   "evd": "2026-11-20",
   "evl": "Pedra de Lume : ven 20/11 à 12h20",
   "rt": "18:00",
   "due": "2026-11-18",
-  "name": "Ady : réserver Pedra de Lume et Shark Bay",
+  "name": "Taxi Ady : réserver Pedra de Lume et Shark Bay",
   "detail": "Ven 20/11 12h20-17h30 avec attente - lui demander de faire garder une table de 4 à Area Docas vers 12h50 - prix à fixer",
   "color": "#C8573F"
  },
  {
   "id": "ady_white",
+  "ico": "🚕",
   "evd": "2026-11-20",
   "evl": "White Party : ven 20/11, départ 21h40",
   "rt": "18:00",
   "due": "2026-11-18",
-  "name": "Ady : réserver la soirée White Party",
+  "name": "Taxi Ady : réserver la soirée White Party",
   "detail": "Ven 20/11 - 21h40 du Bounty Beach au Bikini Beach Club, retour 01h30 devant l’entrée du club vers le logement",
   "color": "#C8573F"
  },
  {
   "id": "ady_retour",
+  "ico": "🚕",
   "evd": "2026-11-21",
   "evl": "Départ du logement : sam 21/11 à 08h00",
   "rt": "18:00",
   "due": "2026-11-18",
-  "name": "Ady : réserver l’aéroport au départ",
+  "name": "Taxi Ady : réserver l’aéroport au départ",
   "detail": "Sam 21/11 08h00 - logement vers aéroport - minivan pour 4 avec valises - 1 000 CVE tarif officiel",
   "color": "#C8573F"
  },
  {
   "id": "ease",
+  "ico": "🛂",
   "evd": "2026-11-14",
   "evl": "Arrivée à Sal : sam 14/11",
   "rt": "09:00",
@@ -3103,6 +3109,7 @@ var todoItems = [
  },
  {
   "id": "morabeza",
+  "ico": "🏖️",
   "evd": "2026-11-19",
   "evl": "Morabeza : jeu 19/11 après-midi",
   "rt": "09:00",
@@ -3113,6 +3120,7 @@ var todoItems = [
  },
  {
   "id": "cata_heure",
+  "ico": "⛵",
   "evd": "2026-11-18",
   "evl": "Sortie catamaran : mer 18/11, départ 08h30",
   "rt": "18:00",
@@ -3123,6 +3131,7 @@ var todoItems = [
  },
  {
   "id": "checkin",
+  "ico": "✈️",
   "evd": "2026-11-14",
   "evl": "Vol TO3232 : sam 14/11 à 06h30 d’Orly",
   "rt": "09:00",
@@ -3133,21 +3142,23 @@ var todoItems = [
  },
  {
   "id": "ady_16",
+  "ico": "🚙",
   "evd": "2026-11-17",
   "evl": "Tour du nord : mar 17/11 à 09h30",
   "rt": "18:00",
   "due": "2026-11-16",
-  "name": "Ady : confirmer le tour du nord de demain",
+  "name": "Taxi Ady : confirmer le tour du nord de demain",
   "detail": "Mardi 09h30 devant le logement, 4x4 ou pick-up pour Buracona, prix fixe",
   "color": "#C8573F"
  },
  {
   "id": "ady_19",
+  "ico": "🚕",
   "evd": "2026-11-20",
   "evl": "Trajets : ven 20/11 dès 12h20 et sam 21/11 à 08h00",
   "rt": "18:00",
   "due": "2026-11-19",
-  "name": "Ady : confirmer vendredi et l’aéroport",
+  "name": "Taxi Ady : confirmer vendredi et l’aéroport",
   "detail": "Ven 12h20 Pedra de Lume et Shark Bay, 21h40 Bounty vers White Party, retour 01h30. Sam 08h00 logement vers aéroport",
   "color": "#C8573F"
  }
@@ -3175,7 +3186,7 @@ function renderTodo(){
     var jl=done?"Fait":(j>0?"J-"+j:(j===0?"Auj.":"Retard"));
     h+='<div class="chk-item todo-row" data-todoid="'+i.id+'">';
     h+='<div class="chk-box'+(done?' done':'')+'"><span class="chk-check">&#10003;</span></div>';
-    h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+e(i.name)+'</div>';
+    h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+(i.ico?'<span style="text-decoration:none;display:inline-block;margin-right:5px">'+i.ico+'</span>':'')+e(i.name)+'</div>';
     h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':(i.evl?'<div style="font-weight:800;margin-bottom:2px">&#128205; '+e(i.evl)+'</div>':'')+e(i.detail))+'</div>'+(done?'':rpChip(i))+'</div>';
     h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
     h+='</div>';
@@ -3255,7 +3266,7 @@ function rpOpen(id, mode){
     var d0=(r&&r.d)||i.due, t0=(r&&r.t)||i.rt||"09:00", veille=rpAddDays(i.due,-1);
     var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button class="rp-pre" data-pd="'+d+'" data-pt="'+t+'" onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
     h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#B8923D">RAPPEL</div>';
-    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.evl?'4':'12')+'px">'+e(i.name)+'</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.evl?'4':'12')+'px">'+(i.ico?i.ico+' ':'')+e(i.name)+'</div>';
     if(i.evl) h+='<div style="font-size:12px;font-weight:700;color:#C8573F;margin-bottom:12px">&#128205; '+e(i.evl)+'</div>';
     h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+pre("La veille 18h",veille,"18:00")+pre("Le jour 9h",i.due,"09:00")+'<button onclick="document.getElementById(\'rpD\').focus()" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;background:#f3efe7;color:#555">Autre&hellip;</button></div>';
     h+='<div style="display:flex;gap:8px;margin-bottom:6px"><label style="flex:1.4;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">DATE</div><input id="rpD" type="date" value="'+d0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label>';
