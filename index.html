@@ -421,6 +421,10 @@ button.train-btn[data-goto-train]{cursor:pointer;border:none}
 .chk-progress{font-family:-apple-system,sans-serif;font-size:11px;color:var(--gold);font-weight:700}
 .chk-item{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}
 .chk-item:last-child{border-bottom:none}
+.todo-cal{flex-shrink:0;width:46px;text-align:center;border:1.5px solid;border-radius:9px;overflow:hidden;font-family:-apple-system,sans-serif;background:#fff}
+.todo-cal-m{color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 0}
+.todo-cal-d{font-size:18px;font-weight:700;color:#1a1a1a;line-height:1.2;padding-top:2px}
+.todo-cal-j{font-size:9px;color:#888;padding-bottom:3px;font-weight:600}
 .chk-item:active{background:var(--paper-2)}
 .chk-box{width:24px;height:24px;border-radius:8px;border:2px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s var(--ease-spring)}
 .chk-box.done{background:#2E6B3E;border-color:#2E6B3E;transform:scale(1.05)}
@@ -2977,7 +2981,7 @@ function openDay(id){
 // === RESERVATIONS DEJA EFFECTUEES (en dur, survivent aux push GitHub) ===
 // Le localStorage garde la priorite : si l'utilisateur modifie sur son tel, sa version gagne.
 // === Evolutions MTO : pastilles A RESERVER / Web, icones de titre, liens WhatsApp ===
-var RESA_TODO = {"Parking Orly - dépôt voiture": "parking", "Taxi de l’aéroport vers le logement": "chauffeurs", "Chauffeur de la journée - départ": "chauffeurs", "Déjeuner de poisson à Palmeira": "gata", "Dîner gastronomique au Marea": "marea", "Dîner chez Il Gobbo": "ilgobbo", "Dîner homard grillé au Barracuda": "barracuda", "Route vers Pedra de Lume pour déjeuner": "chauffeurs", "Dîner de fête au Bounty Beach": "bounty", "Check-out et route vers l’aéroport": "chauffeurs"};
+var RESA_TODO = {"Parking Orly - dépôt voiture": "parking", "Taxi de l’aéroport vers le logement": "ady_resa", "Chauffeur de la journée - départ": "ady_resa", "Déjeuner de poisson à Palmeira": "gata", "Dîner gastronomique au Marea": "marea", "Dîner chez Il Gobbo": "ilgobbo", "Dîner homard grillé au Barracuda": "barracuda", "Route vers Pedra de Lume pour déjeuner": "ady_resa", "Dîner de fête au Bounty Beach": "bounty", "Check-out et route vers l’aéroport": "ady_resa"};
 var THEME_EVENTS = {"Départ de Marck vers Orly": "🚗", "Parking Orly - dépôt voiture": "🚗", "Taxi de l’aéroport vers le logement": "🚕", "Déjeuner pieds dans le sable et transats à Angulo": "🏖️", "Première balade - plage et ponton de Santa Maria": "🧭", "Coucher de soleil": "🏖️", "Premier dîner chez Chez Pastis": "🍽️", "Petit-déjeuner au Papaya Café": "☕", "Piscine sur le toit de l’immeuble": "🏖️", "Route vers le Bikini Beach Club": "🚕", "Brunch au Bikini Beach Club": "🍽️", "Après-midi piscine et plage": "🏖️", "Taxi retour du Bikini Beach": "🚕", "Apéro caipirinha au Olá Brasil": "🍹", "Dîner et karaoké à l’Atlantic Piano Bar & Grill": "🍽️", "Petit-déjeuner chez Cam’s": "☕", "Angulo Beach Bar - journée transat": "🏖️", "Pause déjeuner": "🍽️", "Dîner en musique à l’Ocean Café": "🍽️", "Verre et concert au Buddy Bar": "🍹", "Petit-déjeuner au Cape Fruit": "☕", "Chauffeur de la journée - départ": "🚕", "Balade à Espargos": "🧭", "Route vers Buracona": "🚕", "Buracona et l’Oeil Bleu": "🧭", "Déjeuner de poisson à Palmeira": "🍽️", "Route vers Pedra de Lume": "🚕", "Lac salé de Pedra de Lume": "🧭", "Retour à Santa Maria": "🚕", "Dîner gastronomique au Marea": "🍽️", "Dernier verre au Buddy Bar": "🍹", "Petit-déjeuner chez Cam’s avant la croisière": "☕", "Croisière en catamaran - Cape Verde Sailing": "🧭", "Déjeuner au LobStar, au pied du ponton": "🍽️", "Sieste et plage": "🏖️", "Dîner chez Il Gobbo": "🍽️", "Brunch tranquille au Cape Fruit": "☕", "Transats à Angulo Beach Bar": "🏖️", "Déjeuner au Palm Beach Restaurant": "🍽️", "Après-midi transats à Angulo": "🏖️", "Taxi vers Ponta Preta": "🚕", "Coucher de soleil à Ponta Preta": "🍹", "Retour de Ponta Preta": "🚕", "Dîner homard grillé au Barracuda": "🍽️", "Dernier verre en musique": "🍹", "Dernier petit-déjeuner chez Cam’s": "☕", "Route vers Pedra de Lume pour déjeuner": "🚕", "Déjeuner à Area Docas - Pedra de Lume": "🍽️", "Route vers Shark Bay": "🚕", "Shark Bay - les requins citrons": "🧭", "Dîner de fête au Bounty Beach": "🍽️", "Taxi vers le Bikini Beach Club": "🚕", "White Party au Bikini Beach Club": "🍹", "Taxi retour au logement": "🚕", "Check-out et route vers l’aéroport": "🚕", "Route retour vers Marck": "🚗"};
 var THEME_UP = ["🚕", "🚗", "☕"];
 var WEB_DATA = {"Déjeuner pieds dans le sable et transats à Angulo": {"name": "Angulo Beach Bar", "sub": "Praia Antonio de Sousa - tous les jours 8h00-22h00 - carte acceptée", "tel": "+2389701171", "wa": true, "links": [["Site web Angulo", "https://www.angulocaboverde.com/"]]}, "Premier dîner chez Chez Pastis": {"name": "Chez Pastis", "sub": "Rua Amilcar Cabral 5 - lun-sam 18h30-23h00 - espèces uniquement", "tel": "+2389843696", "wa": true, "links": [["Site web chezpastis.com", "https://chezpastis.com"]]}, "Brunch au Bikini Beach Club": {"name": "Bikini Beach Club", "sub": "Plage d’Algodoeiro - brunch le dimanche 12h00-20h00 - carte uniquement", "tel": null, "wa": false, "links": [["Site web", "https://bikinibeachclub.com/"], ["Programme de la semaine", "https://bikinibeachclub.com/whats-on/"]]}, "Dîner et karaoké à l’Atlantic Piano Bar & Grill": {"name": "Thé Atlantic Piano Bar & Grill", "sub": "Santa Maria - karaoké le dimanche soir - réservé le 15/11 à 19h45", "tel": "+2389755153", "wa": true, "links": [["Instagram atlanticpianobarcv", "https://www.instagram.com/atlanticpianobarcv/"]]}, "Petit-déjeuner chez Cam’s": {"name": "Cam’s Restaurante e Cafetaria", "sub": "Rua 15 de Agosto - lun-sam dès 07h30, fermé le dimanche", "tel": "+2389545376", "wa": true, "links": [["Site web Cam’s", "http://camsrestauracao.com/"]]}, "RDV Cabo Verde Diving - Porto Antigo 1": {"name": "Cabo Verde Diving", "sub": "Porto Antigo 1 - PAYÉ pour Samuel et Cédric", "tel": "+2385953796", "wa": true, "links": [["Site web", "https://www.caboverdediving.net"]]}, "Dîner en musique à l’Ocean Café": {"name": "Ocean Café", "sub": "Place centrale de Santa Maria - musique live presque tous les soirs", "tel": "+2385803505", "wa": true, "links": [["Site web Ocean Café", "http://www.oceancaboverde.com/"]]}, "Petit-déjeuner au Papaya Café": {"name": "Papaya Café Cabo Verde", "sub": "Rue piétonne principale - tous les jours 07h30-22h30 - carte acceptée", "tel": "+2389768181", "wa": true, "links": [["Site web Papaya", "https://www.papayacaboverde.com/"]]}, "Petit-déjeuner au Cape Fruit": {"name": "Cape Fruit", "sub": "Rua 15 de Agosto - tous les jours 08h00-16h00 - prévoir des espèces", "tel": "+2389822205", "wa": true, "links": [["Instagram Cape Fruit", "https://www.instagram.com/capefruitsal/"]]}, "Déjeuner de poisson à Palmeira": {"name": "Gata Fish & Yacht Club", "sub": "Port de Palmeira - tous les jours 9h00-17h00 - réserver la veille - carte acceptée", "tel": "+2389501328", "wa": true, "links": [["Google Maps (pas de site web)", "https://www.google.com/maps/search/?api=1&query=Gata+Fish+%26+Yacht+Club+Palmeira+Sal+Cabo+Verde"]]}, "Dîner gastronomique au Marea": {"name": "Marea", "sub": "Santa Maria - service 19h00-21h00, fermé le dimanche - espèces uniquement", "tel": "+2389822165", "wa": true, "links": [["Google Maps (pas de site web)", "https://www.google.com/maps/search/?api=1&query=Marea+restaurant+Santa+Maria+Sal+Cabo+Verde"]]}, "Croisière en catamaran - Cape Verde Sailing": {"name": "Cape Verde Sailing - catamaran", "sub": "Réservé sur Viator (ref. 1460555133) - mercredi 18/11 départ 08h30 - prise en charge à l’Odjo d’Água", "tel": "+2389339510", "wa": true, "links": [["Réserver sur Viator (lien de Samuel)", "https://www.viator.com/fr-FR/search/133137P8?mcid=70066"], ["Site Cape Verde Sailing", "https://cvsailing.com/trips/catamaran-half-day-trip/"], ["Avis Tripadvisor", "https://www.tripadvisor.ca/AttractionProductReview-g482847-d23652011-Half_day_Catamaran_Sailing_Tour_in_Santa_Maria-Ilha_do_Sal.html"]]}, "Dîner chez Il Gobbo": {"name": "Il Gobbo", "sub": "Rua 15 de Agosto - mercredi 18h00-22h00, fermé le mardi - à réserver", "tel": "+2389524129", "wa": true, "links": [["Google Maps (pas de site web)", "https://www.google.com/maps/search/?api=1&query=Il+Gobbo+Santa+Maria+Sal+Cabo+Verde"]]}, "Déjeuner au Palm Beach Restaurant": {"name": "Palm Beach Restaurant", "sub": "Plage de Santa Maria, au ponton - 11h00-22h00 - prévoir des espèces", "tel": "+2382422643", "wa": false, "links": [["Site web et réservation", "https://palmbeachsal.com/"]]}, "Coucher de soleil à Ponta Preta": {"name": "Restaurant Ponta Preta", "sub": "Plage de Ponta Preta, côte ouest - horaires non publiés", "tel": "+2389918613", "wa": true, "links": [["Google Maps (pas de site web)", "https://www.google.com/maps/search/?api=1&query=Restaurant+Ponta+Preta+Ilha+do+Sal+Cabo+Verde"]]}, "Dîner homard grillé au Barracuda": {"name": "Restaurante Barracuda", "sub": "Plage de Santa Maria, près du ponton - 19h00-23h00 - espèces uniquement", "tel": "+2385990450", "wa": true, "links": [["Site web Barracuda", "http://www.restaurantebarracuda.com/"]]}, "Déjeuner à Area Docas - Pedra de Lume": {"name": "Area Docas", "sub": "Port de Pedra de Lume - tous les jours 10h00-22h00 - pas de réservation en ligne : table à faire garder par Ady", "tel": null, "wa": false, "links": [["Google Maps (pas de site web)", "https://www.google.com/maps/search/?api=1&query=Area+Docas+Pedra+de+Lume+Sal+Cabo+Verde"]]}, "Dîner de fête au Bounty Beach": {"name": "Thé Bounty Beach Restaurant", "sub": "Avenida dos Hoteis (Hilton) - 10h00-01h00 - réservation en ligne ouverte la veille seulement", "tel": "+2383344444", "wa": false, "links": [["Réserver sur SevenRooms", "https://www.sevenrooms.com/reservations/thebountybeachrestaurant"]]}, "White Party au Bikini Beach Club": {"name": "White Party - Bikini Beach Club", "sub": "Réservé vendredi 20/11 22h00-01h30 - tenue blanche - carte acceptée", "tel": null, "wa": false, "links": [["Réserver en ligne", "https://bikinibeachclub.com/booking"], ["Programme de la semaine", "https://bikinibeachclub.com/whats-on/"]]}, "Angulo Beach Bar - journée transat": {"name": "Angulo Beach Bar", "sub": "Praia Antonio de Sousa - tous les jours 8h00-22h00 - carte acceptée", "tel": "+2389701171", "wa": true, "links": [["Site web Angulo", "https://www.angulocaboverde.com/"]]}, "Transats à Angulo Beach Bar": {"name": "Angulo Beach Bar", "sub": "Praia Antonio de Sousa - tous les jours 8h00-22h00 - carte acceptée", "tel": "+2389701171", "wa": true, "links": [["Site web Angulo", "https://www.angulocaboverde.com/"]]}, "Après-midi transats à Angulo": {"name": "Angulo Beach Bar", "sub": "Praia Antonio de Sousa - tous les jours 8h00-22h00 - carte acceptée", "tel": "+2389701171", "wa": true, "links": [["Site web Angulo", "https://www.angulocaboverde.com/"]]}, "Petit-déjeuner chez Cam’s avant la croisière": {"name": "Cam’s Restaurante e Cafetaria", "sub": "Rua 15 de Agosto - lun-sam dès 07h30, fermé le dimanche", "tel": "+2389545376", "wa": true, "links": [["Site web Cam’s", "http://camsrestauracao.com/"]]}, "Dernier petit-déjeuner chez Cam’s": {"name": "Cam’s Restaurante e Cafetaria", "sub": "Rua 15 de Agosto - lun-sam dès 07h30, fermé le dimanche", "tel": "+2389545376", "wa": true, "links": [["Site web Cam’s", "http://camsrestauracao.com/"]]}, "Brunch tranquille au Cape Fruit": {"name": "Cape Fruit", "sub": "Rua 15 de Agosto - tous les jours 08h00-16h00 - prévoir des espèces", "tel": "+2389822205", "wa": true, "links": [["Instagram Cape Fruit", "https://www.instagram.com/capefruitsal/"]]}, "Prise en charge à l’hôtel Odjo d’Água": {"name": "Cape Verde Sailing - catamaran", "sub": "Réservé sur Viator (ref. 1460555133) - mercredi 18/11 départ 08h30 - prise en charge à l’Odjo d’Água", "tel": "+2389339510", "wa": true, "links": [["Réserver sur Viator (lien de Samuel)", "https://www.viator.com/fr-FR/search/133137P8?mcid=70066"], ["Site Cape Verde Sailing", "https://cvsailing.com/trips/catamaran-half-day-trip/"], ["Avis Tripadvisor", "https://www.tripadvisor.ca/AttractionProductReview-g482847-d23652011-Half_day_Catamaran_Sailing_Tour_in_Santa_Maria-Ilha_do_Sal.html"]]}, "Check-in Airbnb Sal Sol & Mar": {"name": "Hôte Airbnb - Sal Sol & Mar", "sub": "Rua 15 Agosto 108, Santa Maria - arrivée à partir de 15h00", "tel": "+351961976139", "wa": true, "links": [["Ouvrir l’appli Airbnb", "https://www.airbnb.fr/trips"]], "telLabel": "Appeler l’hôte", "telPretty": "+351 961 976 139"}, "Taxi de l’aéroport vers le logement": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Chauffeur de la journée - départ": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Route vers Pedra de Lume pour déjeuner": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Check-out et route vers l’aéroport": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Taxi vers le Bikini Beach Club": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Taxi retour au logement": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Taxi vers Ponta Preta": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Route vers le Bikini Beach Club": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Taxi retour du Bikini Beach": {"name": "Ady, chauffeur de taxi", "sub": "Chauffeur habituel de l’hôte Airbnb - transferts et visites de l’île - espèces", "tel": "+2389529719", "wa": true, "links": [], "telLabel": "Appeler Ady", "telPretty": "+238 952 97 19"}, "Déjeuner au LobStar, au pied du ponton": {"name": "LobStar", "sub": "Front de mer, au pied du ponton de Santa Maria", "tel": null, "wa": false, "links": [["Site web LobStar", "https://www.lobstar.site/"]]}};
@@ -3036,11 +3040,107 @@ var DEFAULT_RESA_DETAILS = {
   "info": "PAYÉ 226,72 € pour 2 (Samuel, Cédric) - lun 16/11 RDV 08h30 Porto Antigo 1 - 09h00-11h30 briefing, 14h00-16h30 mer - +238 595 37 96"
  }
 };
+var todoItems = [
+ {
+  "id": "ady_resa",
+  "due": "2026-11-07",
+  "name": "Ady : réserver les trajets",
+  "detail": "WhatsApp +238 952 97 19 - aéroport sam 14/11 (TO3232, arrivée 10h45, 4 pers, 4 valises), mar 17/11 tour du nord 09h30-16h30 en 4x4, ven 20/11 12h20-17h30 puis White Party (21h40 et retour 01h30), sam 21/11 aéroport 08h00. Fixer les prix",
+  "color": "#C8573F"
+ },
+ {
+  "id": "ease",
+  "due": "2026-11-09",
+  "name": "Préenregistrement EASE (x4)",
+  "detail": "Sur ease.gov.cv, au plus tard 5 jours avant l’arrivée",
+  "color": "#C8573F"
+ },
+ {
+  "id": "morabeza",
+  "due": "2026-11-10",
+  "name": "Morabeza Beach Club : rouvert ?",
+  "detail": "Vérifier sur Google Maps (fermé après la tempête). Si oui : jeudi 19 après-midi à la place d’Angulo",
+  "color": "#C8573F"
+ },
+ {
+  "id": "cata_heure",
+  "due": "2026-11-11",
+  "name": "Catamaran : heure de prise en charge",
+  "detail": "Cape Verde Sailing, chat Viator ou WhatsApp +238 933 95 10 - réf 1460555133 - point de rencontre et heure (vers 08h00 ?)",
+  "color": "#C8573F"
+ },
+ {
+  "id": "checkin",
+  "due": "2026-11-13",
+  "name": "Enregistrement en ligne aller",
+  "detail": "Ouvre le 13/11 à 00h30 - Transavia K6UNPB",
+  "color": "#5B3A7E"
+ },
+ {
+  "id": "ady_13",
+  "due": "2026-11-13",
+  "name": "Ady : confirmer l’arrivée de demain",
+  "detail": "TO3232, atterrissage 10h45, 4 pers et 4 valises, Rua 15 Agosto 108",
+  "color": "#C8573F"
+ },
+ {
+  "id": "ady_16",
+  "due": "2026-11-16",
+  "name": "Ady : confirmer le tour du nord de demain",
+  "detail": "Mardi 09h30 devant le logement, 4x4 ou pick-up pour Buracona, prix fixe",
+  "color": "#C8573F"
+ },
+ {
+  "id": "ady_19",
+  "due": "2026-11-19",
+  "name": "Ady : confirmer vendredi et l’aéroport",
+  "detail": "Ven 12h20 Pedra de Lume et Shark Bay, 21h40 Bounty vers White Party, retour 01h30. Sam 08h00 logement vers aéroport",
+  "color": "#C8573F"
+ }
+];
+function loadTodoState(){
+  var s={}; try{ var v=localStorage.getItem("capvert26_todoState"); if(v) s=JSON.parse(v); }catch(e){}
+  // reprise des cases cochees quand ces actions etaient dans la checklist reservations
+  try{ var c=JSON.parse(localStorage.getItem("capvert26_chkState")||"{}"); todoItems.forEach(function(i){ if(!(i.id in s) && c[i.id]) s[i.id]=true; }); }catch(e){}
+  return s;
+}
+function todoDays(iso){
+  var p=iso.split("-"), d=new Date(+p[0],+p[1]-1,+p[2]), n=new Date(); n.setHours(0,0,0,0);
+  return Math.round((d-n)/86400000);
+}
+function renderTodo(){
+  var st=loadTodoState(), M=["JANV","FÉVR","MARS","AVR","MAI","JUIN","JUIL","AOÛT","SEPT","OCT","NOV","DÉC"];
+  var it=todoItems.slice().sort(function(a,b){ var da=st[a.id]?1:0, db=st[b.id]?1:0; return da-db || (a.due<b.due?-1:a.due>b.due?1:0); });
+  var nd=it.filter(function(i){return st[i.id]}).length;
+  var h='<div class="chk-card" style="margin:0"><div class="chk-head" style="background:linear-gradient(135deg,#3a2a1a,#5a3f24)"><span class="chk-title">À FAIRE</span><span class="chk-progress todo-progress">'+nd+' / '+it.length+' faites</span></div>';
+  it.forEach(function(i){
+    var done=!!st[i.id], j=todoDays(i.due), p=i.due.split("-");
+    var c=done?"#9a948a":(j<0?"#B3261E":i.color);
+    var jl=done?"Fait":(j>0?"J-"+j:(j===0?"Auj.":"Retard"));
+    h+='<div class="chk-item todo-row" data-todoid="'+i.id+'">';
+    h+='<div class="chk-box'+(done?' done':'')+'"><span class="chk-check">&#10003;</span></div>';
+    h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+e(i.name)+'</div>';
+    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':e(i.detail))+'</div></div>';
+    h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+function toggleTodo(id){
+  var s=loadTodoState(); s[id]=!s[id];
+  try{ localStorage.setItem("capvert26_todoState", JSON.stringify(s)); }catch(e){}
+  buildInfo();
+}
+document.addEventListener("click",function(ev){
+  var r=ev.target.closest&&ev.target.closest(".todo-row"); if(!r) return;
+  ev.stopPropagation(); toggleTodo(r.getAttribute("data-todoid"));
+},true);
 function loadChkState(){
   var s={}; try{ var v=localStorage.getItem("capvert26_chkState"); if(v) s=JSON.parse(v); }catch(e){}
   for(var k in DEFAULT_RESA_DONE){ if(!(k in s)) s[k]=DEFAULT_RESA_DONE[k]; }
   // Les reservations verrouillees sont toujours faites, quel que soit le localStorage.
   for(var lk in LOCKED_RESA){ if(LOCKED_RESA[lk]) s[lk]=true; }
+  var ts=loadTodoState(); for(var tk in ts){ if(ts[tk]) s[tk]=true; }
   return s;
 }
 function loadResaDetails(){
@@ -3113,27 +3213,6 @@ function buildInfo(){
   "color": "#2E6B3E"
  },
  {
-  "id": "cata_heure",
-  "name": "Catamaran : heure de prise en charge",
-  "date": "Des maintenant",
-  "deadline": "À confirmer avec Cape Verde Sailing - chat Viator ou WhatsApp +238 933 95 10 - ref 1460555133 - point de rencontre et heure (vers 08h00 ?)",
-  "color": "#C8573F"
- },
- {
-  "id": "ease",
-  "name": "Préenregistrement EASE (x4)",
-  "date": "Avant le 9 nov",
-  "deadline": "À faire sur ease.gov.cv, au moins 5 jours avant",
-  "color": "#C8573F"
- },
- {
-  "id": "chauffeurs",
-  "name": "Chauffeur Ady : aéroport 14/11, mardi, vendredi, aéroport 21/11",
-  "date": "14, 17, 20 et 21 nov",
-  "deadline": "À organiser avec Ady : +238 952 97 19 (WhatsApp) - aéroport 14/11, mardi, vendredi, aéroport 21/11",
-  "color": "#C8573F"
- },
- {
   "id": "ilgobbo",
   "name": "Dîner Il Gobbo (mercredi)",
   "date": "18 nov",
@@ -3174,20 +3253,6 @@ function buildInfo(){
   "date": "14 au 21 nov",
   "deadline": "À réserver",
   "color": "#C8573F"
- },
- {
-  "id": "morabeza",
-  "name": "Morabeza Beach Club : réouvert ?",
-  "date": "Vers le 10 nov",
-  "deadline": "A vérifier sur Google Maps - fermé temporairement (dégâts tempête). Si rouvert : jeudi 19 après-midi à la place d’Angulo",
-  "color": "#C8573F"
- },
- {
-  "id": "checkin",
-  "name": "Enregistrement en ligne aller",
-  "date": "13 nov",
-  "deadline": "Ouvre le 13/11 à 00h30",
-  "color": "#5B3A7E"
  }
 ];
   var doneCount = chkItems.filter(function(i){ return chkState[i.id]; }).length;
@@ -3251,6 +3316,8 @@ function buildInfo(){
     hb+='<div style="margin-top:8px;font-size:11.5px;color:#666;line-height:1.6">Sur place : '+fm(se)+' en esp&egrave;ces et '+fm(sc)+' par carte. '+e(B.note||'')+'</div>';
     h+=acc('&#128182; '+(B.title?e(B.title):'Budget par couple'), hb, false);
   }
+  var _td=todoItems, _ts=loadTodoState(), _tn=_td.filter(function(i){return _ts[i.id]}).length;
+  h+=acc('&#128221; À faire ('+_tn+'/'+_td.length+')', renderTodo(), true);
 
   // === FORMALITES ADMINISTRATIVES ===
   var hForm='';
@@ -3639,7 +3706,7 @@ function updateChkDOM(id, done, num, site, info){
 function updateProgress(){
   var allState = {};
   var allState = loadChkState();
-  var doneCount = Object.values(allState).filter(Boolean).length;
+  var doneCount = chkItems.filter(function(i){ return allState[i.id]; }).length;
   var prog = document.querySelector(".chk-progress");
   if(prog) prog.textContent = doneCount + " / " + chkItems.length + " faites";
 }
