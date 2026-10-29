@@ -519,6 +519,25 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
 .dc-hasph .db{margin-top:-30px;box-shadow:0 0 0 3px #FFFEFA,0 4px 10px rgba(15,27,35,.25)!important;position:relative}
 .dh2.dh2-ph{background-size:cover!important;background-position:center!important}
 .tb{color:#fff!important}
+.rv-hero{display:flex;align-items:center;gap:14px;margin:2px 0 6px;padding:12px;background:linear-gradient(135deg,#17303D,#0F1B23);border-radius:14px;color:#fff}
+.rv-h1{font:700 16px Georgia,serif}.rv-h2{font:12px -apple-system,sans-serif;color:#B9CDD3;margin-top:3px;line-height:1.35}
+.rv-grp{font:800 11px -apple-system,sans-serif;letter-spacing:1.5px;color:#1a1a1a;margin:16px 0 8px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.rv-pill{font:700 10px -apple-system,sans-serif;padding:3px 8px;border-radius:10px;letter-spacing:.3px;text-transform:none}
+.rv-red{background:#FBE9E5;color:#C8573F}.rv-ok{background:#E8F4EE;color:#2E6B3E}.rv-cash{background:#FCF6EA;color:#9A6A1E;box-shadow:inset 0 0 0 1px #E8D3A8}
+.chk-item.rv-row{display:flex;gap:11px;background:#fff;border:1px solid #ece5d8;border-left:4px solid #C8573F;border-radius:12px;padding:11px 12px;align-items:flex-start;margin-bottom:8px;cursor:pointer}
+.rv-row .chk-box{width:22px;height:22px;flex-shrink:0;margin-top:1px}
+.rv-t{font:700 14.5px Georgia,serif!important;color:#1a1a1a!important;text-decoration:none!important}
+.rv-s{font:12px -apple-system,sans-serif;color:#6d655b;margin-top:2px;line-height:1.4}
+.rv-act{flex-shrink:0;align-self:center;font:700 11px -apple-system,sans-serif;padding:6px 10px;border-radius:14px;text-decoration:none;white-space:nowrap}
+.rv-wa{background:#25A244;color:#fff}.rv-url{background:#fff;color:#16313D;box-shadow:inset 0 0 0 1px #D3DCDB}
+.chk-item.rv-tk{display:flex;background:#fff;border:1px solid #ece5d8;border-radius:14px;margin-bottom:9px;overflow:hidden;box-shadow:0 2px 8px rgba(15,27,35,.05);padding:0;cursor:pointer}
+.rv-stub{width:62px;flex-shrink:0;background:linear-gradient(180deg,#1F8FA6,#17607A);color:#fff;text-align:center;padding:10px 0;display:flex;flex-direction:column;justify-content:center}
+.rv-dw{font:700 9px -apple-system,sans-serif;letter-spacing:1.5px;opacity:.85}.rv-dn{font:400 26px Georgia,serif;line-height:1.05}
+.rv-perf{width:0;border-left:2px dashed #E6DFD2;margin:8px 0}
+.chk-viewbtn.rv-body{display:block!important;flex:1;min-width:0;padding:10px 12px;background:none!important;border-radius:0!important;color:inherit!important;text-align:left;font:inherit}
+.rv-ref{font:600 11px ui-monospace,Menlo,monospace;color:#177688;background:#E7F3F4;border-radius:6px;padding:2px 6px}
+.rv-more{margin-left:auto;font:600 11px -apple-system,sans-serif;color:#1F8FA6}
+.chk-item.rv-tk{align-items:stretch!important}.rv-tk .rv-stub{align-self:stretch}
 #topSub{color:#F2D08A!important}.noteb [style*="#1F8FA6"]{color:#F2D08A!important}
 </style>
 </head>
@@ -3474,6 +3493,8 @@ function loadResaDetails(){
 function buildInfo(){
   // Load checklist state
   var chkState = loadChkState();
+  window.RV_DEAD = {"vols": "PAYÉ", "airbnb": "PAYÉ - 1 800 €", "bikini": "RÉSERVÉ - paiement sur place", "atlantic": "RÉSERVÉ (TableHelm) - 19h45 - Morieux - paiement sur place", "plongee": "PAYÉ", "pastis": "RÉSERVÉ (WhatsApp) - 18h30 - Morieux - table dans la cour - espèces", "whiteparty": "RÉSERVÉ - 22h00-01h30 - Morieux - tenue blanche", "croisiere": "RÉSERVÉ (Viator) - ref 1460555133 - RDV 08h20 au Palm Beach Restaurant", "oceancafe": "À réserver LA VEILLE (dim 15/11) - table de 4 en terrasse - +238 580 35 05 (WhatsApp)", "ilgobbo": "RÉSERVÉ (WhatsApp) - 19h30 - Morieux - 4 pers", "marea": "RÉSERVÉ (WhatsApp) - 19h00 - Morieux - 4 pers - ESPÈCES UNIQUEMENT (euros ou escudos)", "barracuda": "RÉSERVÉ (WhatsApp) - 19h00 - Morieux - 4 pers - bord de mer - espèces", "bounty": "À réserver LA VEILLE (jeudi 19/11) sur SevenRooms - réservations ouvertes seulement la veille", "gata": "À réserver la veille - +238 950 13 28", "parking": "À réserver"};
+  var RESA_VIEW = {"parking": {"k": "0", "when": "Avant le départ", "j": "dès que possible", "ico": "🅿️", "t": "Parking Orly", "sub": "Voiture de Cédric, du 14/11 vers 03h30 au 21/11 vers 20h30"}, "oceancafe": {"k": "1115", "when": "Dim. 15 nov", "j": "la veille", "ico": "🍽️", "t": "Dîner Ocean Café (lundi soir)", "sub": "Table de 4 en terrasse, près des musiciens", "wa": "2385803505"}, "gata": {"k": "1116", "when": "Lun. 16 nov", "j": "la veille", "ico": "🍽️", "t": "Déjeuner Gata Fish, Palmeira (mardi)", "sub": "Table de 4 vers 12h30", "wa": "2389501328"}, "bounty": {"k": "1119", "when": "Jeu. 19 nov", "j": "la veille", "ico": "🍽️", "t": "Dîner Bounty Beach (vendredi)", "sub": "19h00, table côté plage. Ouvre seulement la veille", "url": "https://www.sevenrooms.com/reservations/thebountybeachrestaurant", "lbl": "SevenRooms"}, "vols": {"k": "1114a", "dw": "SAM", "dn": "14", "m": "NOV", "ico": "✈️", "t": "Vols Transavia", "line": "Aller 06h30 Orly · retour 21/11 11h40", "ref": "K6UNPB", "st": "Payé"}, "airbnb": {"k": "1114b", "dw": "SAM", "dn": "14", "m": "NOV", "ico": "🏠", "t": "Airbnb Sal Sol & Mar", "line": "7 nuits · arrivée 15h00 · départ 21/11 11h00", "ref": "HMYTYQTCD3", "st": "Payé"}, "pastis": {"k": "1114c", "dw": "SAM", "dn": "14", "m": "NOV", "ico": "🍽️", "t": "Chez Pastis", "line": "18h30 · table dans la cour", "ref": "Morieux", "st": "Réservé", "cash": true}, "bikini": {"k": "1115a", "dw": "DIM", "dn": "15", "m": "NOV", "ico": "🥂", "t": "Brunch Bikini Beach Club", "line": "13h00 · zone Restaurant", "ref": "Resos", "st": "Réservé"}, "atlantic": {"k": "1115b", "dw": "DIM", "dn": "15", "m": "NOV", "ico": "🎤", "t": "Atlantic Piano Bar", "line": "19h45 · karaoké", "ref": "TableHelm", "st": "Réservé"}, "plongee": {"k": "1116a", "dw": "LUN", "dn": "16", "m": "NOV", "ico": "🤿", "t": "Plongée Cabo Verde Diving", "line": "08h30 Porto Antigo 1 · Samuel, Cédric", "ref": "226,72 €", "st": "Payé"}, "marea": {"k": "1117a", "dw": "MAR", "dn": "17", "m": "NOV", "ico": "🍽️", "t": "Marea", "line": "19h00", "ref": "Morieux", "st": "Réservé", "cash": true}, "croisiere": {"k": "1118a", "dw": "MER", "dn": "18", "m": "NOV", "ico": "⛵", "t": "Catamaran Cape Verde Sailing", "line": "RDV 08h20 au Palm Beach", "ref": "1460555133", "st": "Réservé"}, "ilgobbo": {"k": "1118b", "dw": "MER", "dn": "18", "m": "NOV", "ico": "🍽️", "t": "Il Gobbo", "line": "19h30", "ref": "Morieux", "st": "Réservé"}, "barracuda": {"k": "1119a", "dw": "JEU", "dn": "19", "m": "NOV", "ico": "🍽️", "t": "Barracuda", "line": "19h00 · bord de mer", "ref": "Morieux", "st": "Réservé", "cash": true}, "whiteparty": {"k": "1120a", "dw": "VEN", "dn": "20", "m": "NOV", "ico": "🎉", "t": "White Party Bikini Beach", "line": "22h00 - 01h30 · tenue blanche", "ref": "Morieux", "st": "Réservé"}};
 
   var chkItems = [
  {
@@ -3594,36 +3615,41 @@ function buildInfo(){
 
   var h='';
   var hChk='';
-  hChk+='<div class="chk-card" style="margin:0">';
-  hChk+='<div class="chk-head"><span class="chk-title">RÉSERVATIONS ESSENTIELLES</span><span class="chk-progress">'+doneCount+' / '+chkItems.length+' faites</span></div>';
-  var resaDetails = loadResaDetails();
-
-  var _row=function(item){
-    var done = !!chkState[item.id];
-    var boxCls = done ? "chk-box done" : "chk-box";
-    var nameCls = done ? "chk-name done" : "chk-name";
-    var deadlineTxt = done ? "&#10003; Réservé !" : e(item.deadline);
-    var det = resaDetails[item.id] || {};
-    var refText = (done && (det.num||det.site)) ? ((det.num ? '# '+det.num : '') + (det.num&&det.site ? ' - ' : '') + (det.site||'')) : '';
-    var infoText = (done && det.info) ? det.info : '';
-    var locked = !!LOCKED_RESA[item.id];
-    if(locked) boxCls += ' locked';
-    hChk += '<div class="chk-item'+(locked?' locked':'')+'" data-chkid="'+item.id+'">';
-    hChk += '<div class="'+boxCls+'"><span class="chk-check">&#10003;</span></div>';
-    hChk += '<div class="chk-info" style="flex:1;min-width:0">';
-    hChk += '<div class="'+nameCls+'">'+e(item.name)+(locked?' <span class="chk-lock" title="Reservation confirmee - verrouillee">&#128274;</span>':'')+'</div>';
-    hChk += '<div class="chk-date">'+e(item.date)+'</div>';
-    hChk += '<div class="chk-deadline" style="color:'+item.color+'" data-orig="'+e(item.deadline)+'">'+deadlineTxt+'</div>';
-    if(refText) hChk += '<div class="chk-refnum">'+refText+'</div>';
-    if(infoText) hChk += '<div class="chk-infobadge" data-resaid="'+item.id+'">&#8505; <span>'+e(infoText)+'</span></div>';
-    if(done) hChk += '<button class="chk-viewbtn" data-resaid="'+item.id+'">&#128196; Voir détails</button>';
-    hChk += '</div></div>';
-  };
+  var RV=RESA_VIEW, resaDetails = loadResaDetails();
   var _todo=chkItems.filter(function(i){return !chkState[i.id]}), _ok=chkItems.filter(function(i){return chkState[i.id]});
-  _todo.forEach(_row);
-  if(_ok.length){ hChk+='<details class="chk-done-wrap"><summary>&#10003; D&eacute;j&agrave; r&eacute;serv&eacute; ('+_ok.length+') &#9662;</summary>'; _ok.forEach(_row); hChk+='</details>'; }
-  hChk+='</div>';
-  h+=acc('&#9989; Checklist réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
+  var _k=function(i){return (RV[i.id]&&RV[i.id].k)||'9'};
+  _todo.sort(function(a,b){return _k(a)<_k(b)?-1:1}); _ok.sort(function(a,b){return _k(a)<_k(b)?-1:1});
+  var _veille=_todo.filter(function(i){return RV[i.id]&&/veille/.test(RV[i.id].j||'')}).length;
+  var _pct=Math.round(doneCount/chkItems.length*94);
+  hChk+='<div class="rv-hero"><svg width="58" height="58" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#2BB3C0" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+_pct+' 94" transform="rotate(-90 18 18)"/><text x="18" y="21" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="-apple-system,sans-serif">'+doneCount+'/'+chkItems.length+'</text></svg>'
+    +'<div><div class="rv-h1">'+(_todo.length?(_todo.length<=4?'Presque tout est calé':'Ça avance'):'Tout est réservé')+'</div><div class="rv-h2">'
+    +(_todo.length?('Plus que '+_todo.length+' réservation'+(_todo.length>1?'s':'')+(_veille?(', dont '+_veille+' à faire la veille sur place'):'')):'Il ne reste plus qu’à profiter')+'</div></div><span class="chk-progress" style="display:none"></span></div>';
+  var _g='';
+  _todo.forEach(function(item){
+    var v=RV[item.id]||{};
+    var g=v.when||item.date;
+    if(g!==_g){ _g=g; hChk+='<div class="rv-grp">'+e(g)+(v.j?' <span class="rv-pill rv-red">'+e(v.j)+'</span>':'')+'</div>'; }
+    var act='';
+    if(v.wa) act='<a class="rv-act rv-wa" href="https://wa.me/'+v.wa+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#128172; WhatsApp</a>';
+    else if(v.url) act='<a class="rv-act rv-url" href="'+v.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#128279; '+e(v.lbl||'Réserver')+'</a>';
+    hChk+='<div class="chk-item rv-row" data-chkid="'+item.id+'"><div class="chk-box"><span class="chk-check">&#10003;</span></div>'
+      +'<div style="flex:1;min-width:0"><div class="chk-name rv-t">'+(v.ico?v.ico+' ':'')+e(v.t||item.name)+'</div><div class="rv-s">'+e(v.sub||item.deadline)+'</div></div>'+act+'</div>';
+  });
+  if(_ok.length){
+    hChk+='<div class="rv-grp" style="margin-top:20px;color:#2E6B3E">&#127915; VOS BILLETS <span class="rv-pill rv-ok">'+_ok.length+'</span></div>';
+    _ok.forEach(function(item){
+      var v=RV[item.id]||{}, det=resaDetails[item.id]||{};
+      var ref=v.ref||det.num||det.site||'';
+      var st=v.st||'Réservé';
+      hChk+='<div class="chk-item rv-tk" data-chkid="'+item.id+'">'
+        +'<div class="rv-stub"><div class="rv-dw">'+e(v.dw||'')+'</div><div class="rv-dn">'+e(v.dn||'✓')+'</div><div class="rv-dw">'+e(v.m||'')+'</div></div>'
+        +'<div class="rv-perf"></div>'
+        +'<div class="chk-viewbtn rv-body" data-resaid="'+item.id+'"><div style="display:flex;justify-content:space-between;gap:6px"><div class="chk-name rv-t" style="font-size:14px">'+(v.ico?v.ico+' ':'')+e(v.t||item.name)+'</div><span class="rv-pill rv-ok" style="align-self:flex-start;white-space:nowrap">&#10003; '+e(st)+'</span></div>'
+        +'<div class="rv-s">'+e(v.line||item.date)+'</div>'
+        +'<div style="margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+(ref?'<span class="rv-ref">'+e(ref)+'</span>':'')+(v.cash?'<span class="rv-pill rv-cash">Espèces</span>':'')+'<span class="rv-more">Détails &#8250;</span></div></div></div>';
+    });
+  }
+  h+=acc('&#9989; Réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
   var _tc=todoCount();
   h+=acc('&#128221; À faire ('+_tc[0]+'/'+_tc[1]+')', renderTodo(), true);
   var _rn=restoRows.filter(function(r){return r.st!=='free'}).length, _rc=loadChkState(), _ro=restoRows.filter(function(r){return r.st==='ok'||(r.st==='todo'&&_rc[r.chk])}).length;
@@ -3943,6 +3969,7 @@ function saveResaDetails(){
   details[id] = {num: num, site: site, info: info};
   try{ localStorage.setItem("capvert26_resaDetails", JSON.stringify(details)); }catch(e){}
   closeResaModal();
+  try{ buildInfo(); }catch(_e){}
   buildInfo();
   updateProgress();
   // Scroll back to checklist
@@ -3960,6 +3987,7 @@ function viewResaDetails(evt, id){
   var details = {};
   var details = loadResaDetails();
   var det = details[id] || {};
+  if(!det.num && !det.site && !det.info && window.RV_DEAD && RV_DEAD[id]) det = {info: RV_DEAD[id]};
   var item = document.querySelector('[data-chkid="'+id+'"]');
   var name = item ? (item.querySelector(".chk-name") || {textContent:id}) : {textContent:id};
   document.getElementById("resaDetailsName").textContent = name.textContent.replace(/\u0336/g,"");
@@ -4032,7 +4060,7 @@ function updateChkDOM(id, done, num, site, info){
   if(viewBtn) viewBtn.style.display = done ? "inline-flex" : "none";
 }
 
-function updateProgress(){
+function updateProgress(){ if(typeof chkItems==="undefined") return;
   var allState = {};
   var allState = loadChkState();
   var doneCount = chkItems.filter(function(i){ return allState[i.id]; }).length;
