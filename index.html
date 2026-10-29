@@ -3113,7 +3113,7 @@ function renderTodo(){
   var it=todoItems.slice().sort(function(a,b){ var da=st[a.id]?1:0, db=st[b.id]?1:0; return da-db || (a.due<b.due?-1:a.due>b.due?1:0); });
   var nd=it.filter(function(i){return st[i.id]}).length;
   var h='<div class="chk-card" style="margin:0"><div class="chk-head" style="background:linear-gradient(135deg,#3a2a1a,#5a3f24)"><span class="chk-title">À FAIRE</span><span class="chk-progress todo-progress">'+nd+' / '+it.length+' faites</span></div>';
-  it.forEach(function(i){
+  var _row=function(i){
     var done=!!st[i.id], j=todoDays(i.due), p=i.due.split("-");
     var c=done?"#9a948a":(j<0?"#B3261E":i.color);
     var jl=done?"Fait":(j>0?"J-"+j:(j===0?"Auj.":"Retard"));
@@ -3123,7 +3123,9 @@ function renderTodo(){
     h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':e(i.detail))+'</div></div>';
     h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
     h+='</div>';
-  });
+  };
+  it.filter(function(i){return !st[i.id]}).forEach(_row);
+  if(nd){ h+='<details class="chk-done-wrap"><summary>&#10003; D&eacute;j&agrave; fait ('+nd+') &#9662;</summary>'; it.filter(function(i){return st[i.id]}).forEach(_row); h+='</details>'; }
   return h+'</div>';
 }
 function toggleTodo(id){
