@@ -3043,6 +3043,8 @@ var DEFAULT_RESA_DETAILS = {
 var todoItems = [
  {
   "id": "ady_aller",
+  "evd": "2026-11-14",
+  "evl": "Arrivée à Sal : sam 14/11, atterrissage 10h45",
   "rt": "11:00",
   "due": "2026-11-14",
   "name": "Ady : WhatsApp à l’atterrissage",
@@ -3051,6 +3053,8 @@ var todoItems = [
  },
  {
   "id": "ady_nord",
+  "evd": "2026-11-17",
+  "evl": "Tour du nord : mar 17/11 à 09h30",
   "rt": "18:00",
   "due": "2026-11-15",
   "name": "Ady : réserver le tour du nord",
@@ -3059,6 +3063,8 @@ var todoItems = [
  },
  {
   "id": "ady_vendredi",
+  "evd": "2026-11-20",
+  "evl": "Pedra de Lume : ven 20/11 à 12h20",
   "rt": "18:00",
   "due": "2026-11-18",
   "name": "Ady : réserver Pedra de Lume et Shark Bay",
@@ -3067,6 +3073,8 @@ var todoItems = [
  },
  {
   "id": "ady_white",
+  "evd": "2026-11-20",
+  "evl": "White Party : ven 20/11, départ 21h40",
   "rt": "18:00",
   "due": "2026-11-18",
   "name": "Ady : réserver la soirée White Party",
@@ -3075,6 +3083,8 @@ var todoItems = [
  },
  {
   "id": "ady_retour",
+  "evd": "2026-11-21",
+  "evl": "Départ du logement : sam 21/11 à 08h00",
   "rt": "18:00",
   "due": "2026-11-18",
   "name": "Ady : réserver l’aéroport au départ",
@@ -3083,6 +3093,8 @@ var todoItems = [
  },
  {
   "id": "ease",
+  "evd": "2026-11-14",
+  "evl": "Arrivée à Sal : sam 14/11",
   "rt": "09:00",
   "due": "2026-11-09",
   "name": "Préenregistrement EASE (x4)",
@@ -3091,6 +3103,8 @@ var todoItems = [
  },
  {
   "id": "morabeza",
+  "evd": "2026-11-19",
+  "evl": "Morabeza : jeu 19/11 après-midi",
   "rt": "09:00",
   "due": "2026-11-10",
   "name": "Morabeza Beach Club : rouvert ?",
@@ -3099,6 +3113,8 @@ var todoItems = [
  },
  {
   "id": "cata_heure",
+  "evd": "2026-11-18",
+  "evl": "Sortie catamaran : mer 18/11, départ 08h30",
   "rt": "09:00",
   "due": "2026-11-11",
   "name": "Catamaran : heure de prise en charge",
@@ -3107,6 +3123,8 @@ var todoItems = [
  },
  {
   "id": "checkin",
+  "evd": "2026-11-14",
+  "evl": "Vol TO3232 : sam 14/11 à 06h30 d’Orly",
   "rt": "09:00",
   "due": "2026-11-13",
   "name": "Enregistrement en ligne aller",
@@ -3115,6 +3133,8 @@ var todoItems = [
  },
  {
   "id": "ady_16",
+  "evd": "2026-11-17",
+  "evl": "Tour du nord : mar 17/11 à 09h30",
   "rt": "18:00",
   "due": "2026-11-16",
   "name": "Ady : confirmer le tour du nord de demain",
@@ -3123,6 +3143,8 @@ var todoItems = [
  },
  {
   "id": "ady_19",
+  "evd": "2026-11-20",
+  "evl": "Trajets : ven 20/11 dès 12h20 et sam 21/11 à 08h00",
   "rt": "18:00",
   "due": "2026-11-19",
   "name": "Ady : confirmer vendredi et l’aéroport",
@@ -3154,7 +3176,7 @@ function renderTodo(){
     h+='<div class="chk-item todo-row" data-todoid="'+i.id+'">';
     h+='<div class="chk-box'+(done?' done':'')+'"><span class="chk-check">&#10003;</span></div>';
     h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+e(i.name)+'</div>';
-    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':e(i.detail))+'</div>'+(done?'':rpChip(i))+'</div>';
+    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':(i.evl?'<div style="font-weight:800;margin-bottom:2px">&#128205; '+e(i.evl)+'</div>':'')+e(i.detail))+'</div>'+(done?'':rpChip(i))+'</div>';
     h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
     h+='</div>';
   };
@@ -3176,9 +3198,13 @@ function rpAddDays(iso,n){ var p=iso.split("-"), d=new Date(Date.UTC(+p[0],+p[1]
 function rpSal(iso){ return iso>="2026-11-14" && iso<"2026-11-21"; }   // sur place : heure du Cap-Vert
 function rpUtc(iso,hm){ var p=iso.split("-"), t=hm.split(":"); return Date.UTC(+p[0],+p[1]-1,+p[2],+t[0],+t[1]) - (rpSal(iso)?-1:1)*3600000; }
 function rpLabel(iso,hm){ var p=iso.split("-"), d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2])); return RP_J[d.getUTCDay()]+" "+(+p[2])+" "+RP_M[+p[1]-1]+" à "+hm.replace(":","h")+(rpSal(iso)?" (heure de Sal)":""); }
+function rpRel(d,evd){
+  var a=d.split("-"), b=evd.split("-"), n=Math.round((Date.UTC(+b[0],+b[1]-1,+b[2])-Date.UTC(+a[0],+a[1]-1,+a[2]))/86400000);
+  return n===0?"le jour même":(n===1?"la veille":(n>1?n+" jours avant":(-n)+(n===-1?" jour après":" jours après")));
+}
 function rpChip(i){
   var r=rpLoad()[i.id], st="background:#F4EBD6;color:#8a6a24;border:1.5px solid #B8923D", tx="&#128276; Rappel ?";
-  if(r && r.st==="on"){ st="background:#E6F0E8;color:#2E6B3E;border:1.5px solid #2E6B3E"; tx="&#10003; Rappel &middot; "+e(rpLabel(r.d,r.t)); }
+  if(r && r.st==="on"){ st="background:#E6F0E8;color:#2E6B3E;border:1.5px solid #2E6B3E"; tx="&#10003; Rappel &middot; "+e(rpLabel(r.d,r.t))+(i.evd?" &middot; "+rpRel(r.d,i.evd):""); }
   else if(r && r.st==="off"){ st="background:#fff;color:#aaa;border:1.5px dashed #ccc"; tx="&#128277; Pas de rappel"; }
   return '<span class="rp-chip" data-rp="'+i.id+'" style="display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:5px 11px;border-radius:20px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;cursor:pointer;'+st+'">'+tx+'</span>';
 }
@@ -3214,7 +3240,8 @@ function rpOpen(id, mode){
   if(rpMode==="saved"){
     h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#2E6B3E">&#10003; RAPPEL</div>';
     h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 6px">'+e(i.name)+'</div>';
-    h+='<div style="font-size:14px;color:#444;margin-bottom:16px">'+e(rpLabel(r.d,r.t))+'</div>';
+    h+='<div style="font-size:14px;color:#444;margin-bottom:'+(i.evl?'4':'16')+'px">'+e(rpLabel(r.d,r.t))+(i.evd?', '+rpRel(r.d,i.evd):'')+'</div>';
+    if(i.evl) h+='<div style="font-size:12px;font-weight:700;color:#C8573F;margin-bottom:16px">&#128205; '+e(i.evl)+'</div>';
     h+='<div style="display:flex;gap:8px"><button onclick="rpOpen(\''+id+'\',\'edit\')" style="'+B+'flex:1;border:1.5px solid #B8923D;border-radius:12px;background:#fff;color:#8a6a24;font-size:14px;font-weight:700;padding:12px 0">Changer l&rsquo;heure</button>';
     h+='<button onclick="rpCancel()" style="'+B+'flex:1;border:1.5px solid #C8573F;border-radius:12px;background:#fff;color:#C8573F;font-size:14px;font-weight:700;padding:12px 0">Annuler le rappel</button></div>';
   } else if(rpMode==="clean"){
@@ -3226,9 +3253,10 @@ function rpOpen(id, mode){
     h+='<button onclick="rpClose()" style="'+B+'width:100%;border:1.5px solid #e3ddd2;border-radius:12px;background:#fff;color:#888;font-size:13px;font-weight:600;padding:10px 0">Terminé</button>';
   } else {
     var d0=(r&&r.d)||i.due, t0=(r&&r.t)||i.rt||"09:00", veille=rpAddDays(i.due,-1);
-    var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
+    var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button class="rp-pre" data-pd="'+d+'" data-pt="'+t+'" onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
     h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#B8923D">RAPPEL</div>';
-    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 12px">'+e(i.name)+'</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 '+(i.evl?'4':'12')+'px">'+e(i.name)+'</div>';
+    if(i.evl) h+='<div style="font-size:12px;font-weight:700;color:#C8573F;margin-bottom:12px">&#128205; '+e(i.evl)+'</div>';
     h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+pre("La veille 18h",veille,"18:00")+pre("Le jour 9h",i.due,"09:00")+'<button onclick="document.getElementById(\'rpD\').focus()" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;background:#f3efe7;color:#555">Autre&hellip;</button></div>';
     h+='<div style="display:flex;gap:8px;margin-bottom:6px"><label style="flex:1.4;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">DATE</div><input id="rpD" type="date" value="'+d0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label>';
     h+='<label style="flex:1;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">HEURE</div><input id="rpT" type="time" value="'+t0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label></div>';
@@ -3243,6 +3271,8 @@ function rpPreset(d,t){ document.getElementById("rpD").value=d; document.getElem
 function rpHint(){
   var d=document.getElementById("rpD").value, t=document.getElementById("rpT").value, el=document.getElementById("rpHintBox"); if(!el||!d||!t) return;
   var hh=+t.split(":")[0], msg=rpSal(d)?"Heure de Sal (2 h de moins qu&rsquo;en France).":"Heure de France.";
+  [].forEach.call(document.querySelectorAll(".rp-pre"),function(b){ var on=b.getAttribute("data-pd")===d&&b.getAttribute("data-pt")===t; b.style.background=on?"#1a1a1a":"#f3efe7"; b.style.color=on?"#fff":"#555"; b.style.fontWeight=on?"700":"600"; });
+  var it=rpItem(rpCur); if(it && it.evd) msg='<b style="color:#1a1a1a">Rappel '+rpRel(d,it.evd)+'.</b> '+msg;
   if(hh>=22||hh<7) msg+=' <b style="color:#C8573F">Attention, rappel en pleine nuit.</b>';
   if(rpUtc(d,t)<Date.now()) msg+=' <b style="color:#C8573F">Cette date est déjà passée.</b>';
   el.innerHTML=msg;
