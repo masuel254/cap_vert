@@ -3043,6 +3043,7 @@ var DEFAULT_RESA_DETAILS = {
 var todoItems = [
  {
   "id": "ady_resa",
+  "rt": "09:00",
   "due": "2026-11-07",
   "name": "Ady : réserver les trajets",
   "detail": "WhatsApp +238 952 97 19 - aéroport sam 14/11 (TO3232, arrivée 10h45, 4 pers, 4 valises), mar 17/11 tour du nord 09h30-16h30 en 4x4, ven 20/11 12h20-17h30 puis White Party (21h40 et retour 01h30), sam 21/11 aéroport 08h00. Fixer les prix",
@@ -3050,6 +3051,7 @@ var todoItems = [
  },
  {
   "id": "ease",
+  "rt": "09:00",
   "due": "2026-11-09",
   "name": "Préenregistrement EASE (x4)",
   "detail": "Sur ease.gov.cv, au plus tard 5 jours avant l’arrivée",
@@ -3057,6 +3059,7 @@ var todoItems = [
  },
  {
   "id": "morabeza",
+  "rt": "09:00",
   "due": "2026-11-10",
   "name": "Morabeza Beach Club : rouvert ?",
   "detail": "Vérifier sur Google Maps (fermé après la tempête). Si oui : jeudi 19 après-midi à la place d’Angulo",
@@ -3064,6 +3067,7 @@ var todoItems = [
  },
  {
   "id": "cata_heure",
+  "rt": "09:00",
   "due": "2026-11-11",
   "name": "Catamaran : heure de prise en charge",
   "detail": "Cape Verde Sailing, chat Viator ou WhatsApp +238 933 95 10 - réf 1460555133 - point de rencontre et heure (vers 08h00 ?)",
@@ -3071,6 +3075,7 @@ var todoItems = [
  },
  {
   "id": "checkin",
+  "rt": "09:00",
   "due": "2026-11-13",
   "name": "Enregistrement en ligne aller",
   "detail": "Ouvre le 13/11 à 00h30 - Transavia K6UNPB",
@@ -3078,6 +3083,7 @@ var todoItems = [
  },
  {
   "id": "ady_13",
+  "rt": "12:00",
   "due": "2026-11-13",
   "name": "Ady : confirmer l’arrivée de demain",
   "detail": "TO3232, atterrissage 10h45, 4 pers et 4 valises, Rua 15 Agosto 108",
@@ -3085,6 +3091,7 @@ var todoItems = [
  },
  {
   "id": "ady_16",
+  "rt": "18:00",
   "due": "2026-11-16",
   "name": "Ady : confirmer le tour du nord de demain",
   "detail": "Mardi 09h30 devant le logement, 4x4 ou pick-up pour Buracona, prix fixe",
@@ -3092,6 +3099,7 @@ var todoItems = [
  },
  {
   "id": "ady_19",
+  "rt": "18:00",
   "due": "2026-11-19",
   "name": "Ady : confirmer vendredi et l’aéroport",
   "detail": "Ven 12h20 Pedra de Lume et Shark Bay, 21h40 Bounty vers White Party, retour 01h30. Sam 08h00 logement vers aéroport",
@@ -3120,7 +3128,7 @@ function renderTodo(){
     h+='<div class="chk-item todo-row" data-todoid="'+i.id+'">';
     h+='<div class="chk-box'+(done?' done':'')+'"><span class="chk-check">&#10003;</span></div>';
     h+='<div class="chk-info"><div class="chk-name'+(done?' done':'')+'">'+e(i.name)+'</div>';
-    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':e(i.detail))+'</div></div>';
+    h+='<div class="chk-deadline" style="color:'+(done?'#2E6B3E':c)+';font-weight:600;line-height:1.35">'+(done?'&#10003; Fait':e(i.detail))+'</div>'+(done?'':rpChip(i))+'</div>';
     h+='<div class="todo-cal" style="border-color:'+c+'"><div class="todo-cal-m" style="background:'+c+'">'+M[+p[1]-1]+'</div><div class="todo-cal-d">'+p[2]+'</div><div class="todo-cal-j">'+jl+'</div></div>';
     h+='</div>';
   };
@@ -3133,7 +3141,104 @@ function toggleTodo(id){
   try{ localStorage.setItem("capvert26_todoState", JSON.stringify(s)); }catch(e){}
   buildInfo();
 }
+// ---------------------------------------------------------------- rappels iPhone (fichier .ics)
+var RP_KEY="capvert26_rappels", RP_J=["dim.","lun.","mar.","mer.","jeu.","ven.","sam."], RP_M=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+function rpLoad(){ var s={}; try{ var v=localStorage.getItem(RP_KEY); if(v) s=JSON.parse(v)||{}; }catch(x){} return s; }
+function rpSave(s){ try{ localStorage.setItem(RP_KEY, JSON.stringify(s)); }catch(x){} }
+function rpItem(id){ for(var k=0;k<todoItems.length;k++) if(todoItems[k].id===id) return todoItems[k]; return null; }
+function rpAddDays(iso,n){ var p=iso.split("-"), d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]+n)); return d.toISOString().slice(0,10); }
+function rpSal(iso){ return iso>="2026-11-14" && iso<"2026-11-21"; }   // sur place : heure du Cap-Vert
+function rpUtc(iso,hm){ var p=iso.split("-"), t=hm.split(":"); return Date.UTC(+p[0],+p[1]-1,+p[2],+t[0],+t[1]) - (rpSal(iso)?-1:1)*3600000; }
+function rpLabel(iso,hm){ var p=iso.split("-"), d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2])); return RP_J[d.getUTCDay()]+" "+(+p[2])+" "+RP_M[+p[1]-1]+" à "+hm.replace(":","h")+(rpSal(iso)?" (heure de Sal)":""); }
+function rpChip(i){
+  var r=rpLoad()[i.id], st="background:#F4EBD6;color:#8a6a24;border:1.5px solid #B8923D", tx="&#128276; Rappel ?";
+  if(r && r.st==="on"){ st="background:#E6F0E8;color:#2E6B3E;border:1.5px solid #2E6B3E"; tx="&#10003; Rappel &middot; "+e(rpLabel(r.d,r.t)); }
+  else if(r && r.st==="off"){ st="background:#fff;color:#aaa;border:1.5px dashed #ccc"; tx="&#128277; Pas de rappel"; }
+  return '<span class="rp-chip" data-rp="'+i.id+'" style="display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:5px 11px;border-radius:20px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;cursor:pointer;'+st+'">'+tx+'</span>';
+}
+function rpIcs(i,iso,hm){
+  var u=new Date(rpUtc(iso,hm)), f=function(x){ return x.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""); };
+  var esc=function(x){ return String(x).replace(/\\/g,"\\\\").replace(/;/g,"\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); };
+  return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//MTO//Carnet Cap-Vert//FR","CALSCALE:GREGORIAN","METHOD:PUBLISH","BEGIN:VEVENT",
+    "UID:"+i.id+"-"+Date.now()+"@mto-capvert","DTSTAMP:"+f(new Date()),"DTSTART:"+f(u),"DTEND:"+f(new Date(u.getTime()+15*60000)),
+    "SUMMARY:"+esc("Cap-Vert : "+i.name),"DESCRIPTION:"+esc(i.detail),
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+esc(i.name),"TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+}
+function rpDownload(i,iso,hm){
+  var blob=new Blob([rpIcs(i,iso,hm)],{type:"text/calendar;charset=utf-8"}), url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="rappel-"+i.id+".ics"; document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },4000);
+}
+function rpCalUrl(iso,hm){ return "calshow:"+Math.round((rpUtc(iso,hm)-Date.UTC(2001,0,1))/1000); }
+var rpCur=null, rpMode="edit";
+function rpSheet(){
+  var o=document.getElementById("rpSheet"); if(o) return o;
+  o=document.createElement("div"); o.id="rpSheet";
+  o.style.cssText="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.45);align-items:flex-end;justify-content:center";
+  o.addEventListener("click",function(ev){ if(ev.target===o) rpClose(); });
+  document.body.appendChild(o); return o;
+}
+function rpClose(){ var o=document.getElementById("rpSheet"); if(o) o.style.display="none"; rpCur=null; buildInfo(); }
+function rpOpen(id, mode){
+  rpCur=id; var i=rpItem(id), r=rpLoad()[id]; if(!i) return;
+  rpMode = mode || ((r && r.st==="on") ? "saved" : "edit");
+  var o=rpSheet(), B='font-family:-apple-system,sans-serif;', h='';
+  h+='<div style="'+B+'width:100%;max-width:480px;background:#fff;border-radius:22px 22px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom))">';
+  h+='<div style="width:40px;height:5px;background:#ddd;border-radius:3px;margin:0 auto 12px"></div>';
+  if(rpMode==="saved"){
+    h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#2E6B3E">&#10003; RAPPEL</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 6px">'+e(i.name)+'</div>';
+    h+='<div style="font-size:14px;color:#444;margin-bottom:16px">'+e(rpLabel(r.d,r.t))+'</div>';
+    h+='<div style="display:flex;gap:8px"><button onclick="rpOpen(\''+id+'\',\'edit\')" style="'+B+'flex:1;border:1.5px solid #B8923D;border-radius:12px;background:#fff;color:#8a6a24;font-size:14px;font-weight:700;padding:12px 0">Changer l&rsquo;heure</button>';
+    h+='<button onclick="rpCancel()" style="'+B+'flex:1;border:1.5px solid #C8573F;border-radius:12px;background:#fff;color:#C8573F;font-size:14px;font-weight:700;padding:12px 0">Annuler le rappel</button></div>';
+  } else if(rpMode==="clean"){
+    var old=rpSheet()._old;
+    h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#C8573F">DERNIÈRE ÉTAPE</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 8px">'+e(i.name)+'</div>';
+    h+='<div style="font-size:13px;color:#555;line-height:1.5;margin-bottom:14px">'+(rpSheet()._why==="cancel"?'Le rappel est retiré du carnet.':'Le nouveau rappel est ajouté.')+' Il reste à supprimer l&rsquo;ancien dans ton Calendrier : <b>'+e(rpLabel(old.d,old.t))+'</b>. Touche le rappel, puis &laquo;&nbsp;Supprimer l&rsquo;événement&nbsp;&raquo;.</div>';
+    h+='<a href="'+rpCalUrl(old.d,old.t)+'" style="'+B+'display:block;text-align:center;text-decoration:none;border-radius:12px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:700;padding:12px 0;margin-bottom:8px">&#128197; Ouvrir le Calendrier à cette date</a>';
+    h+='<button onclick="rpClose()" style="'+B+'width:100%;border:1.5px solid #e3ddd2;border-radius:12px;background:#fff;color:#888;font-size:13px;font-weight:600;padding:10px 0">Terminé</button>';
+  } else {
+    var d0=(r&&r.d)||i.due, t0=(r&&r.t)||i.rt||"09:00", veille=rpAddDays(i.due,-1);
+    var pre=function(lbl,d,t){ var on=(d===d0&&t===t0); return '<button onclick="rpPreset(\''+d+'\',\''+t+'\')" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:'+(on?'700':'600')+';background:'+(on?'#1a1a1a':'#f3efe7')+';color:'+(on?'#fff':'#555')+'">'+lbl+'</button>'; };
+    h+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#B8923D">RAPPEL</div>';
+    h+='<div style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1a1a1a;margin:3px 0 12px">'+e(i.name)+'</div>';
+    h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+pre("La veille 18h",veille,"18:00")+pre("Le jour 9h",i.due,"09:00")+'<button onclick="document.getElementById(\'rpD\').focus()" style="'+B+'flex:1;border:none;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;background:#f3efe7;color:#555">Autre&hellip;</button></div>';
+    h+='<div style="display:flex;gap:8px;margin-bottom:6px"><label style="flex:1.4;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">DATE</div><input id="rpD" type="date" value="'+d0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label>';
+    h+='<label style="flex:1;border:1px solid #e3ddd2;border-radius:10px;padding:7px 10px"><div style="font-size:10px;color:#999;font-weight:600">HEURE</div><input id="rpT" type="time" value="'+t0+'" oninput="rpHint()" style="'+B+'border:none;background:none;font-size:15px;font-weight:700;color:#1a1a1a;width:100%;padding:0"></label></div>';
+    h+='<div id="rpHintBox" style="font-size:11px;color:#888;margin-bottom:14px;min-height:15px"></div>';
+    h+='<button onclick="rpAdd()" style="'+B+'width:100%;border:none;border-radius:12px;background:#B8923D;color:#fff;font-size:14px;font-weight:700;padding:13px 0;margin-bottom:8px">&#128197; Ajouter à mon agenda</button>';
+    h+='<button onclick="rpOff()" style="'+B+'width:100%;border:1.5px solid #e3ddd2;border-radius:12px;background:#fff;color:#888;font-size:13px;font-weight:600;padding:10px 0">'+((r&&r.st==="on")?'Garder le rappel actuel':'Pas de rappel pour cette action')+'</button>';
+  }
+  h+='</div>';
+  o.innerHTML=h; o.style.display="flex"; if(rpMode==="edit") rpHint();
+}
+function rpPreset(d,t){ document.getElementById("rpD").value=d; document.getElementById("rpT").value=t; rpHint(); }
+function rpHint(){
+  var d=document.getElementById("rpD").value, t=document.getElementById("rpT").value, el=document.getElementById("rpHintBox"); if(!el||!d||!t) return;
+  var hh=+t.split(":")[0], msg=rpSal(d)?"Heure de Sal (2 h de moins qu&rsquo;en France).":"Heure de France.";
+  if(hh>=22||hh<7) msg+=' <b style="color:#C8573F">Attention, rappel en pleine nuit.</b>';
+  if(rpUtc(d,t)<Date.now()) msg+=' <b style="color:#C8573F">Cette date est déjà passée.</b>';
+  el.innerHTML=msg;
+}
+function rpAdd(){
+  var d=document.getElementById("rpD").value, t=document.getElementById("rpT").value; if(!d||!t) return;
+  var i=rpItem(rpCur), s=rpLoad(), prev=s[rpCur];
+  rpDownload(i,d,t);
+  s[rpCur]={st:"on",d:d,t:t}; rpSave(s);
+  if(prev && prev.st==="on" && (prev.d!==d||prev.t!==t)){ rpSheet()._old=prev; rpSheet()._why="change"; rpOpen(rpCur,"clean"); }
+  else rpClose();
+}
+function rpOff(){
+  var s=rpLoad(); if(s[rpCur] && s[rpCur].st==="on"){ rpOpen(rpCur,"saved"); return; }
+  s[rpCur]={st:"off"}; rpSave(s); rpClose();
+}
+function rpCancel(){
+  var s=rpLoad(), prev=s[rpCur]; s[rpCur]={st:"off"}; rpSave(s);
+  rpSheet()._old=prev; rpSheet()._why="cancel"; rpOpen(rpCur,"clean");
+}
 document.addEventListener("click",function(ev){
+  var cp=ev.target.closest&&ev.target.closest(".rp-chip"); if(cp){ ev.stopPropagation(); ev.preventDefault(); rpOpen(cp.getAttribute("data-rp")); return; }
   var r=ev.target.closest&&ev.target.closest(".todo-row"); if(!r) return;
   ev.stopPropagation(); toggleTodo(r.getAttribute("data-todoid"));
 },true);
