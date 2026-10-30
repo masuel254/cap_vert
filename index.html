@@ -2478,7 +2478,8 @@ var INFO_DATA={
   "tarifs": [
    "Happy hour sur les boissons"
   ],
-  "conseil": "4,8/5 sur 316 avis Google. Parfait pour l’apéro avant le dîner : il fermé à 21h30."
+  "conseil": "4,8/5 sur 316 avis Google. Parfait pour l’apéro avant le dîner : il fermé à 21h30.",
+  "video": "https://vm.tiktok.com/ZN8UpHegv/"
  },
  "Dîner gastronomique au Marea": {
   "title": "Marea - la meilleure table de Santa Maria",
@@ -4206,20 +4207,35 @@ function infoLogistique(blocks){
   return h+'</div></div>';
 }
 
+var TT_IDS={};
+function ttResolve(url,cb){
+  var m=url.match(/\/video\/(\d+)/); if(m){TT_IDS[url]=m[1];cb&&cb(m[1]);return;}
+  if(TT_IDS[url]){cb&&cb(TT_IDS[url]);return;}
+  fetch('https://www.tiktok.com/oembed?url='+encodeURIComponent(url)).then(function(r){return r.json()}).then(function(j){
+    var id=j.embed_product_id||((j.html||'').match(/data-video-id="(\d+)"/)||[])[1];
+    if(id) TT_IDS[url]=id; cb&&cb(id||null);
+  }).catch(function(){cb&&cb(null);});
+}
+// le player TikTok signale qu il est pret : on demande le son et la lecture
+window.addEventListener('message',function(e){
+  if(!/tiktok\.com$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;
+  var d=e.data; try{if(typeof d==='string')d=JSON.parse(d);}catch(x){return;}
+  if(!d||!d['x-tiktok-player'])return;
+  if(d.type==='onPlayerReady'){var f=document.querySelector('.iv-fr iframe');if(f){
+    f.contentWindow.postMessage({type:'unMute','x-tiktok-player':true},'*');
+    f.contentWindow.postMessage({type:'play','x-tiktok-player':true},'*');}}
+});
 function playTT(a){
   var box=a.parentNode, img=box.querySelector('img'); if(!img) return true;
   var url=a.getAttribute('href'), h=Math.round(img.getBoundingClientRect().height)||420;
   function show(id){
     box.dataset.keep=box.innerHTML;
-    box.innerHTML='<div class="iv-fr" style="height:'+h+'px"><iframe src="https://www.tiktok.com/player/v1/'+id+'?autoplay=1&loop=1&rel=0&music_info=0&description=0" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe><button class="iv-x" onclick="var b=this.closest(\'#infoImg\');b.innerHTML=b.dataset.keep" aria-label="Revenir a la photo">&#10005;</button></div>';
+    box.innerHTML='<div class="iv-fr" style="height:'+h+'px"><iframe src="https://www.tiktok.com/player/v1/'+id+'?autoplay=1&loop=1&rel=0&music_info=0&description=0&volume_control=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe><button class="iv-x" onclick="var b=this.closest(\'#infoImg\');b.innerHTML=b.dataset.keep" aria-label="Revenir a la photo">&#10005;</button></div>';
   }
-  var m=url.match(/\/video\/(\d+)/); if(m){show(m[1]);return false;}
-  if(navigator.onLine===false){a.lastChild.previousSibling&&0;a.querySelector('.iv-pl').nextSibling.textContent='Pas de réseau ';return false;}
+  if(TT_IDS[url]){show(TT_IDS[url]);return false;}
+  if(navigator.onLine===false){a.querySelector('.iv-pl').nextSibling.textContent='Pas de r\u00e9seau ';return false;}
   a.style.opacity='.6';
-  fetch('https://www.tiktok.com/oembed?url='+encodeURIComponent(url)).then(function(r){return r.json()}).then(function(j){
-    var id=j.embed_product_id||((j.html||'').match(/data-video-id="(\d+)"/)||[])[1];
-    if(id) show(id); else window.open(url,'_blank');
-  }).catch(function(){window.open(url,'_blank');}).then(function(){a.style.opacity='';});
+  ttResolve(url,function(id){a.style.opacity='';if(id)show(id);else window.open(url,'_blank');});
   return false;
 }
 function openInfo(btn) {
@@ -4251,6 +4267,7 @@ function openInfo(btn) {
         + 'Ajoute une image nommee <strong>' + infoEsc(d.image) + '</strong> dans GitHub, a cote de index.html</div>';
       ii.style.display = "block";
       ii.style.position = "relative";
+      if (d.video && navigator.onLine!==false) ttResolve(d.video);
       if (d.video) ii.innerHTML += '<a class="iv-tt" href="' + d.video + '" target="_blank" rel="noopener" onclick="return playTT(this)"><span class="iv-pl"><i></i></span>Voir la vid&eacute;o<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9a7.3 7.3 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg></a>';
     } else { ii.innerHTML = ""; ii.style.display = "none"; }
   }
