@@ -294,6 +294,7 @@ body{
 .web-btn:active{transform:scale(.94)}
 .thi{display:inline-block;font-size:15px;line-height:1;margin-right:6px;vertical-align:-1px}.thi.thi-up{vertical-align:2px}
 .tc2.tc2-resa{background:var(--c-osaka)!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
+.tc2.tc2-free{background:#ECE9E2!important;color:#6d655b!important;max-width:none;letter-spacing:.4px;font-weight:700}
 .tc2.tc2-ok{background:#2E6B3E!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
 .wsv{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:9998}
 .wsh{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);padding:18px 18px calc(22px + env(safe-area-inset-bottom));z-index:9999;max-height:80vh;overflow:auto;font-family:-apple-system,sans-serif}
@@ -3017,6 +3018,7 @@ function openDay(id){
     var cost=(ev.cost&&ev.cost!=="---")?'<div class="tc2">'+e(ev.cost)+'</div>':"";
     if(/^(R[ée]serv[ée]|Pay[ée])/i.test(ev.cost||"")) cost='<div class="tc2 tc2-ok">&#10003; '+e(ev.cost).toUpperCase()+'</div>';
     if(typeof RESA_TODO!=="undefined" && RESA_TODO[ev.title]) cost=loadChkState()[RESA_TODO[ev.title]]?'<div class="tc2 tc2-ok">&#10003; RÉSERVÉ</div>':'<div class="tc2 tc2-resa">À RÉSERVER</div>';
+    if(!cost && ev.type==="meal") cost='<div class="tc2 tc2-free">SANS RÉSA</div>';
     var _bd=ev.body||"",_dep="",_mm=_bd.match(/^D[e\u00e9]placement : (.+?)\.(?:\s+|$)/);
     if(_mm){_dep='<div class="tdep">'+e(_mm[1])+'</div>';_bd=_bd.slice(_mm[0].length);}
     var _long=_bd.length>190;
