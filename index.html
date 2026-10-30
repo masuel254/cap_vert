@@ -297,6 +297,7 @@ body{
 .iact .ia-ta{background:#00AA6C!important;color:#fff!important;display:inline-flex;align-items:center;gap:6px}.iact .ia-ta i{width:6px;height:6px;border-radius:50%;background:#fff;display:block}
 .iv-tt{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:24px;background:rgba(15,27,35,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff!important;text-decoration:none;font:700 13px -apple-system,sans-serif}
 .iv-pl{width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}.iv-pl i{width:0;height:0;border-left:8px solid #0F1B23;border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px}
+.iv-fr{position:relative;width:100%;border-radius:12px;overflow:hidden;background:#000}.iv-fr iframe{width:100%;height:100%;border:0;display:block}.iv-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(15,27,35,.8);color:#fff;font-size:15px}
 .ta-btn{display:inline-flex;align-items:center;gap:5px;box-sizing:border-box;height:26px;margin:9px 0 0;background:#00AA6C;color:#fff!important;border-radius:20px;padding:6px 10px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;line-height:1;text-decoration:none;box-shadow:none;letter-spacing:.2px}
 .ta-btn i{width:6px;height:6px;border-radius:50%;background:#fff;display:block;flex-shrink:0}
 /* pastilles de l etape sur une seule ligne : texte sans icone, espacement resserre */
@@ -4199,6 +4200,23 @@ function infoLogistique(blocks){
   }
   return h+'</div></div>';
 }
+
+function playTT(a){
+  var box=a.parentNode, img=box.querySelector('img'); if(!img) return true;
+  var url=a.getAttribute('href'), h=Math.round(img.getBoundingClientRect().height)||420;
+  function show(id){
+    box.dataset.keep=box.innerHTML;
+    box.innerHTML='<div class="iv-fr" style="height:'+h+'px"><iframe src="https://www.tiktok.com/player/v1/'+id+'?autoplay=1&loop=1&rel=0&music_info=0&description=0" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe><button class="iv-x" onclick="var b=this.closest(\'#infoImg\');b.innerHTML=b.dataset.keep" aria-label="Revenir a la photo">&#10005;</button></div>';
+  }
+  var m=url.match(/\/video\/(\d+)/); if(m){show(m[1]);return false;}
+  if(navigator.onLine===false){a.lastChild.previousSibling&&0;a.querySelector('.iv-pl').nextSibling.textContent='Pas de réseau ';return false;}
+  a.style.opacity='.6';
+  fetch('https://www.tiktok.com/oembed?url='+encodeURIComponent(url)).then(function(r){return r.json()}).then(function(j){
+    var id=j.embed_product_id||((j.html||'').match(/data-video-id="(\d+)"/)||[])[1];
+    if(id) show(id); else window.open(url,'_blank');
+  }).catch(function(){window.open(url,'_blank');}).then(function(){a.style.opacity='';});
+  return false;
+}
 function openInfo(btn) {
   var key = btn.getAttribute("data-key");
   var d = INFO_DATA[key];
@@ -4228,7 +4246,7 @@ function openInfo(btn) {
         + 'Ajoute une image nommee <strong>' + infoEsc(d.image) + '</strong> dans GitHub, a cote de index.html</div>';
       ii.style.display = "block";
       ii.style.position = "relative";
-      if (d.video) ii.innerHTML += '<a class="iv-tt" href="' + d.video + '" target="_blank" rel="noopener"><span class="iv-pl"><i></i></span>Voir la vid&eacute;o<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9a7.3 7.3 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg></a>';
+      if (d.video) ii.innerHTML += '<a class="iv-tt" href="' + d.video + '" target="_blank" rel="noopener" onclick="return playTT(this)"><span class="iv-pl"><i></i></span>Voir la vid&eacute;o<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9a7.3 7.3 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg></a>';
     } else { ii.innerHTML = ""; ii.style.display = "none"; }
   }
 
