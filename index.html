@@ -294,8 +294,13 @@ body{
 .web-btn:active{transform:scale(.94)}
 .thi{display:inline-block;font-size:15px;line-height:1;margin-right:6px;vertical-align:-1px}.thi.thi-up{vertical-align:2px}
 .tc2.tc2-resa{background:var(--c-osaka)!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
+.iact .ia-ta{background:#00AA6C!important;color:#fff!important;display:inline-flex;align-items:center;gap:6px}.iact .ia-ta i{width:6px;height:6px;border-radius:50%;background:#fff;display:block}
 .ta-btn{display:inline-flex;align-items:center;gap:5px;box-sizing:border-box;height:26px;margin:9px 0 0;background:#00AA6C;color:#fff!important;border-radius:20px;padding:6px 10px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;line-height:1;text-decoration:none;box-shadow:none;letter-spacing:.2px}
 .ta-btn i{width:6px;height:6px;border-radius:50%;background:#fff;display:block;flex-shrink:0}
+/* pastilles de l etape sur une seule ligne : texte sans icone, espacement resserre */
+.tc .maps-btn,.tc .info-btn,.tc .web-btn,.tc .pay-btn,.tc .ta-btn{padding:6px 9px!important;gap:4px!important}
+.tc .maps-btn svg,.tc .info-btn svg,.tc .web-btn svg{display:none!important}
+.tc div:has(>.maps-btn,>.info-btn,>.web-btn,>.pay-btn){gap:5px!important}
 .tc2.tc2-free{background:#ECE9E2!important;color:#6d655b!important;max-width:none;letter-spacing:.4px;font-weight:700}
 .tc2.tc2-ok{background:#2E6B3E!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
 .wsv{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:9998}
@@ -4221,10 +4226,11 @@ function openInfo(btn) {
   var _ia=document.getElementById("infoAct");
   if(_ia){
     var _w=(typeof WEB_DATA!=="undefined")?WEB_DATA[key]:null, _a="";
-    if(_w&&_w.tel){_a+='<a class="ia-tel" href="tel:'+_w.tel+'">&#128222; Appeler</a>'; if(_w.wa)_a+='<a class="ia-wa" href="https://wa.me/'+_w.tel.replace(/\D/g,'')+'" target="_blank" rel="noopener">&#128172; WhatsApp</a>';}
+    if(_w&&_w.tel){if(_w.wa)_a+='<a class="ia-wa" href="https://wa.me/'+_w.tel.replace(/\D/g,'')+'" target="_blank" rel="noopener">&#128172; WhatsApp</a>'; else _a+='<a class="ia-tel" href="tel:'+_w.tel+'">&#128222; Appeler</a>';}
     if(_w&&_w.links&&_w.links.length&&_w.links[0][1].indexOf('google.com/maps')<0)_a+='<a class="ia-web" href="'+_w.links[0][1]+'" target="_blank" rel="noopener">&#127760; Web</a>';
     var _mu=d.mapsUrl||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(d.title));
     _a+='<a class="ia-map" href="'+_mu+'" target="_blank" rel="noopener">&#128205; Maps</a>';
+    if(typeof TA_EVENTS!=="undefined"&&TA_EVENTS[key]){var _t2=TA_EVENTS[key];_a+='<a class="ia-ta" href="'+_t2[0]+'" target="_blank" rel="noopener"><i></i>'+(_t2[1]||'Avis')+'</a>';}
     _ia.innerHTML=_a;
   }
   var body = document.getElementById("infoBody");
