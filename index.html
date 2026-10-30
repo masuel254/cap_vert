@@ -547,6 +547,14 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
 .rv-more{margin-left:auto;font:600 11px -apple-system,sans-serif;color:#1F8FA6}
 .chk-item.rv-tk{align-items:stretch!important}.rv-tk .rv-stub{align-self:stretch}
 
+.rv-acc{background:#fff;border:1px solid #ece5d8;border-radius:14px;margin:12px 0 0;overflow:hidden;box-shadow:0 2px 8px rgba(15,27,35,.04)}
+.rv-sum{list-style:none;display:flex;align-items:center;gap:8px;padding:13px 14px;cursor:pointer;font:800 12px -apple-system,sans-serif;letter-spacing:1.4px;text-transform:uppercase;color:#1a1a1a;-webkit-tap-highlight-color:transparent}
+.rv-sum::-webkit-details-marker{display:none}.rv-sum-ok{color:#2E6B3E}.rv-sum-todo{color:#C8573F}
+.rv-chev{margin-left:auto;width:9px;height:9px;border-right:2px solid #1F8FA6;border-bottom:2px solid #1F8FA6;transform:rotate(45deg);transition:transform .2s;margin-top:-4px}
+.rv-acc[open] .rv-chev{transform:rotate(-135deg);margin-top:4px}
+.rv-accb{padding:0 10px 4px;border-top:1px solid #f1ebdf}
+.rv-accb .rv-grp:first-child{margin-top:12px}
+
 #topSub{color:#F2D08A!important}.noteb [style*="#1F8FA6"]{color:#F2D08A!important}
 </style>
 </head>
@@ -3689,6 +3697,7 @@ function buildInfo(){
 
   var h='';
   var hChk='';
+
   var RV=RESA_VIEW, resaDetails = loadResaDetails();
   var _todo=chkItems.filter(function(i){return !chkState[i.id]}), _ok=chkItems.filter(function(i){return chkState[i.id]});
   var _k=function(i){return (RV[i.id]&&RV[i.id].k)||'9'};
@@ -3698,7 +3707,10 @@ function buildInfo(){
   hChk+='<div class="rv-hero"><svg width="58" height="58" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#2BB3C0" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+_pct+' 94" transform="rotate(-90 18 18)"/><text x="18" y="21" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="-apple-system,sans-serif">'+doneCount+'/'+chkItems.length+'</text></svg>'
     +'<div><div class="rv-h1">'+(_todo.length?(_todo.length<=4?'Presque tout est calé':'Ça avance'):'Tout est réservé')+'</div><div class="rv-h2">'
     +(_todo.length?('Plus que '+_todo.length+' réservation'+(_todo.length>1?'s':'')+(_veille?(', dont '+_veille+' à faire la veille sur place'):'')):'Il ne reste plus qu’à profiter')+'</div></div><span class="chk-progress" style="display:none"></span></div>';
+  var _acc={todo:true,ok:false}; try{var _sa=JSON.parse(localStorage.getItem('rv_acc')||'{}'); for(var _q in _sa)_acc[_q]=_sa[_q];}catch(x){}
+  window.rvAcc=function(d){try{var o=JSON.parse(localStorage.getItem('rv_acc')||'{}');o[d.getAttribute('data-acc')]=d.open;localStorage.setItem('rv_acc',JSON.stringify(o));}catch(x){}};
   var _g='';
+  if(_todo.length) hChk+='<details class="rv-acc" data-acc="todo" ontoggle="rvAcc(this)"'+(_acc.todo?' open':'')+'><summary class="rv-sum rv-sum-todo"><span>&#128221; À réserver</span><span class="rv-pill rv-red">'+_todo.length+'</span><i class="rv-chev"></i></summary><div class="rv-accb">';
   _todo.forEach(function(item){
     var v=RV[item.id]||{};
     var g=v.when||item.date;
@@ -3709,8 +3721,9 @@ function buildInfo(){
     hChk+='<div class="chk-item rv-row" data-chkid="'+item.id+'"><div class="chk-box"><span class="chk-check">&#10003;</span></div>'
       +'<div style="flex:1;min-width:0"><div class="chk-name rv-t">'+(v.ico?v.ico+' ':'')+e(v.t||item.name)+'</div><div class="rv-s">'+e(v.sub||item.deadline)+'</div></div>'+act+'</div>';
   });
+  if(_todo.length) hChk+='</div></details>';
   if(_ok.length){
-    hChk+='<div class="rv-grp" style="margin-top:20px;color:#2E6B3E">&#127915; VOS BILLETS <span class="rv-pill rv-ok">'+_ok.length+'</span></div>';
+    hChk+='<details class="rv-acc" data-acc="ok" ontoggle="rvAcc(this)"'+(_acc.ok?' open':'')+'><summary class="rv-sum rv-sum-ok"><span>&#127915; Vos billets</span><span class="rv-pill rv-ok">'+_ok.length+'</span><i class="rv-chev"></i></summary><div class="rv-accb">';
     _ok.forEach(function(item){
       var v=RV[item.id]||{}, det=resaDetails[item.id]||{};
       var ref=v.ref||det.num||det.site||'';
@@ -3722,6 +3735,7 @@ function buildInfo(){
         +'<div class="rv-s">'+e(v.line||item.date)+'</div>'
         +'<div style="margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+(ref?'<span class="rv-ref">'+e(ref)+'</span>':'')+(v.cash?'<span class="rv-pill rv-cash">Espèces</span>':'')+'<span class="rv-more">Détails &#8250;</span></div></div></div>';
     });
+      hChk+='</div></details>';
   }
   h+=acc('&#9989; Réservations ('+doneCount+'/'+chkItems.length+')', hChk, true);
   var _tc=todoCount();
