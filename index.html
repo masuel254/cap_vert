@@ -295,6 +295,8 @@ body{
 .thi{display:inline-block;font-size:15px;line-height:1;margin-right:6px;vertical-align:-1px}.thi.thi-up{vertical-align:2px}
 .tc2.tc2-resa{background:var(--c-osaka)!important;color:#fff!important;max-width:none;letter-spacing:.4px;font-weight:800}
 .iact .ia-ta{background:#00AA6C!important;color:#fff!important;display:inline-flex;align-items:center;gap:6px}.iact .ia-ta i{width:6px;height:6px;border-radius:50%;background:#fff;display:block}
+.iv-tt{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:24px;background:rgba(15,27,35,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff!important;text-decoration:none;font:700 13px -apple-system,sans-serif}
+.iv-pl{width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}.iv-pl i{width:0;height:0;border-left:8px solid #0F1B23;border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px}
 .ta-btn{display:inline-flex;align-items:center;gap:5px;box-sizing:border-box;height:26px;margin:9px 0 0;background:#00AA6C;color:#fff!important;border-radius:20px;padding:6px 10px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;line-height:1;text-decoration:none;box-shadow:none;letter-spacing:.2px}
 .ta-btn i{width:6px;height:6px;border-radius:50%;background:#fff;display:block;flex-shrink:0}
 /* pastilles de l etape sur une seule ligne : texte sans icone, espacement resserre */
@@ -1106,7 +1108,8 @@ var INFO_DATA={
      "À l’est du centre de Santa Maria, accessible à pied ou en quelques minutes de voiture"
     ]
    }
-  ]
+  ],
+  "video": "https://vm.tiktok.com/ZN8Up4qjw/"
  },
  "Lac salé de Pedra de Lume": {
   "title": "Salines de Pedra de Lume",
@@ -1526,7 +1529,8 @@ var INFO_DATA={
      "À l’est du centre de Santa Maria, accessible à pied ou en quelques minutes de voiture"
     ]
    }
-  ]
+  ],
+  "video": "https://vm.tiktok.com/ZN8Up4qjw/"
  },
  "Après-midi transats à Angulo": {
   "title": "Angulo - beach bar de Santa Maria",
@@ -1555,7 +1559,8 @@ var INFO_DATA={
      "À l’est du centre de Santa Maria, accessible à pied ou en quelques minutes de voiture"
     ]
    }
-  ]
+  ],
+  "video": "https://vm.tiktok.com/ZN8Up4qjw/"
  },
  "Coucher de soleil à Ponta Preta": {
   "title": "Restaurant Ponta Preta - coucher de soleil",
@@ -2316,7 +2321,8 @@ var INFO_DATA={
      "À l’est du centre de Santa Maria, accessible à pied ou en quelques minutes de voiture"
     ]
    }
-  ]
+  ],
+  "video": "https://vm.tiktok.com/ZN8Up4qjw/"
  },
  "Dîner homard grillé au Barracuda": {
   "title": "Restaurante Barracuda - homard grillé",
@@ -2586,7 +2592,8 @@ var INFO_DATA={
      "À l’est du centre de Santa Maria, accessible à pied ou en quelques minutes de voiture"
     ]
    }
-  ]
+  ],
+  "video": "https://vm.tiktok.com/ZN8Up4qjw/"
  },
  "Déjeuner de poisson au Sol Doce": {
   "title": "Restaurante Sol Doce",
@@ -4220,6 +4227,8 @@ function openInfo(btn) {
         + '<div style="display:none;border:1.5px dashed ' + GOLD + ';border-radius:12px;padding:18px;text-align:center;font-size:12px;color:#8a6d2f;background:#faf6ec">'
         + 'Ajoute une image nommee <strong>' + infoEsc(d.image) + '</strong> dans GitHub, a cote de index.html</div>';
       ii.style.display = "block";
+      ii.style.position = "relative";
+      if (d.video) ii.innerHTML += '<a class="iv-tt" href="' + d.video + '" target="_blank" rel="noopener"><span class="iv-pl"><i></i></span>Voir la vid&eacute;o<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9a7.3 7.3 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg></a>';
     } else { ii.innerHTML = ""; ii.style.display = "none"; }
   }
 
