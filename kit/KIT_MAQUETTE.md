@@ -7,19 +7,19 @@ Catalogue visuel avec une capture par composant : https://claude.ai/artifact/Fuv
 
 Samuel demande les composants par leur code : « charte Lagon, reprends le kit Cap-Vert : K06, K07, K08, K12 ».
 Claude, dans l'ordre :
-1. lit ce fichier, puis les sources du dossier `KIT_CAPVERT/` (le code de chaque composant est dans `build_capvert.py`, les données d'exemple dans `capvert_data.py`) ;
+1. lit ce fichier, puis récupère les sources du kit dans le dépôt GitHub `masuel254/cap_vert`, dossier `kit/` (`git clone https://github.com/masuel254/cap_vert` ; le code de chaque composant est dans `build_capvert.py`, les données d'exemple dans `capvert_data.py`, le carnet final est `index.html` à la racine) ;
 2. remplit les tables de données du composant pour le nouveau voyage (noms entre parenthèses ci-dessous) ;
 3. montre une maquette du composant avec les vraies données AVANT de l'intégrer ;
 4. intègre, vérifie dans un navigateur (zéro erreur JS), livre ou pousse sur le dépôt du voyage.
 
-## Fichiers du kit
+## Fichiers du kit (dépôt masuel254/cap_vert)
 
 | Fichier | Rôle |
 |---|---|
-| `KIT_CAPVERT/build_capvert.py` | Générateur : part du modèle (`MODELE/index.html`), injecte les données et TOUS les composants du kit (JS + CSS), applique la charte Lagon, écrit `index.html` + `sw.js`. Usage : `python3 build_capvert.py MODELE/index.html out` |
-| `KIT_CAPVERT/capvert_data.py` | Données complètes du Cap-Vert : exemple vivant de chaque table (DAYS, INFO, WEB, PAY, TAXI_ROUTES, CALL_CARDS, WALKS, BUDGET, TODO...). À copier puis vider pour un nouveau voyage. |
-| `KIT_CAPVERT/theme_lagon.py`, `fr_text.py`, `mto_patch.py` | Versions à jour des outils (charte Lagon, accents, patchs du moteur). Plus récentes que celles de `OUTILS/`. Les billets (K10) sont dans `theme_lagon.py` (RESA_VIEW). `fr_text.py` reconstruit son dictionnaire d'accents au premier lancement (`pip install pyspellchecker --break-system-packages`). |
-| `KIT_CAPVERT/index_capvert.html`, `sw_capvert.js` | Le carnet Cap-Vert final, pour comparer le rendu. |
+| `kit/build_capvert.py` | Générateur : part du modèle (`MODELE/index.html`), injecte les données et TOUS les composants du kit (JS + CSS), applique la charte Lagon, écrit `index.html` + `sw.js`. Usage : `python3 build_capvert.py MODELE/index.html out` |
+| `kit/capvert_data.py` | Données complètes du Cap-Vert : exemple vivant de chaque table (DAYS, INFO, WEB, PAY, TAXI_ROUTES, CALL_CARDS, WALKS, BUDGET, TODO...). À copier puis vider pour un nouveau voyage. |
+| `kit/theme_lagon.py`, `fr_text.py`, `mto_patch.py` | Versions à jour des outils (charte Lagon, accents, patchs du moteur). Plus récentes que celles de `OUTILS/`. Les billets (K10) sont dans `theme_lagon.py` (RESA_VIEW). `fr_text.py` reconstruit son dictionnaire d'accents au premier lancement (`pip install pyspellchecker --break-system-packages`). |
+| `index.html`, `sw.js` (racine du dépôt) | Le carnet Cap-Vert final, pour comparer le rendu. |
 
 ## Les composants
 
