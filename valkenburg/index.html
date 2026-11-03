@@ -561,6 +561,21 @@ details.acc[open] .acc-chevron{transform:rotate(180deg)}
 .rv-accb .rv-grp:first-child{margin-top:12px}
 
 #topSub{color:#F2D08A!important}.noteb [style*="#2F7A5F"]{color:#F2D08A!important}
+.tk-btn{display:inline-flex;align-items:center;gap:4px;box-sizing:border-box;height:26px;margin:9px 0 0;background:#0F1B23;color:#F2D08A!important;border-radius:20px;padding:6px 11px;font-family:-apple-system,sans-serif;font-size:11px;font-weight:800;line-height:1;text-decoration:none;letter-spacing:.2px}
+.tk-btn.tk-empty{background:#fff;color:#0F1B23!important;box-shadow:inset 0 0 0 1.5px #0F1B23}
+.tk-n{font-weight:600;opacity:.85}
+.tk-sh{display:none;position:fixed;inset:0;z-index:99999;background:rgba(15,27,35,.55);align-items:flex-end;justify-content:center}.tk-sh.open{display:flex}
+.tk-pan{background:#FAF7F0;border-radius:22px 22px 0 0;width:100%;max-width:480px;max-height:92vh;overflow:auto;padding:10px 16px calc(22px + env(safe-area-inset-bottom));box-sizing:border-box;font-family:-apple-system,sans-serif}
+.tk-bar{width:40px;height:5px;background:#ddd;border-radius:3px;margin:0 auto 10px}
+.tk-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.tk-k{font-size:11px;font-weight:800;letter-spacing:1.2px;color:#2F7A5F}
+.tk-t{font:600 17px Georgia,serif;color:#0F1B23;margin-top:2px}.tk-x{width:34px;height:34px;border-radius:50%;border:0;background:#ece6da;font-size:15px;color:#555;flex-shrink:0}
+.tk-tip{font-size:12px;color:#6d655b;margin:8px 0 12px;line-height:1.4}
+.tk-item{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:12px}.tk-item img{display:block;width:100%;height:auto;background:#fff}
+.tk-pdf{width:100%;height:60vh;border:0;display:block}.tk-open{display:block;text-align:center;padding:10px;font-weight:700;font-size:13px;color:#2F7A5F}
+.tk-foot{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;font-size:12px;color:#6d655b;border-top:1px solid #f0ebe0}.tk-foot button{border:0;background:none;color:#C8573F;font-weight:700;font-size:12px}
+.tk-cnt{font-size:12px;font-weight:800;color:#2F7A5F;margin:0 2px 8px}.tk-num{font-size:11px;font-weight:800;letter-spacing:1px;color:#fff;background:#0F1B23;padding:6px 12px}
+.tk-none{text-align:center;color:#8a8378;font-size:13px;padding:26px 10px;background:#fff;border-radius:14px;margin-bottom:12px;line-height:1.5}
+.tk-add{display:block;text-align:center;background:#0F1B23;color:#F2D08A;border-radius:12px;padding:13px 0;font-weight:700;font-size:14px}
 </style>
 </head>
 <body>
@@ -1523,6 +1538,7 @@ function openDay(id){
     if(_p){var _pl={carte:["pay-card","&#128179; Carte"],especes:["pay-cash","&#128182; Esp&egrave;ces"],plutot:["pay-cash","&#128182; Esp&egrave;ces ?"],les2:["pay-card","&#128179; Carte ou esp&egrave;ces"],verifier:["","&#10068; &Agrave; v&eacute;rifier"]}[_p]; if(_pl) payBtn='<span class="pay-btn '+_pl[0]+'">'+_pl[1]+'</span>';}
     var webBtn="";
     if(typeof WEB_DATA!=="undefined" && WEB_DATA[ev.title]) webBtn='<button class="web-btn" onclick="openWeb(this)" data-key="'+ev.title.replace(/"/g,"&quot;")+'">&#127760; Web</button>';
+    if(typeof RESA_TODO!=="undefined" && RESA_TODO[ev.title] && loadChkState()[RESA_TODO[ev.title]]){var _tk=RESA_TODO[ev.title];webBtn+='<a class="tk-btn" href="#" data-tk="'+_tk+'" data-tt="'+e(ev.title).replace(/"/g,'&quot;')+'" onclick="event.preventDefault();event.stopPropagation();tkOpen(this.dataset.tk,this.dataset.tt)">&#127903;&#65039; Billets<span class="tk-n" data-tkn="'+_tk+'"></span></a>';setTimeout(tkCount,0);}
     if(typeof TA_EVENTS!=="undefined" && TA_EVENTS[ev.title]){var _ta=TA_EVENTS[ev.title];webBtn+='<a class="ta-btn" href="'+_ta[0]+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Avis Tripadvisor"><i></i>'+(_ta[1]||'Avis')+'</a>';}
     var mapsTypes=["activity","meal","show","hotel"];
     var mapsAlwaysTitles=["Départ de Marck vers Lille", "Route vers Tongres", "Route vers Valkenburg", "Retour à Tongres", "Check-out et route vers Maastricht", "Route du retour vers Lille", "Arrivée à Marck"];
@@ -2575,6 +2591,60 @@ function playTT(a){
   ttResolve(url,function(id){a.style.opacity='';if(id)show(id);else window.open(url,'_blank');});
   return false;
 }
+
+var TK_DB=null;
+function tkDb(cb){ if(TK_DB) return cb(TK_DB); var r=indexedDB.open("valk26_billets",1);
+  r.onupgradeneeded=function(){ r.result.createObjectStore("f",{keyPath:"k",autoIncrement:true}).createIndex("id","id"); };
+  r.onsuccess=function(){ TK_DB=r.result; cb(TK_DB); }; r.onerror=function(){ alertTk("Stockage indisponible sur ce téléphone."); }; }
+function tkList(id,cb){ tkDb(function(db){ var o=[],q=db.transaction("f").objectStore("f").index("id").openCursor(IDBKeyRange.only(id));
+  q.onsuccess=function(){ var c=q.result; if(c){ o.push(c.value); c.continue(); } else cb(o); }; }); }
+function tkAll(cb){ tkDb(function(db){ var q=db.transaction("f").objectStore("f").getAll(); q.onsuccess=function(){ cb(q.result||[]); }; }); }
+function tkCount(){ tkAll(function(a){ var n={}; a.forEach(function(x){ n[x.id]=(n[x.id]||0)+1; });
+  document.querySelectorAll(".tk-n").forEach(function(s){ var v=n[s.getAttribute("data-tkn")]; s.textContent=v?" · "+v:" · ajouter"; s.parentNode.classList.toggle("tk-empty",!v); }); }); }
+var TK_PDFJS=window.TK_PDFJS||"./pdfjs/";
+function tkLib(cb){ if(window.pdfjsLib) return cb(window.pdfjsLib); var sc=document.createElement("script"); sc.src=TK_PDFJS+"pdf.min.js";
+  sc.onload=function(){ try{ pdfjsLib.GlobalWorkerOptions.workerSrc=TK_PDFJS+"pdf.worker.min.js"; cb(pdfjsLib); }catch(x){ cb(null); } };
+  sc.onerror=function(){ cb(null); }; document.head.appendChild(sc); }
+// un PDF de plusieurs billets devient une image par page (affichage fiable sur iPhone, meme hors ligne)
+function tkPdf(f,cb){ tkLib(function(L){ if(!L) return cb(null);
+  f.arrayBuffer().then(function(buf){ return L.getDocument({data:buf}).promise; }).then(function(doc){
+    var out=[], n=doc.numPages, i=0;
+    (function next(){ i++; if(i>n) return cb(out);
+      doc.getPage(i).then(function(pg){ var v=pg.getViewport({scale:2}), c=document.createElement("canvas"); c.width=v.width; c.height=v.height;
+        var cx=c.getContext("2d"); cx.fillStyle="#fff"; cx.fillRect(0,0,c.width,c.height);
+        pg.render({canvasContext:cx,viewport:v}).promise.then(function(){ c.toBlob(function(b){ out.push({name:(f.name||"billet.pdf").replace(/\.pdf$/i,"")+" - page "+i,type:"image/jpeg",blob:b}); next(); },"image/jpeg",.92); }); });
+    })();
+  }).catch(function(){ cb(null); }); }); }
+function tkSave(id,items){ tkDb(function(db){ var t=db.transaction("f","readwrite"), st=t.objectStore("f");
+  items.forEach(function(x,j){ st.add({id:id,name:x.name,type:x.type,blob:x.blob,ts:Date.now()+j}); });
+  t.oncomplete=function(){ tkRender(id); tkCount(); }; }); }
+function tkAdd(id,files){ var fl=[].slice.call(files), all=[], box=document.getElementById("tkBody");
+  if(box) box.insertAdjacentHTML("afterbegin",'<div class="tk-none" id="tkWait">Ajout en cours...</div>');
+  (function next(){ var f=fl.shift(); if(!f) return tkSave(id,all);
+    if(/pdf/i.test(f.type)||/\.pdf$/i.test(f.name||"")) tkPdf(f,function(pages){ if(pages&&pages.length) all=all.concat(pages); else all.push({name:f.name,type:"application/pdf",blob:f}); next(); });
+    else { all.push({name:f.name,type:f.type,blob:f}); next(); }
+  })(); }
+function tkDel(k,id){ if(!confirm("Retirer ce billet du téléphone ?")) return; tkDb(function(db){ var t=db.transaction("f","readwrite"); t.objectStore("f").delete(k); t.oncomplete=function(){ tkRender(id); tkCount(); }; }); }
+var TK_URLS=[];
+function tkRender(id){ var box=document.getElementById("tkBody"); if(!box) return;
+  TK_URLS.forEach(function(u){ URL.revokeObjectURL(u); }); TK_URLS=[];
+  tkList(id,function(a){ var h="";
+    if(!a.length) h='<div class="tk-none">Aucun billet sur ce téléphone.<br>Ajoutez la capture du QR code ou le PDF reçu par e-mail.</div>';
+    a.sort(function(p,q){return p.ts-q.ts}); if(a.length>1) h+='<div class="tk-cnt">'+a.length+' billets : un QR code par personne</div>';
+    a.forEach(function(x,j){ var u=URL.createObjectURL(x.blob); TK_URLS.push(u);
+      h+='<div class="tk-item">'+(a.length>1?'<div class="tk-num">Billet '+(j+1)+' sur '+a.length+'</div>':'')+(/pdf/.test(x.type)?'<iframe src="'+u+'" class="tk-pdf"></iframe><a class="tk-open" href="'+u+'" target="_blank">Ouvrir le PDF en plein écran</a>':'<img src="'+u+'" alt="">')
+        +'<div class="tk-foot"><span>'+e(x.name||"Billet")+'</span><button onclick="tkDel('+x.k+',\''+id+'\')">Retirer</button></div></div>'; });
+    box.innerHTML=h; }); }
+function tkOpen(id,title){ var o=document.getElementById("tkSheet");
+  if(!o){ o=document.createElement("div"); o.id="tkSheet"; o.className="tk-sh"; document.body.appendChild(o);
+    o.addEventListener("click",function(ev){ if(ev.target===o) tkClose(); }); }
+  o.innerHTML='<div class="tk-pan"><div class="tk-bar"></div><div class="tk-hd"><div><div class="tk-k">&#127903;&#65039; BILLETS</div><div class="tk-t">'+e(title)+'</div></div><button class="tk-x" onclick="tkClose()">&#10005;</button></div>'
+    +'<div class="tk-tip">À l’entrée : luminosité au maximum. Les billets restent uniquement sur ce téléphone.</div>'
+    +'<div id="tkBody" class="tk-body"></div>'
+    +'<label class="tk-add">+ Ajouter des billets (photos ou PDF)<input type="file" accept="image/*,application/pdf" multiple onchange="tkAdd(\''+id+'\',this.files);this.value=\'\'" style="display:none"></label></div>';
+  o.classList.add("open"); tkRender(id); }
+function tkClose(){ var o=document.getElementById("tkSheet"); if(o) o.classList.remove("open"); }
+function alertTk(m){ try{ console.log(m); }catch(x){} }
 function openInfo(btn) {
   var key = btn.getAttribute("data-key");
   var d = INFO_DATA[key];
