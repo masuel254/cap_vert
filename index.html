@@ -2814,50 +2814,59 @@ var CITY_INFO = {
 };
 var curDay=null;
 
+var CD_STEPS=[
+ [2026,10,13,23,5,"🚗","Avant le départ de Marck","00h05"],
+ [2026,10,14,5,30,"✈️","Avant le décollage","06h30"],
+ [2026,10,14,13,30,"🏖️","Avant le déjeuner pieds dans le sable à Angulo","12h30"],
+ [2026,10,14,19,30,"🕯️","Avant le dîner Chez Pastis","18h30"],
+ [2026,10,15,9,0,"🥾","Avant la balade du phare","08h00"],
+ [2026,10,15,14,0,"🥂","Avant le brunch au Bikini Beach Club","13h00"],
+ [2026,10,15,20,45,"🎤","Avant le karaoké de l’Atlantic","19h45"],
+ [2026,10,16,9,30,"🤿","Avant la plongée","08h30"],
+ [2026,10,16,20,30,"🎸","Avant le dîner en musique à l’Ocean Café","19h30"],
+ [2026,10,17,11,0,"🚙","Avant le tour du nord","10h00"],
+ [2026,10,17,15,40,"🦈","Avant les requins de Shark Bay","14h40"],
+ [2026,10,17,20,0,"🍽️","Avant le dîner au Marea","19h00"],
+ [2026,10,18,9,30,"⛵","Avant le catamaran","08h30"],
+ [2026,10,18,17,15,"🌅","Avant le coucher de soleil au Bar Marley","16h15"],
+ [2026,10,18,20,30,"🍝","Avant le dîner chez Il Gobbo","19h30"],
+ [2026,10,19,8,30,"🧂","Avant la balade des salines","07h30"],
+ [2026,10,19,18,30,"🌇","Avant le coucher de soleil à Ponta Preta","17h30"],
+ [2026,10,19,20,0,"🦞","Avant le homard du Barracuda","19h00"],
+ [2026,10,20,13,30,"🐟","Avant le poisson du Sol Doce","12h30"],
+ [2026,10,20,23,0,"🤍","Avant la White Party","22h00"],
+ [2026,10,21,9,0,"🚕","Avant le départ pour l’aéroport","08h00"],
+ [2026,10,21,12,40,"✈️","Avant le vol retour","11h40"],
+ [2026,10,21,18,30,"🛬","Avant l’atterrissage à Orly","19h30"]
+];
+function cdStepAt(i){var s=CD_STEPS[i];return{t:Date.UTC(s[0],s[1],s[2],s[3],s[4],0),ico:s[5],txt:s[6],h:s[7]};}
 function updateCountdown(){
-  var depart = new Date(2026, 10, 14, 0, 5, 0); // 14 novembre 2026 00h05 (depart de la maison vers Orly, heure France)
-  // Retour : decollage SID le 21/11 a 11h40 heure du Cap-Vert (UTC-1) => 12h40 UTC.
-  // Cible fixee en instant absolu : le compte a rebours est correct quel que soit
-  // le fuseau ou se trouve le voyageur (France ou Cap-Vert).
-  var retour = new Date(Date.UTC(2026, 10, 21, 12, 40, 0));
-  var now = new Date();
-
-  var label = document.getElementById("cd-label");
-  var el = document.getElementById("countdown");
-
-  // Phase 1 : avant le depart
-  var diff = depart - now;
-  if(diff > 0){
-    if(label) label.textContent = "☀️ AVANT LES PIEDS DANS LE SABLE";
-    renderCountdown(diff);
+  var now=Date.now(), label=document.getElementById("cd-label"), el=document.getElementById("countdown");
+  if(!el) return;
+  var i=0; while(i<CD_STEPS.length && cdStepAt(i).t<=now) i++;
+  var nx=document.getElementById("cd-next");
+  if(i>=CD_STEPS.length){
+    el.innerHTML='<div style="font-size:13px;font-weight:700;color:#2BB3C0;letter-spacing:2px">🏡 BON RETOUR À LA MAISON</div>';
     return;
   }
-
-  // Phase 2 : voyage commence -> compte a rebours avant le retour
-  var diffR = retour - now;
-  if(diffR > 0){
-    if(label) label.textContent = "AVANT LE RETOUR";
-    renderCountdown(diffR);
-    return;
-  }
-
-  // Phase 3 : retour passe
-  if(el) el.innerHTML = '<div style="font-size:13px;font-weight:700;color:#1F8FA6;letter-spacing:2px">BON RETOUR ! ✈</div>';
+  var st=cdStepAt(i);
+  if(label) label.textContent=st.ico+" "+st.txt.toUpperCase()+" · "+st.h.toUpperCase();
+  if(!nx){nx=document.createElement("div");nx.id="cd-next";nx.style.cssText="margin-top:8px;font-size:11px;color:#8FA8AF;letter-spacing:.5px";el.appendChild(nx);}
+  if(i+1<CD_STEPS.length){var n2=cdStepAt(i+1);nx.textContent="Puis : "+n2.txt.replace(/^Avant (le |la |les |l’)?/,"").replace(/^./,function(c){return c.toUpperCase();})+", "+n2.h;}
+  else nx.textContent="";
+  renderCountdown(st.t-now);
 }
-
 function renderCountdown(diff){
-  var days  = Math.floor(diff / 86400000);
-  var hours = Math.floor((diff % 86400000) / 3600000);
-  var mins  = Math.floor((diff % 3600000) / 60000);
-  var d = document.getElementById("cd-days");
-  var h = document.getElementById("cd-hours");
-  var m = document.getElementById("cd-mins");
-  if(d) d.textContent = days;
-  if(h) h.textContent = String(hours).padStart(2,"0");
-  if(m) m.textContent = String(mins).padStart(2,"0");
+  var d=document.getElementById("cd-days"),h=document.getElementById("cd-hours"),m=document.getElementById("cd-mins");
+  var lb=document.querySelectorAll("#countdown>div>div>div:last-child");
+  var a,b,c,la;
+  if(diff>=86400000){a=Math.floor(diff/86400000);b=Math.floor((diff%86400000)/3600000);c=Math.floor((diff%3600000)/60000);la=["JOURS","HEURES","MINUTES"];}
+  else{a=Math.floor(diff/3600000);b=Math.floor((diff%3600000)/60000);c=Math.floor((diff%60000)/1000);la=["HEURES","MINUTES","SECONDES"];}
+  if(d) d.textContent=a; if(h) h.textContent=String(b).padStart(2,"0"); if(m) m.textContent=String(c).padStart(2,"0");
+  if(lb.length>=3){for(var k=0;k<3;k++) lb[k].textContent=la[k];}
 }
 updateCountdown();
-setInterval(updateCountdown, 30000);
+setInterval(updateCountdown, 1000);
 
 function goStart(){
   document.getElementById("cover").style.display="none";
