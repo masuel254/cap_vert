@@ -1980,7 +1980,7 @@ for _k in ("Airbnb Sal Sol & Mar", "Check-in Airbnb Sal Sol & Mar"):
 # ---- bagages : a laisser a la réception de l immeuble LUX (consigne du proprietaire, 12/11)
 _BAG_OLD = [
     ("L hote est d accord pour garder les bagages au logement a 12h15, avant le check-in. On pose les valises et on part dejeuner les mains libres.",
-     "Consigne du propriétaire : les bagages se laissent à la réception de l immeuble LUX, a 12h15, avant le check-in. On pose les valises a l accueil et on part dejeuner les mains libres."),
+     "Consigne de Sol & Mar, le propriétaire : les bagages se laissent à la réception de l immeuble LUX, a 12h15, avant le check-in. On pose les valises a l accueil et on part dejeuner les mains libres."),
     ("Bagages deja deposes a 12h15 avec l accord de l hote.", "Bagages déjà laissés à la réception de l immeuble a 12h15."),
     ("Les valises sont deposees au logement a 12h15", "Les valises sont laissées à la réception de l immeuble LUX a 12h15"),
     ("Les valises sont deja deposees au logement.", "Les valises sont déjà à la réception de l immeuble."),
