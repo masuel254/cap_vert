@@ -35,9 +35,9 @@ DAYS = [
         "location": "Marck - Paris Orly Terminal 3",
         "hotel": "Vol TO3232",
         "events": [
-            ev("00h15", "Depart de Marck vers Orly",
+            ev("00h05", "Depart de Marck vers Orly",
                "Depart de Marck (62730) avec la voiture de Cedric. Environ 305 km par l A26 puis l A1, compter 3h15 de route. Arrivee a l aeroport d Orly vers 03h30 (parking), au Terminal 3 a 04h00 au plus tard. Dans le sac : passeports, recus EASE, carte bancaire, une centaine d euros en petites coupures.",
-               "transport", "Peage ~25 EUR"),
+               "transport", "---"),
             ev("03h30", "Parking Orly - depot voiture",
                "Arrivee a l aeroport d Orly vers 03h30. Parking pour la voiture de Cedric [A reserver] : parking officiel de l aeroport ou parking prive avec navette. Avec une navette, ajouter 15 a 20 min et partir de Marck plus tot.",
                "transport"),
@@ -446,10 +446,10 @@ vol_logistique = [
 INFO = {
     "Depart de Marck vers Orly": {
         "title": "Depart de nuit vers Orly",
-        "intro": "Le vol part a 06h30 et Transavia demande 2h30 d avance pour un vol hors Schengen. Il faut donc etre au Terminal 3 a 04h00 au plus tard, ce qui impose un depart de Marck vers 00h15 (3h15 de route).",
+        "intro": "Le vol part a 06h30 et Transavia demande 2h30 d avance pour un vol hors Schengen. Il faut donc etre au Terminal 3 a 04h00 au plus tard, ce qui impose un depart de Marck a 00h05 (3h15 de route, avec 10 minutes de marge).",
         "conseil": "Option plus reposante : une nuit dans un hotel pres d Orly le vendredi 13/11, depart a 03h30 a pied ou en navette. A arbitrer selon le prix et le parking.",
         "logistique": [
-            {"titre": "Trajet", "lignes": ["Depart de Marck (62730) avec la voiture de Cedric", "Environ 305 km par l A26 puis l A1", "Environ 3h15 de nuit", "Peage environ 25 EUR"]},
+            {"titre": "Trajet", "lignes": ["Depart de Marck (62730) avec la voiture de Cedric", "Environ 305 km par l A26 puis l A1", "Environ 3h15 de nuit"]},
             {"titre": "A ne pas oublier", "lignes": ["Passeports des 4 voyageurs", "Recus EASE (QR codes)", "Cartes d embarquement telechargees"]},
             {"titre": "A confirmer", "lignes": ["Parking Orly pour la voiture de Cedric"]},
         ],
@@ -958,7 +958,7 @@ CITY = {
             "Dimanche 15 - grasse matinee, piscine sur le toit, brunch et piscine au Bikini Beach Club, apero au Ola Brasil, karaoke a l Atlantic.",
             "Lundi 16 - plongee pour Samuel et Cedric, journee transat a Angulo pour Francoise et Virginie, diner a l Ocean Cafe et coucher tot.",
             "Mardi 17 - tour du nord avec chauffeur : l Oeil Bleu de Buracona, poisson a Palmeira, requins citrons a Shark Bay, lac sale de Pedra de Lume, diner au Marea.",
-            "Mercredi 18 - catamaran le matin avec Cape Verde Sailing, langouste au LobStar, apres-midi plage, diner italien chez Il Gobbo.",
+            "Mercredi 18 - catamaran le matin avec Cape Verde Sailing, langouste au LobStar, sieste, coucher de soleil au Bar Marley, diner italien chez Il Gobbo.",
             "Jeudi 19 - farniente a Angulo, coucher de soleil a Ponta Preta, homard grille au Barracuda.",
             "Vendredi 20 - piscine sur le toit, poisson au Sol Doce, plage du ponton, puis diner et White Party au Bikini Beach.",
             "Samedi 21 - taxi a 08h00, vol de 11h40, Orly a 19h30.",
@@ -1076,7 +1076,7 @@ def ics(uid, title, start, end, desc, alarm):
         "END:VEVENT", "END:VCALENDAR"])}
 
 CAL_EVENTS = [
-    ics("depart_maison", "Depart de Marck vers Orly", "20261114T001500", "20261114T033000",
+    ics("depart_maison", "Depart de Marck vers Orly", "20261114T000500", "20261114T033000",
         "Etre a Orly T3 a 04h00. Depot bagages ferme a 05h15. Passeports + recus EASE.", "PT30M"),
     ics("vol_aller", "Vol Transavia TO3232 Orly - Sal", "20261114T063000", "20261114T084500",
         "Ref K6UNPB. Orly T3. Depot bagages ferme 05h15. Arrivee Sal 10h45 heure locale.", "PT3H"),
@@ -1730,3 +1730,275 @@ for _w in WALKS.values():
     for _s in _w["stops"]:
         if _s[1] == "Retour de peche au ponton":
             _s[3] = "https://maps.app.goo.gl/MRwY8JrJ57ikTiUW9"
+
+# ---- parking Orly reserve (confirmation Paris Aeroport recue par Cedric, sortie corrigee le 06/11)
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Parking Orly - depot voiture":
+            _e["body"] = ("Parking P3 Orly, RESERVE ET PAYE (confirmation Paris Aeroport dans le mail de Cedric). "
+                          "Entree possible des 03h00, sortie jusqu au samedi 21/11 a 21h59. La barriere lit la plaque DA-242-MH ; "
+                          "si elle ne la reconnait pas, taper sur la borne d entree le code d acces 594521.")
+INFO["Parking Orly - depot voiture"] = {
+    "title": "Parking P3 Orly",
+    "intro": "Parking P3 de l aeroport d Orly, reserve et paye en ligne sur Paris Aeroport (mail de confirmation recu par Cedric). Entree le samedi 14/11 a partir de 03h00, sortie le samedi 21/11 avant 21h59.",
+    "conseil": "Plaque enregistree : DA-242-MH, la barriere s ouvre seule a l entree comme a la sortie. Si la camera ne lit pas la plaque, taper le code d acces 594521 sur la borne d entree.",
+    "logistique": [{"titre": "Reservation", "lignes": [
+        "Parking : P3 Orly",
+        "Entree : samedi 14/11 a partir de 03h00",
+        "Sortie : samedi 21/11 avant 21h59 (atterrissage a 19h30)",
+        "Plaque : DA-242-MH (voiture de Cedric)",
+        "Code d acces de secours (borne d entree) : 594521",
+        "Une question : 3950 (Paris Aeroport)"]}],
+}
+RESA_VIEW["parking"] = {"k": "1114", "dw": "SAM", "dn": "14", "m": "NOV", "ico": "🅿️", "t": "Parking P3 Orly",
+                        "line": "Entrée dès 03h00 · sortie 21/11 avant 21h59", "ref": "DA-242-MH", "st": "Payé"}
+if "parking" not in LOCKED:
+    LOCKED.append("parking")
+for _r in RESAS:
+    if _r.get("name") == "Parking Orly":
+        _r["detail"] = "PAYE - Parking P3 Orly (Paris Aeroport) - plaque DA-242-MH - entree 14/11 des 03h00 - sortie 21/11 avant 21h59 - code d acces 594521"
+        _r["deadline"] = "PAYE"
+        _r["color"] = "#2E6B3E"
+for _r in CHK_ITEMS:
+    if _r.get("id") == "parking":
+        _r["deadline"] = "PAYE - P3 Orly - plaque DA-242-MH - sortie 21/11 avant 21h59"
+        _r["color"] = "#2E6B3E"
+RESA_DETAILS["parking"] = {"num": "Plaque DA-242-MH", "site": "Paris Aeroport - Parking P3 Orly",
+    "info": "PAYE - entree sam 14/11 des 03h00 - sortie sam 21/11 avant 21h59 - code d acces de secours 594521 - question : 3950"}
+RESA_TODO.pop("Parking Orly - depot voiture", None)
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Parking Orly - depot voiture":
+            _e["cost"] = "Payé"
+
+# ---- EASE : preenregistrement et taxe aeroport payes le 08/11 pour les 4 (recus a garder dans Infos > Vos billets)
+RESA_VIEW["ease"] = {"k": "1113", "dw": "SAM", "dn": "14", "m": "NOV", "ico": "🛂", "t": "EASE Cap-Vert",
+                     "line": "Préenregistrement et taxe aéroport · 4 voyageurs", "ref": "4 reçus", "st": "Payé"}
+RESA_DETAILS["ease"] = {"num": "4 recus EASE", "site": "ease.gov.cv",
+    "info": "PAYE le 08/11 - 30,83 EUR (3 400 CVE) par personne, 123,32 EUR pour 4 - vol TO3232, entree par Sal, arrivee 14/11, retour 21/11 - recus : Samuel 12055869, Francoise 12055903, Cedric 12055739, Virginie 12055812 - photos des recus dans Infos > Vos billets"}
+if "ease" not in LOCKED:
+    LOCKED.append("ease")
+for _r in CHK_ITEMS:
+    if _r.get("id") == "ease":
+        _r["deadline"] = "PAYE le 08/11 - 4 recus (Infos > Vos billets)"
+        _r["color"] = "#2E6B3E"
+for _r in RESAS:
+    if _r.get("name") == "Preenregistrement EASE x4":
+        _r["detail"] = "PAYE le 08/11 - 30,83 EUR par personne (123,32 EUR pour 4) - recus dans Infos > Vos billets"
+        _r["deadline"] = "PAYE"
+        _r["color"] = "#2E6B3E"
+for _r in ESSENTIALS if "ESSENTIALS" in globals() else []:
+    if _r.get("label") == "Recu EASE":
+        _r["val"] = "Paye le 08/11 pour les 4. Ajouter les photos des recus dans Infos > Vos billets : elles restent dans le telephone, disponibles hors connexion."
+# EASE fait le 08/11 et Morabeza abandonne (beach club pas rouvert) : retires des a faire
+TODO_ITEMS[:] = [t for t in TODO_ITEMS if t.get("id") not in ("ease", "morabeza")]
+for _d in DAYS:
+    for _e in _d["events"]:
+        if "OPTION MORABEZA" in _e["body"]:
+            _e["body"] = _e["body"].split(" OPTION MORABEZA")[0]
+INFO["Atterrissage a Sal - Aeroport Amilcar Cabral"]["conseil"] = "Preenregistrement EASE fait et paye le 08/11 pour les 4 : au controle, presenter le passeport et le recu de chacun (photos dans Infos > Vos billets)."
+if not any(_r.get("id") == "ease" for _r in CHK_ITEMS):
+    CHK_ITEMS.insert(0, {"id": "ease", "name": "Preenregistrement EASE x4", "date": "14 nov", "deadline": "PAYE le 08/11 - 4 recus (Infos > Vos billets)", "color": "#2E6B3E"})
+# fiche depart de nuit : rapprochement avec le parking reserve et les recus EASE
+_fd = INFO["Depart de Marck vers Orly"]
+_fd["conseil"] = "Parking reserve et paye (P3 Orly) : on va directement au parking, la barriere lit la plaque DA-242-MH (code de secours 594521). Puis navette ou marche jusqu au Terminal 3 pour 04h00."
+_fd["logistique"] = [
+    {"titre": "Trajet", "lignes": ["Depart de Marck (62730) avec la voiture de Cedric", "Environ 305 km par l A26 puis l A1", "Environ 3h15 de nuit"]},
+    {"titre": "Parking (reserve et paye)", "lignes": ["P3 Orly, reserve et paye sur Paris Aeroport", "Entree a partir de 03h00 le 14/11", "Plaque DA-242-MH reconnue a la barriere", "Code de secours a la borne d entree : 594521", "Sortie le 21/11 avant 21h59"]},
+    {"titre": "A ne pas oublier", "lignes": ["Un passeport pour chacun des 4", "Recus EASE (payes le 08/11, photos dans Infos > Vos billets)", "Cartes d embarquement telechargees"]},
+]
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Depart de Marck vers Orly":
+            _e["body"] = _e["body"].replace("Arrivee a l aeroport d Orly vers 03h30 (parking)", "Arrivee a l aeroport d Orly vers 03h30, directement au parking P3 reserve")
+# parking : P3 Orly 3, heure d entree en tete, lien Maps sur le parking
+_P3 = "https://www.google.com/maps/search/?api=1&query=Parking+P3+Orly+3&query_place_id=ChIJ80NzJtF15kcR4N0RTvqjJBI"
+MAPS_URLS["Parking Orly - depot voiture"] = _P3
+if "Parking Orly - depot voiture" not in MAPS_ALWAYS:
+    MAPS_ALWAYS.append("Parking Orly - depot voiture")
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Parking Orly - depot voiture":
+            _e["body"] = ("Parking P3 Orly, a cote d Orly 3 : ENTREE RESERVEE A PARTIR DE 03h00. RESERVE ET PAYE (confirmation Paris Aeroport dans le mail de Cedric). "
+                          "La barriere lit la plaque DA-242-MH ; si elle ne la reconnait pas, taper sur la borne d entree le code d acces 594521. "
+                          "Ensuite a pied jusqu au Terminal 3. Sortie jusqu au samedi 21/11 a 21h59.")
+INFO["Parking Orly - depot voiture"]["title"] = "Parking P3 Orly (Orly 3)"
+INFO["Parking Orly - depot voiture"]["intro"] = "Parking officiel P3 d Orly, a cote du Terminal 3, reserve et paye en ligne sur Paris Aeroport (mail de confirmation recu par Cedric). Entree le samedi 14/11 a partir de 03h00, sortie le samedi 21/11 avant 21h59."
+INFO["Depart de Marck vers Orly"]["conseil"] = "Parking reserve et paye (P3 Orly, entree des 03h00) : on va directement au parking, la barriere lit la plaque DA-242-MH (code de secours 594521). Puis a pied jusqu au Terminal 3 pour 04h00."
+_P3 = "https://maps.app.goo.gl/C5fw5Mg8sP6ZA9a86"
+MAPS_URLS["Parking Orly - depot voiture"] = _P3
+INFO["Parking Orly - depot voiture"]["mapsUrl"] = _P3
+INFO["Parking Orly - depot voiture"]["mapsLabel"] = "Parking P3 Orly sur Maps"
+# Terminal 3 d Orly : lien Maps fourni par Samuel (le trajet de nuit pointe sur le parking P3)
+_T3 = "https://maps.app.goo.gl/7C9UsQcrsn3Zq7qi8"
+for _t in ("Arrivee aeroport Orly T3 - Depot bagages", "Petit-dejeuner a Orly", "Arrivee a Orly (heure de Paris)", "Vol Transavia TO3232 Orly vers Sal"):
+    MAPS_URLS[_t] = _T3
+    if _t not in MAPS_ALWAYS:
+        MAPS_ALWAYS.append(_t)
+    if _t in INFO:
+        INFO[_t]["mapsUrl"] = _T3
+        INFO[_t]["mapsLabel"] = "Orly Terminal 3 sur Maps"
+MAPS_URLS["Depart de Marck vers Orly"] = _P3
+INFO["Depart de Marck vers Orly"]["mapsUrl"] = _P3
+INFO["Depart de Marck vers Orly"]["mapsLabel"] = "Parking P3 Orly sur Maps"
+# P3 -> Terminal 3 a pied : le P3 est en face d Orly 3, environ 5 minutes (10 avec les valises et l ascenseur)
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Parking Orly - depot voiture":
+            _e["body"] = _e["body"].replace("Ensuite a pied jusqu au Terminal 3.", "Ensuite a pied jusqu a l enregistrement du Terminal 3 : le P3 est juste en face, environ 5 minutes, compter 10 minutes avec les valises.")
+INFO["Parking Orly - depot voiture"]["logistique"][0]["lignes"].insert(1, "A pied jusqu au Terminal 3 (en face) : environ 5 minutes, 10 avec les valises")
+INFO["Depart de Marck vers Orly"]["conseil"] = INFO["Depart de Marck vers Orly"]["conseil"].replace("Puis a pied jusqu au Terminal 3 pour 04h00.", "Puis a pied jusqu a l enregistrement du Terminal 3 (en face du P3) : environ 5 minutes, 10 avec les valises, pour y etre a 04h00.")
+# a bord du Boeing 737-800 Transavia (sources : transavia.com, seatmaps.com, flight-report)
+_B738 = {"titre": "À bord du Boeing 737-800", "lignes": [
+    "189 sieges, une seule classe, 3 + 3 de chaque cote de l allee",
+    "Espace pour les jambes d environ 76 cm : les sieges avec plus d espace (issues de secours, premier rang) sont payants a la reservation ou sur MyTransavia",
+    "Pas d ecran ni de films a bord : telecharger films, series et musique avant de partir",
+    "Prises USB-A et USB-C : installation progressive, pas sur tous les avions et parfois coupees, donc prendre une batterie chargee",
+    "Boissons et repas payants a bord : prevoir de quoi manger pour plus de 6 heures",
+    "La cabine est souvent fraiche : un pull ou une veste dans le bagage a main"]}
+for _t in ("Vol Transavia TO3232 Orly vers Sal", "Vol Transavia TO3233 Sal vers Orly"):
+    if _t in INFO and _B738 not in INFO[_t].setdefault("logistique", []):
+        INFO[_t]["logistique"].append(_B738)
+# duree de vol et decalage horaire (Cap-Vert UTC-1, Paris UTC+1 en novembre : 2 heures de moins a Sal)
+_VOLT = {"Vol Transavia TO3232 Orly vers Sal": ["Duree du vol : 6h15 sans escale",
+            "Depart 06h30 heure de Paris, arrivee 10h45 heure de Sal (12h45 a Paris)",
+            "Decalage horaire : MOINS 2 HEURES a Sal. On recule sa montre de 2 heures en arrivant : quand il est midi a Paris, il est 10h00 a Sal",
+            "Les telephones se mettent a l heure seuls a l atterrissage ; penser a la montre"],
+         "Vol Transavia TO3233 Sal vers Orly": ["Duree du vol : 5h50 sans escale (les vents portent au retour)",
+            "Depart 11h40 heure de Sal (13h40 a Paris), arrivee 19h30 heure de Paris",
+            "Decalage horaire : PLUS 2 HEURES en rentrant. On avance sa montre de 2 heures : quand il est 10h00 a Sal, il est midi a Paris"]}
+for _t, _l in _VOLT.items():
+    if _t in INFO:
+        _lg = INFO[_t].setdefault("logistique", [])
+        if not any(b.get("titre") == "Duree et decalage horaire" for b in _lg):
+            _lg.insert(0, {"titre": "Duree et decalage horaire", "lignes": _l})
+# le vol retour avait la meme fiche que l aller : fiche propre au retour pour la duree et le decalage
+import copy as _copy
+if INFO.get("Vol Transavia TO3233 Sal vers Orly") is INFO.get("Vol Transavia TO3232 Orly vers Sal"):
+    INFO["Vol Transavia TO3233 Sal vers Orly"] = _copy.deepcopy(INFO["Vol Transavia TO3232 Orly vers Sal"])
+for _b in INFO["Vol Transavia TO3233 Sal vers Orly"]["logistique"]:
+    if _b.get("titre") == "Duree et decalage horaire":
+        _b["lignes"] = _VOLT["Vol Transavia TO3233 Sal vers Orly"]
+for _t in ("Vol Transavia TO3232 Orly vers Sal", "Vol Transavia TO3233 Sal vers Orly"):
+    INFO[_t] = _copy.deepcopy(INFO[_t])
+    for _b in INFO[_t]["logistique"]:
+        if _b.get("titre") == "Duree et decalage horaire":
+            _b["lignes"] = list(_VOLT[_t])
+# jour du depart (France) : peage aller environ 25 EUR partage entre les 2 couples, par carte
+if DAYS[0]["brief"][0].startswith("💳") is False:
+    DAYS[0]["brief"].insert(0, "💳 ~13 € / couple")
+
+# ---- Bar Marley : mercredi 18, de 16h00 a 19h05, entre la sieste et Il Gobbo (valide par Samuel le 09/11)
+_MD = next(d for d in DAYS if d["date"] == "MER 18 NOV")
+_MK = "https://www.google.com/maps/search/?api=1&query=Bar+Marley+Santa+Maria+Sal&query_place_id=ChIJs-lF4MBdSwkRoXC349BeoDo"
+_W1, _W2, _W3, _WC = "Taxi vers le Bar Marley", "Coucher de soleil au Bar Marley", "Retour du Bar Marley vers Il Gobbo", "Appeler un taxi pour le Bar Marley"
+_new = [
+    ev("15h30", _WC, "Mercredi 18 novembre, depart 16h00 du logement vers le Bar Marley, retour a 19h05 vers Il Gobbo", "transport"),
+    ev("16h00", _W1, "Le taxi passe nous prendre au logement. Annoncer Bar Marley, sur la plage devant l hotel Melia Tortuga, au nord de Ponta Preta. Environ 10 minutes. Le retour de 19h05 est demande dans le meme message : le reconfirmer au chauffeur en descendant. Especes uniquement.", "transport", "~7 €/taxi"),
+    ev("16h15", _W2, "Bar de plage reggae sur la cote ouest, devant le Melia Tortuga : DJ, cocktails, poulet jerk au barbecue, et le coucher de soleil dans l océan vers 17h55. Le mercredi soir, il y a un spectacle de feu et beaucoup de monde : en arrivant a 16h15, on a le temps de prendre une bonne table en bord de plage. Juste des verres, le diner est chez Il Gobbo. Cocktails assez chers pour Sal (autour de 14 EUR l Aperol Spritz d apres un avis). Ouvert de 12h00 a minuit, ferme le dimanche.", "show"),
+    ev("19h05", _W3, "Le meme chauffeur revient nous chercher a 19h05, comme convenu a l aller, et nous depose directement chez Il Gobbo, Rua 15 de Agosto, dans la rue du logement, pour 19h30. Tarif de nuit, especes uniquement. Plan B : le bar appelle un taxi.", "transport", "~7 €/taxi"),
+]
+for _e in reversed(_new):
+    _i = next(n for n, x in enumerate(_MD["events"]) if x["title"] == "Diner chez Il Gobbo")
+    _MD["events"].insert(_i, _e)
+CALL_CARDS[_WC] = (_W1, "15h30", "Depart 16h00 du logement, 4 personnes, retour a 19h05 vers Il Gobbo",
+    "{oi}\nNous sommes 4 personnes au logement, Rua 15 de Agosto 108 a Santa Maria.\nNous avons besoin d un taxi a 16h00 pour le Bar Marley, sur la plage devant l hotel Melia Tortuga.\nPuis d un retour a 19h05 vers le restaurant Il Gobbo, Rua 15 de Agosto a Santa Maria.\nEtes-vous disponible ?\nSi oui, quel est le prix pour l aller et le retour ?" + _SIGN,
+    "Hello!\nWe are 4 people at Rua 15 de Agosto 108, Santa Maria.\nWe need a taxi at 16:00 to Bar Marley, on the beach in front of Melia Tortuga hotel.\nThen a ride back at 19:05 to Il Gobbo restaurant, Rua 15 de Agosto, Santa Maria.\nAre you available?\nIf so, how much for both rides?" + _SIGN_EN)
+CALL_IDS[_WC] = "call_marley"
+TAXI_ROUTES[_W1] = (_LOGT, "Bar Marley, plage devant le Melia Tortuga", "Environ 10 minutes", _WC)
+TAXI_ROUTES[_W3] = ("Bar Marley, plage devant le Melia Tortuga", "Restaurant Il Gobbo, Rua 15 de Agosto", "Environ 10 minutes, meme chauffeur qu a l aller", _WC)
+_ix = next(n for n, t in enumerate(TODO_ITEMS) if t["id"] == "call_ponta")
+TODO_ITEMS.insert(_ix, {"id": "call_marley", "group": "ady", "due": "2026-11-18", "rt": "15:30", "evd": "2026-11-18", "color": "#C8573F",
+    "name": _WC, "sub": "Mercredi 18 novembre, depart 16h00 du logement vers le Bar Marley, retour a 19h05 vers Il Gobbo", "go": [_MD["id"], _WC]})
+INFO[_W2] = {"title": "Bar Marley - coucher de soleil",
+    "intro": "Bar de plage reggae sur la cote ouest, devant l hotel Melia Tortuga, au nord de Ponta Preta. DJ, cocktails, poulet jerk au barbecue, vue sur le coucher de soleil dans l océan. 4,1/5 sur pres de 300 avis Google.",
+    "conseil": "Le mercredi soir, spectacle de feu et beaucoup de monde : arriver tot pour avoir une table en bord de plage. Cocktails assez chers pour Sal. Moyen de paiement non precise dans les avis : prendre des especes en plus de la carte.",
+    "logistique": [{"titre": "Pratique", "lignes": ["Plage devant le Melia Tortuga, au nord de Ponta Preta", "Ouvert de 12h00 a minuit, ferme le dimanche", "Coucher de soleil vers 17h55", "Environ 10 minutes de taxi depuis le logement"]}],
+    "mapsUrl": _MK, "mapsLabel": "Bar Marley sur Maps"}
+INFO[_W1] = INFO[_W2]; INFO[_W3] = INFO[_W2]
+for _t in (_W1, _W2):
+    MAPS_URLS[_t] = _MK
+    if _t not in MAPS_ALWAYS: MAPS_ALWAYS.append(_t)
+MAPS_URLS[_W3] = q("Il Gobbo Santa Maria Sal Cabo Verde")
+PAY.update({_W1: "especes", _W2: "verifier", _W3: "especes"})
+DEPLACEMENT.update({_W1: ("voiture", "En taxi depuis le logement, environ 10 minutes"), _W2: ("pied", "Depose par le taxi devant le bar"),
+                    _W3: ("voiture", "En taxi, environ 10 minutes, avec le chauffeur de l aller")})
+ICON[_W2] = "\U0001F379"
+for _e in _MD["events"]:
+    if _e["title"] == "Sieste et plage":
+        _e["body"] = _e["body"].replace("Apres-midi sans programme : sieste au logement", "Sieste au logement")
+        _e["body"] += " Depart pour le Bar Marley a 16h00."
+_MD["brief"] = ["💶 ~25 € / couple", "💳 ~250 € / couple"] + _MD["brief"][2:]
+_MD["tip"] = _MD["tip"].replace("especes ~15 EUR (pourboire equipage), carte ~207 EUR (catamaran déjà payé sur Viator, Cam’s ~16 €, LobStar ~90 €, Il Gobbo ~100 €)",
+    "especes ~25 EUR (pourboire equipage, taxis du Bar Marley), carte ~250 EUR (catamaran déjà payé sur Viator, Cam’s ~16 €, LobStar ~90 €, verres au Bar Marley ~40 €, Il Gobbo ~100 €)")
+for _r in BUDGET["days"]:
+    if _r[0] == "Mer 18":
+        _r[1], _r[2], _r[3] = 25, 250, "Pourboire et taxis du Bar Marley (especes), Cam s, LobStar, verres au Bar Marley, Il Gobbo (carte) - catamaran deja paye sur Viator"
+_TD = next(d for d in DAYS if d["date"] == "MAR 17 NOV")
+_TD["note"] = _TD["note"].replace("Diner reserve chez Il Gobbo a 19h30.", "Apres la sieste, coucher de soleil au Bar Marley de 16h00 a 19h05, puis diner reserve chez Il Gobbo a 19h30.")
+_MD["events"].sort(key=lambda e: _hk(e["time"]))
+# Bar Marley : photo de Samuel + video TikTok
+INFO[_W2]["image"] = "bar-marley.jpg"
+INFO[_W2]["video"] = "https://vm.tiktok.com/ZN8fTqR8L/"
+
+# ---- logement : immeuble LUX, pres du Columbus (info de l hote, 12/11)
+_A0 = "Rua 15 de Agosto 108"
+_AFR = "Rua 15 de Agosto 108, immeuble LUX (pres du Columbus)"
+_AEN = "Rua 15 de Agosto 108, LUX building (near Columbus)"
+def _fix(o):
+    if isinstance(o, str):
+        return o.replace(_A0, _AFR) if _A0 in o and "LUX" not in o else o
+    if isinstance(o, list):
+        return [_fix(x) for x in o]
+    if isinstance(o, tuple):
+        return tuple(_fix(x) for x in o)
+    if isinstance(o, dict):
+        return {k: _fix(v) for k, v in o.items()}
+    return o
+for _d in DAYS:
+    for _k in list(_d.keys()):
+        if _k != "events":
+            _d[_k] = _fix(_d[_k])
+    for _e in _d["events"]:
+        _e["body"] = _fix(_e["body"])
+for _k in list(INFO.keys()):
+    INFO[_k] = _fix(INFO[_k])
+for _k in list(CALL_CARDS.keys()):
+    _t, _h, _s, _fr, _en = CALL_CARDS[_k]
+    CALL_CARDS[_k] = (_t, _h, _fix(_s), _fr.replace(_A0, _AFR), _en.replace(_A0, _AEN))
+for _k in list(TAXI_ROUTES.keys()):
+    TAXI_ROUTES[_k] = _fix(TAXI_ROUTES[_k])
+    TAXI_ROUTES[_k] = tuple(x.replace("Logement, Rua 15 de Agosto", "Logement, immeuble LUX, Rua 15 de Agosto") if isinstance(x, str) and "LUX" not in x else x for x in TAXI_ROUTES[_k])
+RESAS[:] = _fix(RESAS); CHK_ITEMS[:] = _fix(CHK_ITEMS); ESSENTIALS[:] = _fix(ESSENTIALS)
+for _k in list(RESA_DETAILS.keys()):
+    RESA_DETAILS[_k] = _fix(RESA_DETAILS[_k])
+for _k in ("Airbnb Sal Sol & Mar", "Check-in Airbnb Sal Sol & Mar"):
+    if _k in INFO and "LUX" not in INFO[_k]["intro"]:
+        INFO[_k] = dict(INFO[_k])
+        INFO[_k]["intro"] = INFO[_k]["intro"].replace("dans un immeuble recent", "dans l immeuble LUX, recent,") + " Pour le chauffeur : immeuble LUX, Rua 15 de Agosto, tout pres du Columbus."
+
+# ---- bagages : a laisser a la réception de l immeuble LUX (consigne du proprietaire, 12/11)
+_BAG_OLD = [
+    ("L hote est d accord pour garder les bagages au logement a 12h15, avant le check-in. On pose les valises et on part dejeuner les mains libres.",
+     "Consigne du propriétaire : les bagages se laissent à la réception de l immeuble LUX, a 12h15, avant le check-in. On pose les valises a l accueil et on part dejeuner les mains libres."),
+    ("Bagages deja deposes a 12h15 avec l accord de l hote.", "Bagages déjà laissés à la réception de l immeuble a 12h15."),
+    ("Les valises sont deposees au logement a 12h15", "Les valises sont laissées à la réception de l immeuble LUX a 12h15"),
+    ("Les valises sont deja deposees au logement.", "Les valises sont déjà à la réception de l immeuble."),
+    ("les valises sont deja au logement", "les valises attendent à la réception de l immeuble"),
+]
+def _bag(o):
+    if isinstance(o, str):
+        for a, b in _BAG_OLD:
+            o = o.replace(a, b)
+        return o
+    if isinstance(o, list): return [_bag(x) for x in o]
+    if isinstance(o, tuple): return tuple(_bag(x) for x in o)
+    if isinstance(o, dict): return {k: _bag(v) for k, v in o.items()}
+    return o
+for _d in DAYS:
+    for _k in list(_d.keys()):
+        if _k != "events": _d[_k] = _bag(_d[_k])
+    for _e in _d["events"]: _e["body"] = _bag(_e["body"])
+for _k in list(INFO.keys()): INFO[_k] = _bag(INFO[_k])
+for _k in list(DEPLACEMENT.keys()): DEPLACEMENT[_k] = _bag(DEPLACEMENT[_k])
+DEPLACEMENT["Depot des bagages au logement"] = ("aucun", "Réception de l immeuble LUX, Rua 15 de Agosto 108")
