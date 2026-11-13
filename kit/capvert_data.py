@@ -439,7 +439,7 @@ vol_logistique = [
     ]},
     {"titre": "Bagages", "lignes": [
         "Bagage cabine non inclus (indique sur les cartes d embarquement) : un petit sac sous le siege par personne, 40 x 30 x 20 cm maximum",
-        "Valises en soute : verifier sur MyTransavia qu elles figurent bien sur la reservation",
+        "Tarif Plus : une valise en soute de 20 kg par personne, aller et retour (verifie sur MyTransavia le 13/11)",
         "Transavia est stricte sur les dimensions cabine : mesurer les sacs avant",
     ]},
 ]
@@ -2033,3 +2033,13 @@ INFO["Vol Transavia TO3232 Orly vers Sal"].setdefault("logistique", []).insert(0
     "Cedric 9A et Virginie 9B, Samuel 10A et Francoise 10B",
     "Bagage cabine non inclus : un petit sac sous le siege par personne (40 x 30 x 20 cm)",
 ]})
+
+# ---- verifie sur MyTransavia le 13/11 : tarif Plus, 4 x 20 kg en soute aller et retour, sieges retour
+_SIEGES_R = "Cedric 11A, Virginie 11B, Samuel 12A, Francoise 12B"
+INFO["Vol Transavia TO3232 Orly vers Sal"]["logistique"][0]["lignes"].insert(3, "Tarif Plus : une valise en soute de 20 kg par personne")
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Vol Transavia TO3233 Sal vers Orly":
+            _e["body"] = _e["body"].replace("Billets PAYES.", "Billets PAYES. Sieges deja attribues : " + _SIEGES_R + ". Une valise de 20 kg en soute par personne.")
+RESA_DETAILS["vols"]["info"] = RESA_DETAILS["vols"]["info"].replace("bagage cabine non inclus (petit sac sous le siege seulement)",
+    "tarif Plus : 20 kg en soute par personne aller et retour, bagage cabine non inclus (petit sac sous le siege seulement) - sieges retour " + _SIEGES_R)
