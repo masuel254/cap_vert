@@ -439,7 +439,8 @@ vol_logistique = [
     ]},
     {"titre": "Bagages", "lignes": [
         "Bagage cabine non inclus (indique sur les cartes d embarquement) : un petit sac sous le siege par personne, 40 x 30 x 20 cm maximum",
-        "Tarif Plus : une valise en soute de 20 kg par personne, aller et retour (verifie sur MyTransavia le 13/11)",
+        "Tarif Plus : une valise en soute par personne, 20 kg MAXIMUM, aller et retour : peser les valises avant de partir",
+        "Pas de valise cabine (55 x 40 x 25 cm) : elle n est comprise qu en tarif Smart ou Max ou avec l option bagage cabine",
         "Transavia est stricte sur les dimensions cabine : mesurer les sacs avant",
     ]},
 ]
@@ -2036,10 +2037,10 @@ INFO["Vol Transavia TO3232 Orly vers Sal"].setdefault("logistique", []).insert(0
 
 # ---- verifie sur MyTransavia le 13/11 : tarif Plus, 4 x 20 kg en soute aller et retour, sieges retour
 _SIEGES_R = "Cedric 11A, Virginie 11B, Samuel 12A, Francoise 12B"
-INFO["Vol Transavia TO3232 Orly vers Sal"]["logistique"][0]["lignes"].insert(3, "Tarif Plus : une valise en soute de 20 kg par personne")
+INFO["Vol Transavia TO3232 Orly vers Sal"]["logistique"][0]["lignes"].insert(3, "Tarif Plus : une valise en soute par personne, 20 kg maximum")
 for _d in DAYS:
     for _e in _d["events"]:
         if _e["title"] == "Vol Transavia TO3233 Sal vers Orly":
-            _e["body"] = _e["body"].replace("Billets PAYES.", "Billets PAYES. Sieges deja attribues : " + _SIEGES_R + ". Une valise de 20 kg en soute par personne.")
+            _e["body"] = _e["body"].replace("Billets PAYES.", "Billets PAYES. Sieges deja attribues : " + _SIEGES_R + ". Une valise en soute par personne, 20 kg maximum.")
 RESA_DETAILS["vols"]["info"] = RESA_DETAILS["vols"]["info"].replace("bagage cabine non inclus (petit sac sous le siege seulement)",
-    "tarif Plus : 20 kg en soute par personne aller et retour, bagage cabine non inclus (petit sac sous le siege seulement) - sieges retour " + _SIEGES_R)
+    "tarif Plus : 1 valise en soute par personne, 20 kg max, aller et retour, bagage cabine non inclus (petit sac sous le siege seulement) - sieges retour " + _SIEGES_R)
