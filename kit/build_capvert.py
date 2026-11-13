@@ -793,7 +793,7 @@ assert html.count(_DA) == 1, "ancre formalites"
 
 _DB = 'document.getElementById("ic").innerHTML=h;'
 assert html.count(_DB) == 1, "ancre ic"
-html = html.replace(_DB, _DB + 'try{var _ab=document.querySelector(\'details[data-acc="ok"] .rv-accb\');if(_ab&&!document.getElementById(\'docbox\')){var _dv=document.createElement(\'div\');_dv.id=\'docwrap\';_dv.innerHTML=\'<div class="rv-docs-t">&#128706; Cartes d’embarquement, reçus EASE et documents</div><div id="docbox"></div>\';_ab.insertBefore(_dv,_ab.firstChild);}renderDocs();}catch(_e){}')
+html = html.replace(_DB, _DB + 'try{var _ab=document.querySelector(\'details[data-acc="ok"] .rv-accb\');if(_ab&&!document.getElementById(\'docbox\')){var _dv=document.createElement(\'div\');_dv.id=\'docwrap\';_dv.innerHTML=\'<div id="docbox"></div>\';_ab.insertBefore(_dv,_ab.firstChild);}renderDocs();}catch(_e){}')
 _DOCJS = r"""
 <script>
 /* Documents de voyage : stockes uniquement dans ce telephone (IndexedDB), jamais envoyes en ligne */
@@ -803,7 +803,10 @@ function docsAll(cb){docsDb(function(db){if(!db)return cb(null);var out=[],tx=db
 function docsPut(d,cb){docsDb(function(db){if(!db)return;var tx=db.transaction('docs','readwrite');tx.objectStore('docs').put(d);tx.oncomplete=function(){cb&&cb();};});}
 function docsDel(id,cb){docsDb(function(db){if(!db)return;var tx=db.transaction('docs','readwrite');tx.objectStore('docs').delete(id);tx.oncomplete=function(){cb&&cb();};});}
 function docsShrink(file,cb){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var m=1800,w=im.width,h=im.height,k=Math.min(1,m/Math.max(w,h));var c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',0.85));};im.onerror=function(){cb(fr.result);};im.src=fr.result;};fr.readAsDataURL(file);}
-function docsAdd(inp){var fs=[].slice.call(inp.files||[]);var n=0;fs.forEach(function(f,i){docsShrink(f,function(u){docsPut({id:'d'+Date.now()+'_'+i,name:'Document '+(i+1),img:u,ts:Date.now()+i},function(){if(++n===fs.length)renderDocs();});});});inp.value='';}
+function docsAdd(inp,cat){var fs=[].slice.call(inp.files||[]);var n=0,t=Date.now();fs.forEach(function(f,i){docsShrink(f,function(u){docsPut({id:'d'+t+'_'+i,name:(cat==='bp'?'Carte d’embarquement ':'Document ')+(i+1),img:u,ts:t+i,cat:cat},function(){if(++n===fs.length)renderDocs();});});});inp.value='';}
+function docsCat(d){if(d.cat)return d.cat;return /carte|embarq|boarding|si[eè]ge|TO ?323/i.test(d.name||'')?'bp':'doc';}
+function docsMove(id){docsAll(function(l){(l||[]).forEach(function(d){if(d.id===id){d.cat=docsCat(d)==='bp'?'doc':'bp';docsPut(d,renderDocs);}});});}
+var DOCS_OPEN={};function docsTog(id){DOCS_OPEN[id]=!DOCS_OPEN[id];renderDocs();}
 function docsRename(id,val){docsAll(function(l){(l||[]).forEach(function(d){if(d.id===id){d.name=val;docsPut(d);}});});}
 function docsView(id){docsAll(function(l){var d=(l||[]).filter(function(x){return x.id===id;})[0];if(!d)return;var o=document.createElement('div');o.id='docView';
  o.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(10,18,24,.96);display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)';
@@ -813,14 +816,22 @@ function docsView(id){docsAll(function(l){var d=(l||[]).filter(function(x){retur
  var arm=false;document.getElementById('docDel').onclick=function(){if(!arm){arm=true;this.textContent='Confirmer ?';return;}docsDel(id,function(){o.remove();renderDocs();});};});}
 function renderDocs(){var box=document.getElementById('docbox');if(!box)return;docsAll(function(l){
  if(l===null){box.innerHTML='<div style="font-size:13px;color:#C8573F">Ce navigateur ne permet pas de garder des documents.</div>';return;}
- var h='<div style="font-size:12.5px;color:#55636A;line-height:1.45;margin-bottom:10px">Reçus EASE, passeports, cartes d’embarquement… Les photos ajoutées ici restent <b>uniquement dans ce téléphone</b>, disponibles hors connexion. Elles ne sont jamais mises en ligne.</div>';
- h+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">';
- l.forEach(function(d){h+='<div style="border:1px solid #DCE6E4;border-radius:12px;overflow:hidden;background:#fff"><img src="'+d.img+'" onclick="docsView(\''+d.id+'\')" style="width:100%;height:130px;object-fit:cover;object-position:top;display:block;cursor:pointer"><input value="'+String(d.name).replace(/"/g,'&quot;')+'" onchange="docsRename(\''+d.id+'\',this.value)" style="width:100%;box-sizing:border-box;border:0;border-top:1px solid #EEF2F1;padding:8px;font:600 12.5px -apple-system,sans-serif;color:#0F1B23;background:#fff"></div>';});
- h+='</div><label style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:#1F8FA6;color:#fff;border-radius:20px;padding:9px 15px;font:700 13px -apple-system,sans-serif;cursor:pointer">&#10133; Ajouter des photos<input type="file" accept="image/*" multiple onchange="docsAdd(this)" style="display:none"></label>';
+ var E=function(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');};
+ function sec(cat,ico,tit,vide,other){var it=l.filter(function(d){return docsCat(d)===cat;});
+  var h='<div class="dk-sec"><div class="rv-docs-t">'+ico+' '+tit+' <span class="dk-n">'+it.length+'</span></div>';
+  if(!it.length)h+='<div class="dk-vide">'+vide+'</div>';
+  it.forEach(function(d){var o=!!DOCS_OPEN[d.id];
+   h+='<div class="dk-it'+(o?' on':'')+'"><div class="dk-row" onclick="docsTog(\''+d.id+'\')"><span class="dk-nm">'+E(d.name)+'</span><span class="dk-ch">'+(o?'&#9650;':'&#9660;')+'</span></div>';
+   if(o)h+='<div class="dk-body"><img src="'+d.img+'" onclick="docsView(\''+d.id+'\')"><div class="dk-tools"><input value="'+E(d.name)+'" onchange="docsRename(\''+d.id+'\',this.value);DOCS_OPEN[\''+d.id+'\']=true;setTimeout(renderDocs,50)" aria-label="Nom"><button onclick="docsMove(\''+d.id+'\')">&#8644; '+other+'</button></div><div class="dk-hint">Touchez l’image pour l’afficher en grand.</div></div>';
+   h+='</div>';});
+  h+='<label class="dk-add">&#10133; Ajouter<input type="file" accept="image/*" multiple onchange="docsAdd(this,\''+cat+'\')" style="display:none"></label></div>';return h;}
+ var h='<div class="dk-intro">Les photos ajoutées ici restent <b>uniquement dans ce téléphone</b>, disponibles hors connexion. Elles ne sont jamais mises en ligne.</div>';
+ h+=sec('bp','&#9992;&#65039;','Cartes d’embarquement','Ajoutez les captures des 4 cartes (appli Transavia).','Vers reçus et documents');
+ h+=sec('doc','&#128706;','Reçus EASE et documents','Reçus EASE, passeports…','Vers cartes d’embarquement');
  box.innerHTML=h;});}
 </script>
 """
-html = html.replace("</body>", _DOCJS + "<style>#docwrap{background:#F3F8F8;border:1px solid #DCE6E4;border-radius:14px;padding:12px;margin:4px 0 12px}.rv-docs-t{font:800 13px -apple-system,sans-serif;color:#0F1B23;letter-spacing:.3px;margin-bottom:6px}</style></body>", 1)
+html = html.replace("</body>", _DOCJS + "<style>#docwrap{background:#F3F8F8;border:1px solid #DCE6E4;border-radius:14px;padding:12px;margin:4px 0 12px}.rv-docs-t{font:800 13px -apple-system,sans-serif;color:#0F1B23;letter-spacing:.3px;margin-bottom:8px}.dk-intro{font-size:12.5px;color:#55636A;line-height:1.45;margin-bottom:12px}.dk-sec{background:#fff;border:1px solid #DCE6E4;border-radius:12px;padding:11px;margin-bottom:10px}.dk-n{display:inline-block;min-width:18px;text-align:center;background:#E6F0F0;color:#1F6F80;border-radius:9px;font-size:11px;padding:1px 6px;margin-left:4px}.dk-vide{font-size:12.5px;color:#8A969B;margin-bottom:8px}.dk-it{border:1px solid #EEF2F1;border-radius:10px;margin-bottom:7px;overflow:hidden}.dk-it.on{border-color:#1F8FA6}.dk-row{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;font:600 13.5px -apple-system,sans-serif;color:#0F1B23;cursor:pointer;background:#FAFCFC}.dk-ch{color:#1F8FA6;font-size:11px}.dk-body{padding:10px;border-top:1px solid #EEF2F1}.dk-body img{width:100%;display:block;border-radius:8px;cursor:zoom-in}.dk-tools{display:flex;flex-direction:column;gap:7px;margin-top:9px}.dk-tools input{flex:1;min-width:0;border:1px solid #DCE6E4;border-radius:8px;padding:8px;font:600 12.5px -apple-system,sans-serif}.dk-tools button{align-self:flex-start;border:1px solid #DCE6E4;background:#fff;border-radius:8px;padding:6px 10px;font:600 11.5px -apple-system,sans-serif;color:#55636A;white-space:nowrap}.dk-hint{font-size:11.5px;color:#8A969B;margin-top:6px}.dk-add{display:inline-flex;align-items:center;gap:6px;margin-top:4px;background:#1F8FA6;color:#fff;border-radius:20px;padding:8px 14px;font:700 12.5px -apple-system,sans-serif;cursor:pointer}</style></body>", 1)
 
 # ---- compte a rebours par etapes : vise toujours la prochaine etape (instants UTC, Paris UTC+1, Sal UTC-1)
 _CD0 = html.find("function updateCountdown(){")
