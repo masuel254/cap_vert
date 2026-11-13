@@ -438,7 +438,8 @@ vol_logistique = [
         "Depot des bagages : ferme 75 min avant (Orly 05h15, Sal 10h25)",
     ]},
     {"titre": "Bagages", "lignes": [
-        "Franchise selon le tarif achete [A verifier sur la reservation]",
+        "Bagage cabine non inclus (indique sur les cartes d embarquement) : un petit sac sous le siege par personne, 40 x 30 x 20 cm maximum",
+        "Valises en soute : verifier sur MyTransavia qu elles figurent bien sur la reservation",
         "Transavia est stricte sur les dimensions cabine : mesurer les sacs avant",
     ]},
 ]
@@ -2002,3 +2003,33 @@ for _d in DAYS:
 for _k in list(INFO.keys()): INFO[_k] = _bag(INFO[_k])
 for _k in list(DEPLACEMENT.keys()): DEPLACEMENT[_k] = _bag(DEPLACEMENT[_k])
 DEPLACEMENT["Depot des bagages au logement"] = ("aucun", "Réception de l immeuble LUX, Rua 15 de Agosto 108")
+
+# ---- cartes d embarquement aller (enregistrement fait le 13/11)
+_SIEGES = "Cedric 9A, Virginie 9B, Samuel 10A, Francoise 10B"
+for _d in DAYS:
+    for _e in _d["events"]:
+        if _e["title"] == "Embarquement" and _e["time"] == "06h00":
+            _e["time"] = "05h45"
+            _e["body"] = ("Embarquement a 05h45, zone 3. La porte est fermée à 06h10 : après, plus personne ne monte. "
+                          "La porte n est pas encore indiquee sur les cartes : la lire sur les ecrans en sortant du controle des passeports. "
+                          "Sieges : " + _SIEGES + " (hublot pour Cedric et Samuel). Cartes d embarquement sur les telephones, ref K6UNPB.")
+        if _e["title"] == "Vol Transavia TO3232 Orly vers Sal":
+            _e["body"] = _e["body"].replace("Ref compagnie K6UNPB.", "Ref compagnie K6UNPB, enregistrement fait le 13/11. Sieges : " + _SIEGES + ".")
+    if "Enregistrement en ligne Transavia ouvert 30h avant le vol, soit le vendredi 13/11 a 00h30." in _d.get("tip", ""):
+        _d["tip"] = _d["tip"].replace("Enregistrement en ligne Transavia ouvert 30h avant le vol, soit le vendredi 13/11 a 00h30.",
+            "Enregistrement fait le 13/11 : embarquement 05h45, porte fermee a 06h10, sieges " + _SIEGES + ".")
+    _d["events"].sort(key=lambda e: _hk(e["time"]))
+_T3I = INFO["Arrivee aeroport Orly T3 - Depot bagages"]
+_T3I["logistique"][0]["lignes"] = [l for l in _T3I["logistique"][0]["lignes"] if not l.startswith("06h00 environ")]
+_i = [k for k, l in enumerate(_T3I["logistique"][0]["lignes"]) if l.startswith("06h30")][0]
+_T3I["logistique"][0]["lignes"][_i:_i] = ["05h45 : embarquement, zone 3 (porte sur les ecrans)", "06h10 : fermeture de la porte"]
+TODO_ITEMS[:] = [t for t in TODO_ITEMS if t.get("id") != "checkin"]
+RESA_VIEW["vols"]["line"] = "Aller 06h30 Orly · embarquement 05h45 · retour 21/11 11h40"
+RESA_VIEW["vols"]["st"] = "Enregistré"
+RESA_DETAILS["vols"]["info"] += " - ALLER ENREGISTRE le 13/11 : embarquement 05h45, porte fermee 06h10, zone 3 - sieges " + _SIEGES + " - bagage cabine non inclus (petit sac sous le siege seulement)"
+INFO["Vol Transavia TO3232 Orly vers Sal"].setdefault("logistique", []).insert(0, {"titre": "Cartes d embarquement", "lignes": [
+    "Enregistrement fait le 13/11, ref K6UNPB",
+    "Embarquement 05h45, zone 3, porte fermee a 06h10",
+    "Cedric 9A et Virginie 9B, Samuel 10A et Francoise 10B",
+    "Bagage cabine non inclus : un petit sac sous le siege par personne (40 x 30 x 20 cm)",
+]})

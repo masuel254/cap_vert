@@ -128,7 +128,7 @@ rep_span('var CITY_INFO = {', 'var curDay=null;', 'var CITY_INFO = ' + J(D.CITY)
 
 # ---------------------------------------------------------------- compte a rebours / jour actif / progression
 rep('  var depart = new Date(2026, 7, 13, 8, 30, 0); // 13 août 2026 08h30 (depart chez Thomas, heure France)',
-    '  var depart = new Date(2026, 10, 14, 0, 15, 0); // 14 novembre 2026 00h15 (depart de la maison vers Orly, heure France)')
+    '  var depart = new Date(2026, 10, 14, 0, 5, 0); // 14 novembre 2026 00h05 (depart de la maison vers Orly, heure France)')
 rep('  // Retour : decollage HND le 29/08 a 16h35 heure de Tokyo (JST = UTC+9) => 07h35 UTC.',
     '  // Retour : decollage SID le 21/11 a 11h40 heure du Cap-Vert (UTC-1) => 12h40 UTC.')
 rep('  // le fuseau ou se trouve le voyageur (France, Singapour ou Japon).',
@@ -786,6 +786,101 @@ _SW2 = """  if(!curDay) return;\n  var dx = e.changedTouches[0].clientX - swipeS
 assert html.count(_SW1) == 1 and html.count(_SW2) == 1, "ancre swipe"
 html = html.replace(_SW1, """  window._swNo = !!(e.target.closest && e.target.closest('.wk-s'));\n""" + _SW1)
 html = html.replace(_SW2, """  if(!curDay || window._swNo) return;\n  var dx = e.changedTouches[0].clientX - swipeStartX;""")
+
+# ---- Documents de voyage : photos ajoutees depuis le telephone, gardees dans le telephone (IndexedDB), jamais publiees
+_DA = "h+=acc('&#128196; Formalites administratives', hForm, false);"
+assert html.count(_DA) == 1, "ancre formalites"
+
+_DB = 'document.getElementById("ic").innerHTML=h;'
+assert html.count(_DB) == 1, "ancre ic"
+html = html.replace(_DB, _DB + 'try{var _ab=document.querySelector(\'details[data-acc="ok"] .rv-accb\');if(_ab&&!document.getElementById(\'docbox\')){var _dv=document.createElement(\'div\');_dv.id=\'docwrap\';_dv.innerHTML=\'<div class="rv-docs-t">&#128706; Reçus EASE et documents</div><div id="docbox"></div>\';_ab.insertBefore(_dv,_ab.firstChild);}renderDocs();}catch(_e){}')
+_DOCJS = r"""
+<script>
+/* Documents de voyage : stockes uniquement dans ce telephone (IndexedDB), jamais envoyes en ligne */
+var DOCS_DB='mto_docs_capvert';
+function docsDb(cb){try{var r=indexedDB.open(DOCS_DB,1);r.onupgradeneeded=function(){r.result.createObjectStore('docs',{keyPath:'id'});};r.onsuccess=function(){cb(r.result);};r.onerror=function(){cb(null);};}catch(e){cb(null);}}
+function docsAll(cb){docsDb(function(db){if(!db)return cb(null);var out=[],tx=db.transaction('docs','readonly');tx.objectStore('docs').openCursor().onsuccess=function(ev){var c=ev.target.result;if(c){out.push(c.value);c.continue();}else cb(out.sort(function(a,b){return a.ts-b.ts;}));};});}
+function docsPut(d,cb){docsDb(function(db){if(!db)return;var tx=db.transaction('docs','readwrite');tx.objectStore('docs').put(d);tx.oncomplete=function(){cb&&cb();};});}
+function docsDel(id,cb){docsDb(function(db){if(!db)return;var tx=db.transaction('docs','readwrite');tx.objectStore('docs').delete(id);tx.oncomplete=function(){cb&&cb();};});}
+function docsShrink(file,cb){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var m=1800,w=im.width,h=im.height,k=Math.min(1,m/Math.max(w,h));var c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',0.85));};im.onerror=function(){cb(fr.result);};im.src=fr.result;};fr.readAsDataURL(file);}
+function docsAdd(inp){var fs=[].slice.call(inp.files||[]);var n=0;fs.forEach(function(f,i){docsShrink(f,function(u){docsPut({id:'d'+Date.now()+'_'+i,name:'Document '+(i+1),img:u,ts:Date.now()+i},function(){if(++n===fs.length)renderDocs();});});});inp.value='';}
+function docsRename(id,val){docsAll(function(l){(l||[]).forEach(function(d){if(d.id===id){d.name=val;docsPut(d);}});});}
+function docsView(id){docsAll(function(l){var d=(l||[]).filter(function(x){return x.id===id;})[0];if(!d)return;var o=document.createElement('div');o.id='docView';
+ o.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(10,18,24,.96);display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)';
+ o.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;color:#fff;font:600 15px -apple-system,sans-serif"><span>'+String(d.name).replace(/</g,'&lt;')+'</span><span><button id="docDel" style="background:#C8573F;color:#fff;border:0;border-radius:16px;padding:7px 12px;font-weight:700;margin-right:8px">Supprimer</button><button id="docClose" style="background:#fff;color:#0F1B23;border:0;border-radius:16px;padding:7px 14px;font-weight:800">Fermer</button></span></div><div style="flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pinch-zoom pan-x pan-y"><img src="'+d.img+'" style="width:100%;display:block"></div>';
+ document.body.appendChild(o);
+ document.getElementById('docClose').onclick=function(){o.remove();};
+ var arm=false;document.getElementById('docDel').onclick=function(){if(!arm){arm=true;this.textContent='Confirmer ?';return;}docsDel(id,function(){o.remove();renderDocs();});};});}
+function renderDocs(){var box=document.getElementById('docbox');if(!box)return;docsAll(function(l){
+ if(l===null){box.innerHTML='<div style="font-size:13px;color:#C8573F">Ce navigateur ne permet pas de garder des documents.</div>';return;}
+ var h='<div style="font-size:12.5px;color:#55636A;line-height:1.45;margin-bottom:10px">Reçus EASE, passeports, cartes d’embarquement… Les photos ajoutées ici restent <b>uniquement dans ce téléphone</b>, disponibles hors connexion. Elles ne sont jamais mises en ligne.</div>';
+ h+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">';
+ l.forEach(function(d){h+='<div style="border:1px solid #DCE6E4;border-radius:12px;overflow:hidden;background:#fff"><img src="'+d.img+'" onclick="docsView(\''+d.id+'\')" style="width:100%;height:130px;object-fit:cover;object-position:top;display:block;cursor:pointer"><input value="'+String(d.name).replace(/"/g,'&quot;')+'" onchange="docsRename(\''+d.id+'\',this.value)" style="width:100%;box-sizing:border-box;border:0;border-top:1px solid #EEF2F1;padding:8px;font:600 12.5px -apple-system,sans-serif;color:#0F1B23;background:#fff"></div>';});
+ h+='</div><label style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:#1F8FA6;color:#fff;border-radius:20px;padding:9px 15px;font:700 13px -apple-system,sans-serif;cursor:pointer">&#10133; Ajouter des photos<input type="file" accept="image/*" multiple onchange="docsAdd(this)" style="display:none"></label>';
+ box.innerHTML=h;});}
+</script>
+"""
+html = html.replace("</body>", _DOCJS + "<style>#docwrap{background:#F3F8F8;border:1px solid #DCE6E4;border-radius:14px;padding:12px;margin:4px 0 12px}.rv-docs-t{font:800 13px -apple-system,sans-serif;color:#0F1B23;letter-spacing:.3px;margin-bottom:6px}</style></body>", 1)
+
+# ---- compte a rebours par etapes : vise toujours la prochaine etape (instants UTC, Paris UTC+1, Sal UTC-1)
+_CD0 = html.find("function updateCountdown(){")
+_CD1 = html.find("setInterval(updateCountdown, 30000);")
+assert _CD0 > 0 and _CD1 > _CD0, "ancre compte a rebours"
+_CDJS = """var CD_STEPS=[
+ [2026,10,13,23,5,"🚗","Avant le départ de Marck","00h05"],
+ [2026,10,14,4,45,"🎫","Avant l'embarquement (porte fermée à 06h10)","05h45"],
+ [2026,10,14,5,30,"✈️","Avant le décollage","06h30"],
+ [2026,10,14,13,30,"🏖️","Avant le déjeuner pieds dans le sable à Angulo","12h30"],
+ [2026,10,14,19,30,"🕯️","Avant le dîner Chez Pastis","18h30"],
+ [2026,10,15,9,0,"🥾","Avant la balade du phare","08h00"],
+ [2026,10,15,14,0,"🥂","Avant le brunch au Bikini Beach Club","13h00"],
+ [2026,10,15,20,45,"🎤","Avant le karaoké de l’Atlantic","19h45"],
+ [2026,10,16,9,30,"🤿","Avant la plongée","08h30"],
+ [2026,10,16,20,30,"🎸","Avant le dîner en musique à l’Ocean Café","19h30"],
+ [2026,10,17,11,0,"🚙","Avant le tour du nord","10h00"],
+ [2026,10,17,15,40,"🦈","Avant les requins de Shark Bay","14h40"],
+ [2026,10,17,20,0,"🍽️","Avant le dîner au Marea","19h00"],
+ [2026,10,18,9,30,"⛵","Avant le catamaran","08h30"],
+ [2026,10,18,17,15,"🌅","Avant le coucher de soleil au Bar Marley","16h15"],
+ [2026,10,18,20,30,"🍝","Avant le dîner chez Il Gobbo","19h30"],
+ [2026,10,19,8,30,"🧂","Avant la balade des salines","07h30"],
+ [2026,10,19,18,30,"🌇","Avant le coucher de soleil à Ponta Preta","17h30"],
+ [2026,10,19,20,0,"🦞","Avant le homard du Barracuda","19h00"],
+ [2026,10,20,13,30,"🐟","Avant le poisson du Sol Doce","12h30"],
+ [2026,10,20,23,0,"🤍","Avant la White Party","22h00"],
+ [2026,10,21,9,0,"🚕","Avant le départ pour l’aéroport","08h00"],
+ [2026,10,21,12,40,"✈️","Avant le vol retour","11h40"],
+ [2026,10,21,18,30,"🛬","Avant l’atterrissage à Orly","19h30"]
+];
+function cdStepAt(i){var s=CD_STEPS[i];return{t:Date.UTC(s[0],s[1],s[2],s[3],s[4],0),ico:s[5],txt:s[6],h:s[7]};}
+function updateCountdown(){
+  var now=Date.now(), label=document.getElementById("cd-label"), el=document.getElementById("countdown");
+  if(!el) return;
+  var i=0; while(i<CD_STEPS.length && cdStepAt(i).t<=now) i++;
+  var nx=document.getElementById("cd-next");
+  if(i>=CD_STEPS.length){
+    el.innerHTML='<div style="font-size:13px;font-weight:700;color:#2BB3C0;letter-spacing:2px">🏡 BON RETOUR À LA MAISON</div>';
+    return;
+  }
+  var st=cdStepAt(i);
+  if(label) label.textContent=st.ico+" "+st.txt.toUpperCase()+" · "+st.h.toUpperCase();
+  if(!nx){nx=document.createElement("div");nx.id="cd-next";nx.style.cssText="margin-top:8px;font-size:11px;color:#8FA8AF;letter-spacing:.5px";el.appendChild(nx);}
+  if(i+1<CD_STEPS.length){var n2=cdStepAt(i+1);nx.textContent="Puis : "+n2.txt.replace(/^Avant (le |la |les |l’)?/,"").replace(/^./,function(c){return c.toUpperCase();})+", "+n2.h;}
+  else nx.textContent="";
+  renderCountdown(st.t-now);
+}
+function renderCountdown(diff){
+  var d=document.getElementById("cd-days"),h=document.getElementById("cd-hours"),m=document.getElementById("cd-mins");
+  var lb=document.querySelectorAll("#countdown>div>div>div:last-child");
+  var a,b,c,la;
+  if(diff>=86400000){a=Math.floor(diff/86400000);b=Math.floor((diff%86400000)/3600000);c=Math.floor((diff%3600000)/60000);la=["JOURS","HEURES","MINUTES"];}
+  else{a=Math.floor(diff/3600000);b=Math.floor((diff%3600000)/60000);c=Math.floor((diff%60000)/1000);la=["HEURES","MINUTES","SECONDES"];}
+  if(d) d.textContent=a; if(h) h.textContent=String(b).padStart(2,"0"); if(m) m.textContent=String(c).padStart(2,"0");
+  if(lb.length>=3){for(var k=0;k<3;k++) lb[k].textContent=la[k];}
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);"""
+html = html[:_CD0] + _CDJS + html[_CD1 + len("setInterval(updateCountdown, 30000);"):]
 
 # ---- fiche Infos : WhatsApp seul quand le numero est un mobile, et pastille Tripadvisor
 _IA_OLD = """    if(_w&&_w.tel){_a+='<a class="ia-tel" href="tel:'+_w.tel+'">&#128222; Appeler</a>'; if(_w.wa)_a+='<a class="ia-wa" href="https://wa.me/'+_w.tel.replace(/\\D/g,'')+'" target="_blank" rel="noopener">&#128172; WhatsApp</a>';}"""
