@@ -793,7 +793,7 @@ assert html.count(_DA) == 1, "ancre formalites"
 
 _DB = 'document.getElementById("ic").innerHTML=h;'
 assert html.count(_DB) == 1, "ancre ic"
-html = html.replace(_DB, _DB + 'try{var _ab=document.querySelector(\'details[data-acc="ok"] .rv-accb\');if(_ab&&!document.getElementById(\'docbox\')){var _dv=document.createElement(\'div\');_dv.id=\'docwrap\';_dv.innerHTML=\'<div class="rv-docs-t">&#128706; Reçus EASE et documents</div><div id="docbox"></div>\';_ab.insertBefore(_dv,_ab.firstChild);}renderDocs();}catch(_e){}')
+html = html.replace(_DB, _DB + 'try{var _ab=document.querySelector(\'details[data-acc="ok"] .rv-accb\');if(_ab&&!document.getElementById(\'docbox\')){var _dv=document.createElement(\'div\');_dv.id=\'docwrap\';_dv.innerHTML=\'<div class="rv-docs-t">&#128706; Cartes d'embarquement, reçus EASE et documents</div><div id="docbox"></div>\';_ab.insertBefore(_dv,_ab.firstChild);}renderDocs();}catch(_e){}')
 _DOCJS = r"""
 <script>
 /* Documents de voyage : stockes uniquement dans ce telephone (IndexedDB), jamais envoyes en ligne */
