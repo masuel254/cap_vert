@@ -2069,3 +2069,13 @@ for _d in DAYS:
 for _k in list(INFO.keys()): INFO[_k] = _pk(INFO[_k])
 RESA_DETAILS["plongee"] = _pk(RESA_DETAILS["plongee"])
 RESA_VIEW["plongee"]["line"] = "Pick-up 08h10 Porto Antigo 1 · Samuel, Cédric"
+
+# ---- lundi 16 : depart du logement a 07h20 pour Cam's (ouverture 07h30), pick-up 08h10
+for _d in DAYS:
+    if _d["date"] == "LUN 16 NOV":
+        for _e in _d["events"]:
+            if _e["title"] == "Petit-dejeuner chez Cam s":
+                _e["time"] = "07h20"
+                _e["body"] = ("DEPART DU LOGEMENT A 07H20 pour etre devant Cam s a l ouverture, 07h30, et commander tout de suite. "
+                              "Pick-up plongee a 08h10 au Porto Antigo 1 : quitter Cam s vers 08h00. ") + _e["body"].replace("Cam s ouvre a 07h30 : arriver a l ouverture pour etre au pick-up de 08h10 (manger vite : 40 min). ", "")
+        _d["events"].sort(key=lambda e: _hk(e["time"]))
