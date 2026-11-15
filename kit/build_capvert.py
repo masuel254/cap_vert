@@ -851,7 +851,7 @@ _CDJS = """var CD_STEPS=[
  [2026,10,15,9,0,"🥾","Avant la balade du phare","08h00"],
  [2026,10,15,14,0,"🥂","Avant le brunch au Bikini Beach Club","13h00"],
  [2026,10,15,20,45,"🎤","Avant le karaoké de l’Atlantic","19h45"],
- [2026,10,16,9,30,"🤿","Avant la plongée","08h30"],
+ [2026,10,16,9,10,"🤿","Avant le pick-up plongée","08h10"],
  [2026,10,16,20,30,"🎸","Avant le dîner en musique à l’Ocean Café","19h30"],
  [2026,10,17,11,0,"🚙","Avant le tour du nord","10h00"],
  [2026,10,17,15,40,"🦈","Avant les requins de Shark Bay","14h40"],

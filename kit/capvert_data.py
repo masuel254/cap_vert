@@ -1084,7 +1084,7 @@ CAL_EVENTS = [
         "Ref K6UNPB. Orly T3. Depot bagages ferme 05h15. Arrivee Sal 10h45 heure locale.", "PT3H"),
     ics("bikini", "Brunch Bikini Beach Club", "20261115T130000", "20261115T143000",
         "Reserve Resos au nom de Morieux - 4 pers - zone Restaurant. CB ou Apple Pay uniquement.", "PT45M"),
-    ics("plongee", "Plongee Cabo Verde Diving - RDV Porto Antigo 1", "20261116T083000", "20261116T163000",
+    ics("plongee", "Plongee Cabo Verde Diving - RDV Porto Antigo 1", "20261116T081000", "20261116T163000",
         "Samuel et Cedric. Paye 226,72 EUR. Briefing 09h00-11h30, mer 14h00-16h30. +238 595 37 96.", "PT1H"),
     ics("tour_nord", "Tour du nord : Buracona, Palmeira, Shark Bay, Pedra de Lume", "20261117T100000", "20261117T173000",
         "Depart 10h00. Chaussures d eau, maillot, serviette, especes (~50 EUR entrees). Oeil Bleu 10h45, dejeuner Palmeira 12h30, Shark Bay 14h40, Pedra de Lume 16h00.", "PT30M"),
@@ -2044,3 +2044,28 @@ for _d in DAYS:
             _e["body"] = _e["body"].replace("Billets PAYES.", "Billets PAYES. Sieges deja attribues : " + _SIEGES_R + ". Une valise en soute par personne, 20 kg maximum.")
 RESA_DETAILS["vols"]["info"] = RESA_DETAILS["vols"]["info"].replace("bagage cabine non inclus (petit sac sous le siege seulement)",
     "tarif Plus : 1 valise en soute par personne, 20 kg max, aller et retour, bagage cabine non inclus (petit sac sous le siege seulement) - sieges retour " + _SIEGES_R)
+
+# ---- plongee : pick-up a 08h10 (confirme sur place le 15/11)
+def _pk(o):
+    R = [("RDV 08h30 au Porto Antigo 1", "Pick-up 08h10 au Porto Antigo 1"), ("lun 16/11 RDV 08h30 Porto Antigo 1", "lun 16/11 pick-up 08h10 Porto Antigo 1"),
+         ("RDV 08h30. Ne pas", "pick-up a 08h10. Ne pas"), ("Plongée : RDV 8h30", "Plongée : pick-up 8h10"),
+         ("pour etre au centre de plongee a 08h30", "pour etre au pick-up de 08h10 (manger vite : 40 min)")]
+    if isinstance(o, str):
+        for a, b in R: o = o.replace(a, b)
+        return o
+    if isinstance(o, list): return [_pk(x) for x in o]
+    if isinstance(o, tuple): return tuple(_pk(x) for x in o)
+    if isinstance(o, dict): return {k: _pk(v) for k, v in o.items()}
+    return o
+for _d in DAYS:
+    for _k in list(_d.keys()):
+        if _k != "events": _d[_k] = _pk(_d[_k])
+    for _e in _d["events"]:
+        _e["body"] = _pk(_e["body"])
+        if _e["title"] == "RDV Cabo Verde Diving - Porto Antigo 1":
+            _e["time"] = "08h10"
+            _e["body"] = _e["body"].replace("Rendez-vous au Porto Antigo 1", "PICK-UP A 08H10 au Porto Antigo 1 (heure confirmee par le centre)")
+    _d["events"].sort(key=lambda e: _hk(e["time"]))
+for _k in list(INFO.keys()): INFO[_k] = _pk(INFO[_k])
+RESA_DETAILS["plongee"] = _pk(RESA_DETAILS["plongee"])
+RESA_VIEW["plongee"]["line"] = "Pick-up 08h10 Porto Antigo 1 · Samuel, Cédric"
