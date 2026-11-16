@@ -2200,7 +2200,7 @@ for _r in RESAS:
 for _e in _D17["events"]:
     if _e["title"] == "Prise en charge - tour de l ile Viator":
         _e["body"] = _e["body"].replace("Prise en charge a 09h00 devant la residence Porto Antigo (lien Maps), y etre 5 minutes avant.",
-            "Message du guide recu sur Viator le 16/11 (Sam Soares) : etre PRETS VERS 09H00, le guide vient nous chercher A LA RECEPTION de la residence Porto Antigo (lien Maps). Y etre 5 minutes avant.")
+            "Message du guide recu sur Viator le 16/11 (Sam Soares) : etre PRETS VERS 09H00, le guide vient nous chercher À LA RÉCEPTION de la residence Porto Antigo (lien Maps). Y etre 5 minutes avant.")
     if _e["title"] == "Retour a Santa Maria":
         _e["body"] = _e["body"].replace("retour devant la residence Porto Antigo", "retour a la reception de la residence Porto Antigo")
 _D17["brief"][2] = "🚐 9h00 réception Porto Antigo"
