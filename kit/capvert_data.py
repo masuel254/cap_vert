@@ -2182,3 +2182,17 @@ for _e in _D17["events"]:
     if _e["title"] == "Shark Bay - les requins citrons":
         _e["body"] = _e["body"].replace("Visite programmee juste apres la maree haute (14h01 ce jour-la), quand l eau est assez profonde et les requins proches du bord.",
                                         "Maree haute a 14h01 ce jour-la : en debut d apres-midi, l eau est assez profonde et les requins restent proches du bord.")
+# ---- point de prise en charge Viator : Porto Antigo Residence
+for _e in _D17["events"]:
+    if _e["title"] == "Prise en charge - tour de l ile Viator":
+        _e["body"] = _e["body"].replace("Prise en charge a 09h00 au point de rendez-vous (lien Maps)", "Prise en charge a 09h00 devant la residence Porto Antigo (lien Maps)")
+    if _e["title"] == "Retour a Santa Maria":
+        _e["body"] = _e["body"].replace("retour au point de prise en charge", "retour devant la residence Porto Antigo")
+_D17["brief"][2] = "🚐 Prise en charge 9h00 à Porto Antigo"
+INFO["Prise en charge - tour de l ile Viator"]["horaires"] = ["Prise en charge 09h00 devant la residence Porto Antigo, y etre 5 minutes avant", "Retour vers 16h30 au meme endroit"]
+INFO["Prise en charge - tour de l ile Viator"]["mapsLabel"] = "Residence Porto Antigo sur Maps"
+RESA_VIEW["gata"]["line"] = "09h00 Porto Antigo · retour 16h30"
+DEPLACEMENT["Prise en charge - tour de l ile Viator"] = ("pied", "A pied jusqu a la residence Porto Antigo")
+DEPLACEMENT["Retour a Santa Maria"] = ("voiture", "En minibus, depose a la residence Porto Antigo")
+for _r in RESAS:
+    if _r["name"] == "Tour de l ile (Viator)": _r["detail"] = _r["detail"].replace("prise en charge 09h00", "prise en charge 09h00 a la residence Porto Antigo")
