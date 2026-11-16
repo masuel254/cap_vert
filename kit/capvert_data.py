@@ -2196,3 +2196,14 @@ DEPLACEMENT["Prise en charge - tour de l ile Viator"] = ("pied", "A pied jusqu a
 DEPLACEMENT["Retour a Santa Maria"] = ("voiture", "En minibus, depose a la residence Porto Antigo")
 for _r in RESAS:
     if _r["name"] == "Tour de l ile (Viator)": _r["detail"] = _r["detail"].replace("prise en charge 09h00", "prise en charge 09h00 a la residence Porto Antigo")
+# ---- message du guide (Viator, 16/11) : prets vers 09h00, prise en charge a la reception
+for _e in _D17["events"]:
+    if _e["title"] == "Prise en charge - tour de l ile Viator":
+        _e["body"] = _e["body"].replace("Prise en charge a 09h00 devant la residence Porto Antigo (lien Maps), y etre 5 minutes avant.",
+            "Message du guide recu sur Viator le 16/11 (Sam Soares) : etre PRETS VERS 09H00, le guide vient nous chercher A LA RECEPTION de la residence Porto Antigo (lien Maps). Y etre 5 minutes avant.")
+    if _e["title"] == "Retour a Santa Maria":
+        _e["body"] = _e["body"].replace("retour devant la residence Porto Antigo", "retour a la reception de la residence Porto Antigo")
+_D17["brief"][2] = "🚐 9h00 réception Porto Antigo"
+INFO["Prise en charge - tour de l ile Viator"]["horaires"] = ["Prets vers 09h00 a la reception de la residence Porto Antigo, le guide vient nous y chercher", "Message du guide sur Viator : Sam Soares", "Retour vers 16h30 au meme endroit"]
+RESA_VIEW["gata"]["line"] = "09h00 réception Porto Antigo · retour 16h30"
+DEPLACEMENT["Prise en charge - tour de l ile Viator"] = ("pied", "A pied jusqu a la reception de la residence Porto Antigo")
