@@ -1086,8 +1086,8 @@ CAL_EVENTS = [
         "Reserve Resos au nom de Morieux - 4 pers - zone Restaurant. CB ou Apple Pay uniquement.", "PT45M"),
     ics("plongee", "Plongee Cabo Verde Diving - RDV Porto Antigo 1", "20261116T081000", "20261116T163000",
         "Samuel et Cedric. Paye 226,72 EUR. Briefing 09h00-11h30, mer 14h00-16h30. +238 595 37 96.", "PT1H"),
-    ics("tour_nord", "Tour du nord : Buracona, Palmeira, Shark Bay, Pedra de Lume", "20261117T100000", "20261117T173000",
-        "Depart 10h00. Chaussures d eau, maillot, serviette, especes (~50 EUR entrees). Oeil Bleu 10h45, dejeuner Palmeira 12h30, Shark Bay 14h40, Pedra de Lume 16h00.", "PT30M"),
+    ics("tour_nord", "Tour de l ile Viator : prise en charge 09h00", "20261117T090000", "20261117T163000",
+        "Prise en charge 09h00 (lien Maps dans le carnet). Chaussures d eau, maillot, serviette, especes pour les entrees et le dejeuner a Espargos.", "PT30M"),
     ics("checkin_retour", "Enregistrement en ligne Transavia TO3233", "20261120T090000", "20261120T091500",
         "Ouvert depuis 05h40. PNR K6UNPB. Telecharger les 4 cartes d embarquement.", "PT15M"),
     ics("depart_retour", "Depart vers l aeroport de Sal", "20261121T080000", "20261121T084500",
@@ -1096,7 +1096,7 @@ CAL_EVENTS = [
         "Ref K6UNPB. Depot bagages ferme 10h25. Arrivee Orly 19h30 heure de Paris.", "PT3H"),
 ]
 CAL_MAP = {
-    "Chauffeur de la journee - depart": "tour_nord",
+    "Prise en charge - tour de l ile Viator": "tour_nord",
     "Depart de Marck vers Orly": "depart_maison",
     "Vol Transavia TO3232 Orly vers Sal": "vol_aller",
     "Brunch au Bikini Beach Club": "bikini",
@@ -2079,3 +2079,106 @@ for _d in DAYS:
                 _e["body"] = ("DEPART DU LOGEMENT A 07H20 pour etre devant Cam s a l ouverture, 07h30, et commander tout de suite. "
                               "Pick-up plongee a 08h10 au Porto Antigo 1 : quitter Cam s vers 08h00. ") + _e["body"].replace("Cam s ouvre a 07h30 : arriver a l ouverture pour etre au pick-up de 08h10 (manger vite : 40 min). ", "")
         _d["events"].sort(key=lambda e: _hk(e["time"]))
+
+# ---- mardi 17 : tour de l ile reserve sur Viator (prise en charge 09h00), remplace chauffeur + Gata Fish
+_PICK = "https://maps.app.goo.gl/3fgBrbe1FQGj7fo36"
+_D17 = next(d for d in DAYS if d["date"] == "MAR 17 NOV")
+_old = {e["title"]: e for e in _D17["events"]}
+_V = "Excursion Viator : le guide fixe l ordre et l heure de chaque arret, horaires indicatifs. "
+_D17["events"] = [
+    ev("08h00", "Petit-dejeuner au Cape Fruit",
+       "Cape Fruit ouvre a 08h00, dans la meme rue que le logement : y etre a l ouverture, prise en charge de l excursion a 09h00. Mettre le maillot sous les vetements. "
+       "Bowls, jus frais, cafe. PAIEMENT : carte probable.", "meal"),
+    ev("09h00", "Prise en charge - tour de l ile Viator",
+       "RESERVE sur Viator. Prise en charge a 09h00 au point de rendez-vous (lien Maps), y etre 5 minutes avant. Journee complete de 09h00 a 16h30 : "
+       "Santa Maria, baie de Murdeira, Palmeira, Buracona, Terra Boa, Espargos (dejeuner), salines de Pedra de Lume, Shark Bay. "
+       "A EMPORTER : chaussures d eau, maillot, serviette, creme solaire, eau, et des ESPECES pour les entrees non comprises (Buracona, Pedra de Lume) et le dejeuner.",
+       "activity", "Reserve"),
+    ev("09h10", "Santa Maria - la jetee",
+       _V + "Premier arret sur le ponton de Santa Maria, a l heure ou les pecheurs rentrent et vendent le poisson du matin.", "activity", "GRATUIT"),
+    ev("09h45", "Baie de Murdeira et Monte Leao",
+       _V + "Environ 15 min. Vue sur la montagne du Lion depuis la baie de Murdeira ; si la mer est calme, on voit les recifs coralliens depuis le bord.", "activity", "GRATUIT"),
+    ev("10h20", "Palmeira, village de pecheurs",
+       _V + "Environ 20 min. Petit port de l ouest : maisons colorees, vente de poisson sur le quai. C est par ce port qu arrivent les marchandises de l ile.", "activity", "GRATUIT"),
+    ev("11h00", "Buracona et l Oeil Bleu", _old["Buracona et l Oeil Bleu"]["body"] if "Buracona et l Oeil Bleu" in _old else "", "activity", _old.get("Buracona et l Oeil Bleu", {}).get("cost", "---")),
+    ev("11h45", "Terra Boa, le mirage",
+       _V + "Environ 20 min. Plaine desertique ou l air chaud fait apparaitre de faux lacs a l horizon : la Miragem, une fata morgana.", "activity", "GRATUIT"),
+    ev("12h30", "Dejeuner a Espargos",
+       _V + "Arret dejeuner dans la capitale de l ile, dans le restaurant choisi par le guide. Dejeuner NON COMPRIS : prevoir 15 a 20 EUR par personne, especes conseillees.", "meal"),
+    ev("14h00", "Lac sale de Pedra de Lume", _old["Lac sale de Pedra de Lume"]["body"] if "Lac sale de Pedra de Lume" in _old else "", "activity", _old.get("Lac sale de Pedra de Lume", {}).get("cost", "---")),
+    ev("15h15", "Shark Bay - les requins citrons", _old["Shark Bay - les requins citrons"]["body"] if "Shark Bay - les requins citrons" in _old else "", "activity", "GRATUIT"),
+    ev("16h30", "Retour a Santa Maria",
+       "Fin de l excursion vers 16h30, retour au point de prise en charge. Douche pour enlever le sel avant le diner, petite pause au logement.", "transport"),
+    _old["Diner gastronomique au Marea"], _old["Dernier verre au Buddy Bar"],
+]
+for _e in _D17["events"]:
+    if _e["title"] in ("Buracona et l Oeil Bleu", "Lac sale de Pedra de Lume", "Shark Bay - les requins citrons"):
+        _e["body"] = _V + _e["body"].replace("Le chauffeur attend", "Le minibus attend").replace("le chauffeur attend", "le minibus attend").replace("Avec le chauffeur du tour du nord", "Avec l excursion")
+_D17["label"] = "MAR 17 NOV - TOUR DE L ILE (VIATOR)"
+_D17["location"] = "Murdeira - Palmeira - Buracona - Espargos - Pedra de Lume - Shark Bay"
+_D17["brief"] = ["💶 ~90 € / couple", "💳 ~40 € / couple", "🚐 Prise en charge Viator à 9h00", "🎒 Chaussures d’eau, vieux maillot", "💶 Marea 19h00 : espèces uniquement (€ ou escudos)"]
+_D17["tip"] = ("BUDGET PAR COUPLE (estimation genereuse) : especes ~90 EUR (entrees Buracona et Pedra de Lume ~20 €, dejeuner a Espargos ~40 €, Marea a part : ~120 €), "
+               "carte ~40 EUR (Cape Fruit, Buddy Bar). Excursion deja reservee sur Viator. Diner au Marea RESERVE a 19h00 : ESPECES UNIQUEMENT. "
+               "A EMPORTER : chaussures d eau pour chacun, maillot, serviette, creme solaire, eau.")
+_D17["tip"] = _D17["tip"].replace("especes ~90 EUR (entrees Buracona et Pedra de Lume ~20 €, dejeuner a Espargos ~40 €, Marea a part : ~120 €)", "especes ~180 EUR (entrees Buracona et Pedra de Lume ~20 €, dejeuner a Espargos ~40 €, Marea ~120 €)")
+_D17["brief"][0] = "💶 ~180 € / couple"
+for _d in DAYS:
+    if _d["date"] == "LUN 16 NOV":
+        _d["note"] = "Demain mardi : tour de l ile Viator, prise en charge a 09h00. Chaussures d eau, maillot, serviette et especes."
+        _d["events"] = [e for e in _d["events"] if e["title"] != "Reserver le chauffeur du tour du nord"]
+for _t in ("Reserver le chauffeur du tour du nord",):
+    CALL_CARDS.pop(_t, None); CALL_IDS.pop(_t, None); CALL_PX.pop(_t, None)
+for _t in ("Chauffeur de la journee - depart", "Route vers Shark Bay", "Route vers Pedra de Lume", "Dejeuner de poisson a Palmeira"):
+    TAXI_ROUTES.pop(_t, None)
+TODO_ITEMS[:] = [t for t in TODO_ITEMS if t.get("id") != "ady_nord"]
+RESAS[:] = [r for r in RESAS if not (r.get("date") == "17 NOV" and ("Gata" in r["name"] or "Chauffeur" in r["name"]))]
+RESAS.append({"date": "17 NOV", "name": "Tour de l ile (Viator)", "detail": "RESERVE sur Viator - prise en charge 09h00 - 09h00-16h30 - entrees et dejeuner non compris", "deadline": "RESERVE", "color": "#2E6B3E"})
+for _c in CHK_ITEMS:
+    if _c.get("id") == "gata":
+        _c.update({"name": "Tour de l ile Viator (mardi)", "deadline": "RESERVE (Viator) - prise en charge 09h00", "date": "17 nov"})
+RESA_VIEW["gata"] = {"k": "1117", "dw": "MAR", "dn": "17", "m": "NOV", "ico": "🚐", "t": "Tour de l’île Viator", "line": "Prise en charge 09h00 · retour 16h30", "ref": "Viator", "st": "Réservé"}
+if "gata" in RESA_DETAILS:
+    RESA_DETAILS["gata"] = {"num": "Viator", "site": "Viator", "info": "Prise en charge mar 17/11 a 09h00 - journee 09h00-16h30 - Santa Maria, Murdeira, Palmeira, Buracona, Terra Boa, Espargos, Pedra de Lume, Shark Bay - entrees et dejeuner non compris"}
+MAPS_URLS["Prise en charge - tour de l ile Viator"] = _PICK
+MAPS_URLS["Santa Maria - la jetee"] = q("Pontao de Santa Maria Sal Cabo Verde")
+MAPS_URLS["Baie de Murdeira et Monte Leao"] = q("Monte Leao Murdeira Sal Cabo Verde")
+MAPS_URLS["Palmeira, village de pecheurs"] = q("Palmeira Sal Cabo Verde")
+MAPS_URLS["Terra Boa, le mirage"] = q("Terra Boa Sal Cabo Verde")
+MAPS_URLS["Dejeuner a Espargos"] = q("Espargos Sal Cabo Verde")
+MAPS_URLS["Retour a Santa Maria"] = _PICK
+PAY.update({"Prise en charge - tour de l ile Viator": "carte", "Dejeuner a Espargos": "especes", "Petit-dejeuner au Cape Fruit": "plutot"})
+for _t, _v in [("Prise en charge - tour de l ile Viator", ("pied", "A pied jusqu au point de prise en charge (lien Maps)")),
+               ("Santa Maria - la jetee", ("voiture", "En minibus avec l excursion")), ("Baie de Murdeira et Monte Leao", ("voiture", "En minibus avec l excursion")),
+               ("Palmeira, village de pecheurs", ("voiture", "En minibus avec l excursion")), ("Buracona et l Oeil Bleu", ("voiture", "En minibus avec l excursion, puis a pied sur la lave")),
+               ("Terra Boa, le mirage", ("voiture", "En minibus avec l excursion")), ("Dejeuner a Espargos", ("voiture", "En minibus avec l excursion")),
+               ("Lac sale de Pedra de Lume", ("voiture", "En minibus avec l excursion, puis a pied par le tunnel")), ("Shark Bay - les requins citrons", ("voiture", "En minibus avec l excursion, puis a pied dans l eau")),
+               ("Retour a Santa Maria", ("voiture", "En minibus, depose au point de prise en charge"))]:
+    DEPLACEMENT[_t] = _v
+for _k in ("Chauffeur de la journee - depart",):
+    INFO.pop(_k, None)
+for _r in BUDGET["days"]:
+    if _r[0] == "Mar 17":
+        _r[1], _r[2], _r[3] = 180, 80, "Entrees Buracona et Pedra de Lume, dejeuner a Espargos, Marea (especes), Cape Fruit et Buddy Bar (carte). Excursion Viator deja reservee"
+_D17["brief"][1] = "💳 ~80 € / couple"
+_D17["tip"] = _D17["tip"].replace("carte ~40 EUR (Cape Fruit, Buddy Bar)", "carte ~80 EUR (Cape Fruit ~36 €, Buddy Bar ~40 €)")
+for _e in ESSENTIALS:
+    if isinstance(_e, dict) and "val" in _e:
+        _e["val"] = _e["val"].replace(", le tour du nord le mardi,", ",")
+INFO["Prise en charge - tour de l ile Viator"] = {
+    "title": "Tour de l ile avec Viator",
+    "intro": "Excursion d une journee complete reservee sur Viator, de 09h00 a 16h30, en minibus avec un guide. Le guide fixe l ordre et la duree des arrets.",
+    "horaires": ["Prise en charge 09h00 (lien Maps), y etre 5 minutes avant", "Retour vers 16h30 au meme endroit"],
+    "mapsUrl": _PICK, "mapsLabel": "Point de prise en charge sur Maps",
+    "logistique": [
+        {"titre": "Programme", "lignes": ["Santa Maria : la jetee et les pecheurs", "Baie de Murdeira et Monte Leao, environ 15 min", "Palmeira, village de pecheurs, environ 20 min",
+                                          "Buracona, l Oeil Bleu et la piscine naturelle, environ 30 min, entree non comprise", "Terra Boa, le mirage, environ 20 min",
+                                          "Espargos : arret dejeuner (non compris)", "Salines de Pedra de Lume, environ 30 min, entree non comprise", "Shark Bay et les requins citrons, environ 30 min"]},
+        {"titre": "A prevoir", "lignes": ["Especes : entree Buracona ~3 EUR et Pedra de Lume 5 a 6 EUR par personne, douche 1 EUR", "Dejeuner a Espargos, 15 a 20 EUR par personne",
+                                          "Chaussures d eau pour chacun : lave, sel et sable", "Maillot sous les vetements, serviette, creme solaire, eau"]},
+    ],
+    "conseil": "Garder les chaussures d eau aux pieds a Pedra de Lume : les cristaux de sel coupent. Ne pas se mettre de sel dans les yeux en flottant.",
+}
+for _e in _D17["events"]:
+    if _e["title"] == "Shark Bay - les requins citrons":
+        _e["body"] = _e["body"].replace("Visite programmee juste apres la maree haute (14h01 ce jour-la), quand l eau est assez profonde et les requins proches du bord.",
+                                        "Maree haute a 14h01 ce jour-la : en debut d apres-midi, l eau est assez profonde et les requins restent proches du bord.")
