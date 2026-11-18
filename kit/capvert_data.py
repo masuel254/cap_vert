@@ -2207,3 +2207,53 @@ _D17["brief"][2] = "🚐 9h00 réception Porto Antigo"
 INFO["Prise en charge - tour de l ile Viator"]["horaires"] = ["Prets vers 09h00 a la reception de la residence Porto Antigo, le guide vient nous y chercher", "Message du guide sur Viator : Sam Soares", "Retour vers 16h30 au meme endroit"]
 RESA_VIEW["gata"]["line"] = "09h00 réception Porto Antigo · retour 16h30"
 DEPLACEMENT["Prise en charge - tour de l ile Viator"] = ("pied", "A pied jusqu a la reception de la residence Porto Antigo")
+
+# ---- catamaran : nouveau lieu de prise en charge (Viator, 18/11) : Hotel Odjo d Agua, Zona do Farolinho
+_ODJO = "https://www.google.com/maps/search/?api=1&query=Hotel+Odjo+d%27Agua+Santa+Maria+Sal+Cabo+Verde"
+_OLD_T, _NEW_T = "Rendez-vous au Palm Beach Restaurant", "Rendez-vous a l hotel Odjo d Agua"
+def _od(o):
+    R = [("au Palm Beach Restaurant, Santa Maria", "devant l hotel Odjo d Agua, Zona do Farolinho, Santa Maria"),
+         ("RENDEZ-VOUS CONFIRME par Cape Verde Sailing : mercredi 18/11 a 08h20", "NOUVEAU LIEU DE PRISE EN CHARGE (Viator, 18/11) : mercredi 18/11 a 08h20"),
+         ("au Palm Beach Restaurant", "a l hotel Odjo d Agua"), ("depuis le Palm Beach Restaurant", "depuis l hotel Odjo d Agua"),
+         ("depuis le Palm Beach", "depuis l hotel Odjo d Agua"), ("au Palm Beach", "a l Odjo d Agua"), ("Palm Beach Restaurant", "hotel Odjo d Agua"),
+         ("RDV 8h20 au Palm Beach Restaurant", "RDV 8h20 à l’hôtel Odjo d’Agua")]
+    if isinstance(o, str):
+        for a, b in R: o = o.replace(a, b)
+        return o
+    if isinstance(o, list): return [_od(x) for x in o]
+    if isinstance(o, tuple): return tuple(_od(x) for x in o)
+    if isinstance(o, dict): return {k: _od(v) for k, v in o.items()}
+    return o
+_D18 = next(d for d in DAYS if d["date"] == "MER 18 NOV")
+for _k in list(_D18.keys()):
+    if _k != "events": _D18[_k] = _od(_D18[_k])
+for _e in _D18["events"]:
+    _e["body"] = _od(_e["body"])
+    if _e["title"] == _OLD_T: _e["title"] = _NEW_T
+    if _e["title"] == "Petit-dejeuner chez Cam s avant la croisiere":
+        _e["body"] = _e["body"].replace("repartir vers 07h55", "repartir vers 08h00 (Odjo d Agua a 10 minutes a pied, a l ouest du ponton)")
+for _d in DAYS:
+    if _d["date"] == "MAR 17 NOV": _d["note"] = _od(_d.get("note", ""))
+for _tbl in (MAPS_URLS, DEPLACEMENT, PAY, ICON, INFO, TAXI_ROUTES):
+    if _OLD_T in _tbl: _tbl[_NEW_T] = _tbl.pop(_OLD_T)
+MAPS_ALWAYS[:] = [_NEW_T if t == _OLD_T else t for t in MAPS_ALWAYS]
+MAPS_URLS[_NEW_T] = _ODJO
+DEPLACEMENT[_NEW_T] = ("pied", "A pied depuis Cam s, environ 10 minutes vers l ouest, au-dela du ponton (Zona do Farolinho)")
+_CI = INFO["Croisiere en catamaran - Cape Verde Sailing"]
+for _k in list(_CI.keys()): _CI[_k] = _od(_CI[_k])
+_CI["mapsUrl"] = _ODJO; _CI["mapsLabel"] = "Hotel Odjo d Agua sur Maps"
+INFO[_NEW_T] = _CI
+for _k in ("Dejeuner au LobStar, au pied du ponton",):
+    if _k in INFO: INFO[_k] = _od(INFO[_k])
+RESAS[:] = _od(RESAS)
+RESA_VIEW["croisiere"]["line"] = "RDV 08h20 hôtel Odjo d’Agua"
+if "croisiere" in RESA_DETAILS: RESA_DETAILS["croisiere"] = _od(RESA_DETAILS["croisiere"])
+CHK_ITEMS[:] = _od(CHK_ITEMS)
+
+for _e in _D18["events"]:
+    if _e["title"] == _NEW_T:
+        _e["body"] = _e["body"].replace("A pied depuis Cam s, le Palm Beach est dans le centre de Santa Maria, en bord de mer.", "A pied depuis Cam s, environ 10 minutes vers l ouest, au-dela du ponton (Zona do Farolinho).")
+DEFAULT_DAY_NOTES[5] = _od(DEFAULT_DAY_NOTES[5]).replace("rendez-vous confirme a 08h20", "NOUVEAU lieu de prise en charge a 08h20")
+for _k in ("Croisiere en catamaran - Cape Verde Sailing", _OLD_T):
+    if _k in WEB: WEB[_k] = _od(WEB[_k])
+if _OLD_T in WEB: WEB[_NEW_T] = WEB.pop(_OLD_T)
