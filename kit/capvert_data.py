@@ -2257,3 +2257,22 @@ DEFAULT_DAY_NOTES[5] = _od(DEFAULT_DAY_NOTES[5]).replace("rendez-vous confirme a
 for _k in ("Croisiere en catamaran - Cape Verde Sailing", _OLD_T):
     if _k in WEB: WEB[_k] = _od(WEB[_k])
 if _OLD_T in WEB: WEB[_NEW_T] = WEB.pop(_OLD_T)
+# ---- mercredi 18 : petit-dejeuner au logement (au lieu de Cam s)
+_OB, _NB = "Petit-dejeuner chez Cam s avant la croisiere", "Petit-dejeuner au logement"
+for _e in _D18["events"]:
+    if _e["title"] == _OB:
+        _e["title"] = _NB; _e["cost"] = "GRATUIT"
+        _e["body"] = ("Petit-dejeuner pris au logement. Depart a 08h00 au plus tard pour l hotel Odjo d Agua : environ 10 minutes a pied vers l ouest, au-dela du ponton. "
+                      "Le chauffeur du catamaran n attend que 5 minutes. Maillot sous les vetements, creme solaire avant de partir.")
+    if _e["title"] == _NEW_T:
+        _e["body"] = _e["body"].replace("A pied depuis Cam s, environ 10 minutes", "A pied depuis le logement, environ 10 minutes")
+for _tbl in (MAPS_URLS, DEPLACEMENT, PAY, ICON, INFO, WEB):
+    _tbl.pop(_OB, None)
+MAPS_URLS[_NB] = "https://maps.app.goo.gl/Dx5Vf6wRjakuiq9a6"
+DEPLACEMENT[_NB] = ("pied", "Au logement, depart 08h00 pour l Odjo d Agua")
+DEPLACEMENT[_NEW_T] = ("pied", "A pied depuis le logement, environ 10 minutes vers l ouest, au-dela du ponton (Zona do Farolinho)")
+ICON[_NB] = "☕"
+for _r in BUDGET["days"]:
+    if _r[0] == "Mer 18": _r[2] = max(0, _r[2] - 16); _r[3] = _r[3].replace("Cam s, ", "").replace("Cam’s, ", "")
+_D18["tip"] = _D18["tip"].replace(", Cam’s ~16 €", "").replace(", Cam s ~16 €", "")
+_D18["brief"] = [b.replace("~250 €", "~234 €") for b in _D18["brief"]]
